@@ -1,0 +1,1437 @@
+Grammaire
+
+    0 $accept: program $end
+
+    1 program: statements
+
+    2 statements: ε
+    3           | statements statement
+
+    4 statement: assignment
+    5          | print_stmt
+    6          | read_stmt
+    7          | if_simple_stmt
+    8          | if_else_stmt
+    9          | while_stmt
+   10          | do_while_stmt
+   11          | switch_stmt
+   12          | for_simple_stmt
+   13          | for_step_stmt
+
+   14 assignment: VARIABLE ASSIGN expression SEMICOLON
+
+   15 print_stmt: PRINT expression SEMICOLON
+
+   16 read_stmt: READ VARIABLE SEMICOLON
+
+   17 if_else_stmt: IF LPAREN condition RPAREN THEN statements ELSE statements FI
+
+   18 if_simple_stmt: IF LPAREN condition RPAREN THEN statements FI
+
+   19 while_stmt: WHILE LPAREN condition RPAREN DO statements DONE
+
+   20 for_simple_stmt: FOR VARIABLE ASSIGN expression TO expression statements NEXT SEMICOLON
+
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO expression STEP expression statements NEXT SEMICOLON
+
+   22 do_while_stmt: DO statements WHILE LPAREN condition RPAREN SEMICOLON
+
+   23 switch_stmt: SWITCH LPAREN VARIABLE RPAREN LBRACE case_list default_case RBRACE
+
+   24 case_list: ε
+   25          | case_list case_item
+
+   26 case_item: CASE INTEGER COLON statements BREAK SEMICOLON
+
+   27 default_case: DEFAULT COLON statements
+   28             | ε
+
+   29 condition: expression EQ expression
+   30          | expression NE expression
+   31          | expression LT expression
+   32          | expression GT expression
+   33          | expression LE expression
+   34          | expression GE expression
+
+   35 expression: term
+   36           | expression PLUS term
+   37           | expression MINUS term
+
+   38 term: factor
+   39     | term MULTIPLY factor
+   40     | term DIVIDE factor
+   41     | term MODULO factor
+
+   42 factor: INTEGER
+   43       | VARIABLE
+   44       | LPAREN expression RPAREN
+   45       | MINUS factor
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+    $end (0) 0
+    error (256)
+    INTEGER (258) 26 42
+    VARIABLE (259) 14 16 20 21 23 43
+    PLUS (260) 36
+    MINUS (261) 37 45
+    MULTIPLY (262) 39
+    DIVIDE (263) 40
+    MODULO (264) 41
+    ASSIGN (265) 14 20 21
+    SEMICOLON (266) 14 15 16 20 21 22 26
+    EQ (267) 29
+    NE (268) 30
+    LT (269) 31
+    GT (270) 32
+    LE (271) 33
+    GE (272) 34
+    LPAREN (273) 17 18 19 22 23 44
+    RPAREN (274) 17 18 19 22 23 44
+    LBRACE (275) 23
+    RBRACE (276) 23
+    COLON (277) 26 27
+    PRINT (278) 15
+    READ (279) 16
+    IF (280) 17 18
+    THEN (281) 17 18
+    ELSE (282) 17
+    FI (283) 17 18
+    WHILE (284) 19 22
+    DO (285) 19 22
+    DONE (286) 19
+    SWITCH (287) 23
+    CASE (288) 26
+    DEFAULT (289) 27
+    BREAK (290) 26
+    FOR (291) 20 21
+    TO (292) 20 21
+    NEXT (293) 20 21
+    STEP (294) 21
+    UMINUS (295)
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+    $accept (41)
+        à gauche: 0
+    program (42)
+        à gauche: 1
+        à droite: 0
+    statements (43)
+        à gauche: 2 3
+        à droite: 1 3 17 18 19 20 21 22 26 27
+    statement (44)
+        à gauche: 4 5 6 7 8 9 10 11 12 13
+        à droite: 3
+    assignment (45)
+        à gauche: 14
+        à droite: 4
+    print_stmt (46)
+        à gauche: 15
+        à droite: 5
+    read_stmt (47)
+        à gauche: 16
+        à droite: 6
+    if_else_stmt (48)
+        à gauche: 17
+        à droite: 8
+    if_simple_stmt (49)
+        à gauche: 18
+        à droite: 7
+    while_stmt (50)
+        à gauche: 19
+        à droite: 9
+    for_simple_stmt (51)
+        à gauche: 20
+        à droite: 12
+    for_step_stmt (52)
+        à gauche: 21
+        à droite: 13
+    do_while_stmt (53)
+        à gauche: 22
+        à droite: 10
+    switch_stmt (54)
+        à gauche: 23
+        à droite: 11
+    case_list (55)
+        à gauche: 24 25
+        à droite: 23 25
+    case_item (56)
+        à gauche: 26
+        à droite: 25
+    default_case (57)
+        à gauche: 27 28
+        à droite: 23
+    condition (58)
+        à gauche: 29 30 31 32 33 34
+        à droite: 17 18 19 22
+    expression (59)
+        à gauche: 35 36 37
+        à droite: 14 15 20 21 29 30 31 32 33 34 36 37 44
+    term (60)
+        à gauche: 38 39 40 41
+        à droite: 35 36 37 39 40 41
+    factor (61)
+        à gauche: 42 43 44 45
+        à droite: 38 39 40 41 45
+
+
+État 0
+
+    0 $accept: • program $end
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    program     aller à l'état 1
+    statements  aller à l'état 2
+
+
+État 1
+
+    0 $accept: program • $end
+
+    $end  décalage et aller à l'état 3
+
+
+État 2
+
+    1 program: statements •
+    3 statements: statements • statement
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+
+    $défaut  réduction par utilisation de la règle 1 (program)
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 3
+
+    0 $accept: program $end •
+
+    $défaut  accepter
+
+
+État 4
+
+   14 assignment: VARIABLE • ASSIGN expression SEMICOLON
+
+    ASSIGN  décalage et aller à l'état 23
+
+
+État 5
+
+   15 print_stmt: PRINT • expression SEMICOLON
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 28
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 6
+
+   16 read_stmt: READ • VARIABLE SEMICOLON
+
+    VARIABLE  décalage et aller à l'état 31
+
+
+État 7
+
+   17 if_else_stmt: IF • LPAREN condition RPAREN THEN statements ELSE statements FI
+   18 if_simple_stmt: IF • LPAREN condition RPAREN THEN statements FI
+
+    LPAREN  décalage et aller à l'état 32
+
+
+État 8
+
+   19 while_stmt: WHILE • LPAREN condition RPAREN DO statements DONE
+
+    LPAREN  décalage et aller à l'état 33
+
+
+État 9
+
+   22 do_while_stmt: DO • statements WHILE LPAREN condition RPAREN SEMICOLON
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 34
+
+
+État 10
+
+   23 switch_stmt: SWITCH • LPAREN VARIABLE RPAREN LBRACE case_list default_case RBRACE
+
+    LPAREN  décalage et aller à l'état 35
+
+
+État 11
+
+   20 for_simple_stmt: FOR • VARIABLE ASSIGN expression TO expression statements NEXT SEMICOLON
+   21 for_step_stmt: FOR • VARIABLE ASSIGN expression TO expression STEP expression statements NEXT SEMICOLON
+
+    VARIABLE  décalage et aller à l'état 36
+
+
+État 12
+
+    3 statements: statements statement •
+
+    $défaut  réduction par utilisation de la règle 3 (statements)
+
+
+État 13
+
+    4 statement: assignment •
+
+    $défaut  réduction par utilisation de la règle 4 (statement)
+
+
+État 14
+
+    5 statement: print_stmt •
+
+    $défaut  réduction par utilisation de la règle 5 (statement)
+
+
+État 15
+
+    6 statement: read_stmt •
+
+    $défaut  réduction par utilisation de la règle 6 (statement)
+
+
+État 16
+
+    8 statement: if_else_stmt •
+
+    $défaut  réduction par utilisation de la règle 8 (statement)
+
+
+État 17
+
+    7 statement: if_simple_stmt •
+
+    $défaut  réduction par utilisation de la règle 7 (statement)
+
+
+État 18
+
+    9 statement: while_stmt •
+
+    $défaut  réduction par utilisation de la règle 9 (statement)
+
+
+État 19
+
+   12 statement: for_simple_stmt •
+
+    $défaut  réduction par utilisation de la règle 12 (statement)
+
+
+État 20
+
+   13 statement: for_step_stmt •
+
+    $défaut  réduction par utilisation de la règle 13 (statement)
+
+
+État 21
+
+   10 statement: do_while_stmt •
+
+    $défaut  réduction par utilisation de la règle 10 (statement)
+
+
+État 22
+
+   11 statement: switch_stmt •
+
+    $défaut  réduction par utilisation de la règle 11 (statement)
+
+
+État 23
+
+   14 assignment: VARIABLE ASSIGN • expression SEMICOLON
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 37
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 24
+
+   42 factor: INTEGER •
+
+    $défaut  réduction par utilisation de la règle 42 (factor)
+
+
+État 25
+
+   43 factor: VARIABLE •
+
+    $défaut  réduction par utilisation de la règle 43 (factor)
+
+
+État 26
+
+   45 factor: MINUS • factor
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    factor  aller à l'état 38
+
+
+État 27
+
+   44 factor: LPAREN • expression RPAREN
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 39
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 28
+
+   15 print_stmt: PRINT expression • SEMICOLON
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS       décalage et aller à l'état 40
+    MINUS      décalage et aller à l'état 41
+    SEMICOLON  décalage et aller à l'état 42
+
+
+État 29
+
+   35 expression: term •
+   39 term: term • MULTIPLY factor
+   40     | term • DIVIDE factor
+   41     | term • MODULO factor
+
+    MULTIPLY  décalage et aller à l'état 43
+    DIVIDE    décalage et aller à l'état 44
+    MODULO    décalage et aller à l'état 45
+
+    $défaut  réduction par utilisation de la règle 35 (expression)
+
+
+État 30
+
+   38 term: factor •
+
+    $défaut  réduction par utilisation de la règle 38 (term)
+
+
+État 31
+
+   16 read_stmt: READ VARIABLE • SEMICOLON
+
+    SEMICOLON  décalage et aller à l'état 46
+
+
+État 32
+
+   17 if_else_stmt: IF LPAREN • condition RPAREN THEN statements ELSE statements FI
+   18 if_simple_stmt: IF LPAREN • condition RPAREN THEN statements FI
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    condition   aller à l'état 47
+    expression  aller à l'état 48
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 33
+
+   19 while_stmt: WHILE LPAREN • condition RPAREN DO statements DONE
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    condition   aller à l'état 49
+    expression  aller à l'état 48
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 34
+
+    3 statements: statements • statement
+   22 do_while_stmt: DO statements • WHILE LPAREN condition RPAREN SEMICOLON
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    WHILE     décalage et aller à l'état 50
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 35
+
+   23 switch_stmt: SWITCH LPAREN • VARIABLE RPAREN LBRACE case_list default_case RBRACE
+
+    VARIABLE  décalage et aller à l'état 51
+
+
+État 36
+
+   20 for_simple_stmt: FOR VARIABLE • ASSIGN expression TO expression statements NEXT SEMICOLON
+   21 for_step_stmt: FOR VARIABLE • ASSIGN expression TO expression STEP expression statements NEXT SEMICOLON
+
+    ASSIGN  décalage et aller à l'état 52
+
+
+État 37
+
+   14 assignment: VARIABLE ASSIGN expression • SEMICOLON
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS       décalage et aller à l'état 40
+    MINUS      décalage et aller à l'état 41
+    SEMICOLON  décalage et aller à l'état 53
+
+
+État 38
+
+   45 factor: MINUS factor •
+
+    $défaut  réduction par utilisation de la règle 45 (factor)
+
+
+État 39
+
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+   44 factor: LPAREN expression • RPAREN
+
+    PLUS    décalage et aller à l'état 40
+    MINUS   décalage et aller à l'état 41
+    RPAREN  décalage et aller à l'état 54
+
+
+État 40
+
+   36 expression: expression PLUS • term
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    term    aller à l'état 55
+    factor  aller à l'état 30
+
+
+État 41
+
+   37 expression: expression MINUS • term
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    term    aller à l'état 56
+    factor  aller à l'état 30
+
+
+État 42
+
+   15 print_stmt: PRINT expression SEMICOLON •
+
+    $défaut  réduction par utilisation de la règle 15 (print_stmt)
+
+
+État 43
+
+   39 term: term MULTIPLY • factor
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    factor  aller à l'état 57
+
+
+État 44
+
+   40 term: term DIVIDE • factor
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    factor  aller à l'état 58
+
+
+État 45
+
+   41 term: term MODULO • factor
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    factor  aller à l'état 59
+
+
+État 46
+
+   16 read_stmt: READ VARIABLE SEMICOLON •
+
+    $défaut  réduction par utilisation de la règle 16 (read_stmt)
+
+
+État 47
+
+   17 if_else_stmt: IF LPAREN condition • RPAREN THEN statements ELSE statements FI
+   18 if_simple_stmt: IF LPAREN condition • RPAREN THEN statements FI
+
+    RPAREN  décalage et aller à l'état 60
+
+
+État 48
+
+   29 condition: expression • EQ expression
+   30          | expression • NE expression
+   31          | expression • LT expression
+   32          | expression • GT expression
+   33          | expression • LE expression
+   34          | expression • GE expression
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+    EQ     décalage et aller à l'état 61
+    NE     décalage et aller à l'état 62
+    LT     décalage et aller à l'état 63
+    GT     décalage et aller à l'état 64
+    LE     décalage et aller à l'état 65
+    GE     décalage et aller à l'état 66
+
+
+État 49
+
+   19 while_stmt: WHILE LPAREN condition • RPAREN DO statements DONE
+
+    RPAREN  décalage et aller à l'état 67
+
+
+État 50
+
+   19 while_stmt: WHILE • LPAREN condition RPAREN DO statements DONE
+   22 do_while_stmt: DO statements WHILE • LPAREN condition RPAREN SEMICOLON
+
+    LPAREN  décalage et aller à l'état 68
+
+
+État 51
+
+   23 switch_stmt: SWITCH LPAREN VARIABLE • RPAREN LBRACE case_list default_case RBRACE
+
+    RPAREN  décalage et aller à l'état 69
+
+
+État 52
+
+   20 for_simple_stmt: FOR VARIABLE ASSIGN • expression TO expression statements NEXT SEMICOLON
+   21 for_step_stmt: FOR VARIABLE ASSIGN • expression TO expression STEP expression statements NEXT SEMICOLON
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 70
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 53
+
+   14 assignment: VARIABLE ASSIGN expression SEMICOLON •
+
+    $défaut  réduction par utilisation de la règle 14 (assignment)
+
+
+État 54
+
+   44 factor: LPAREN expression RPAREN •
+
+    $défaut  réduction par utilisation de la règle 44 (factor)
+
+
+État 55
+
+   36 expression: expression PLUS term •
+   39 term: term • MULTIPLY factor
+   40     | term • DIVIDE factor
+   41     | term • MODULO factor
+
+    MULTIPLY  décalage et aller à l'état 43
+    DIVIDE    décalage et aller à l'état 44
+    MODULO    décalage et aller à l'état 45
+
+    $défaut  réduction par utilisation de la règle 36 (expression)
+
+
+État 56
+
+   37 expression: expression MINUS term •
+   39 term: term • MULTIPLY factor
+   40     | term • DIVIDE factor
+   41     | term • MODULO factor
+
+    MULTIPLY  décalage et aller à l'état 43
+    DIVIDE    décalage et aller à l'état 44
+    MODULO    décalage et aller à l'état 45
+
+    $défaut  réduction par utilisation de la règle 37 (expression)
+
+
+État 57
+
+   39 term: term MULTIPLY factor •
+
+    $défaut  réduction par utilisation de la règle 39 (term)
+
+
+État 58
+
+   40 term: term DIVIDE factor •
+
+    $défaut  réduction par utilisation de la règle 40 (term)
+
+
+État 59
+
+   41 term: term MODULO factor •
+
+    $défaut  réduction par utilisation de la règle 41 (term)
+
+
+État 60
+
+   17 if_else_stmt: IF LPAREN condition RPAREN • THEN statements ELSE statements FI
+   18 if_simple_stmt: IF LPAREN condition RPAREN • THEN statements FI
+
+    THEN  décalage et aller à l'état 71
+
+
+État 61
+
+   29 condition: expression EQ • expression
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 72
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 62
+
+   30 condition: expression NE • expression
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 73
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 63
+
+   31 condition: expression LT • expression
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 74
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 64
+
+   32 condition: expression GT • expression
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 75
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 65
+
+   33 condition: expression LE • expression
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 76
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 66
+
+   34 condition: expression GE • expression
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 77
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 67
+
+   19 while_stmt: WHILE LPAREN condition RPAREN • DO statements DONE
+
+    DO  décalage et aller à l'état 78
+
+
+État 68
+
+   19 while_stmt: WHILE LPAREN • condition RPAREN DO statements DONE
+   22 do_while_stmt: DO statements WHILE LPAREN • condition RPAREN SEMICOLON
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    condition   aller à l'état 79
+    expression  aller à l'état 48
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 69
+
+   23 switch_stmt: SWITCH LPAREN VARIABLE RPAREN • LBRACE case_list default_case RBRACE
+
+    LBRACE  décalage et aller à l'état 80
+
+
+État 70
+
+   20 for_simple_stmt: FOR VARIABLE ASSIGN expression • TO expression statements NEXT SEMICOLON
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression • TO expression STEP expression statements NEXT SEMICOLON
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+    TO     décalage et aller à l'état 81
+
+
+État 71
+
+   17 if_else_stmt: IF LPAREN condition RPAREN THEN • statements ELSE statements FI
+   18 if_simple_stmt: IF LPAREN condition RPAREN THEN • statements FI
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 82
+
+
+État 72
+
+   29 condition: expression EQ expression •
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+
+    $défaut  réduction par utilisation de la règle 29 (condition)
+
+
+État 73
+
+   30 condition: expression NE expression •
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+
+    $défaut  réduction par utilisation de la règle 30 (condition)
+
+
+État 74
+
+   31 condition: expression LT expression •
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+
+    $défaut  réduction par utilisation de la règle 31 (condition)
+
+
+État 75
+
+   32 condition: expression GT expression •
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+
+    $défaut  réduction par utilisation de la règle 32 (condition)
+
+
+État 76
+
+   33 condition: expression LE expression •
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+
+    $défaut  réduction par utilisation de la règle 33 (condition)
+
+
+État 77
+
+   34 condition: expression GE expression •
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+
+    $défaut  réduction par utilisation de la règle 34 (condition)
+
+
+État 78
+
+   19 while_stmt: WHILE LPAREN condition RPAREN DO • statements DONE
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 83
+
+
+État 79
+
+   19 while_stmt: WHILE LPAREN condition • RPAREN DO statements DONE
+   22 do_while_stmt: DO statements WHILE LPAREN condition • RPAREN SEMICOLON
+
+    RPAREN  décalage et aller à l'état 84
+
+
+État 80
+
+   23 switch_stmt: SWITCH LPAREN VARIABLE RPAREN LBRACE • case_list default_case RBRACE
+
+    $défaut  réduction par utilisation de la règle 24 (case_list)
+
+    case_list  aller à l'état 85
+
+
+État 81
+
+   20 for_simple_stmt: FOR VARIABLE ASSIGN expression TO • expression statements NEXT SEMICOLON
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO • expression STEP expression statements NEXT SEMICOLON
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 86
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 82
+
+    3 statements: statements • statement
+   17 if_else_stmt: IF LPAREN condition RPAREN THEN statements • ELSE statements FI
+   18 if_simple_stmt: IF LPAREN condition RPAREN THEN statements • FI
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    ELSE      décalage et aller à l'état 87
+    FI        décalage et aller à l'état 88
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 83
+
+    3 statements: statements • statement
+   19 while_stmt: WHILE LPAREN condition RPAREN DO statements • DONE
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    DONE      décalage et aller à l'état 89
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 84
+
+   19 while_stmt: WHILE LPAREN condition RPAREN • DO statements DONE
+   22 do_while_stmt: DO statements WHILE LPAREN condition RPAREN • SEMICOLON
+
+    SEMICOLON  décalage et aller à l'état 90
+    DO         décalage et aller à l'état 78
+
+
+État 85
+
+   23 switch_stmt: SWITCH LPAREN VARIABLE RPAREN LBRACE case_list • default_case RBRACE
+   25 case_list: case_list • case_item
+
+    CASE     décalage et aller à l'état 91
+    DEFAULT  décalage et aller à l'état 92
+
+    $défaut  réduction par utilisation de la règle 28 (default_case)
+
+    case_item     aller à l'état 93
+    default_case  aller à l'état 94
+
+
+État 86
+
+   20 for_simple_stmt: FOR VARIABLE ASSIGN expression TO expression • statements NEXT SEMICOLON
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO expression • STEP expression statements NEXT SEMICOLON
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+    STEP   décalage et aller à l'état 95
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 96
+
+
+État 87
+
+   17 if_else_stmt: IF LPAREN condition RPAREN THEN statements ELSE • statements FI
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 97
+
+
+État 88
+
+   18 if_simple_stmt: IF LPAREN condition RPAREN THEN statements FI •
+
+    $défaut  réduction par utilisation de la règle 18 (if_simple_stmt)
+
+
+État 89
+
+   19 while_stmt: WHILE LPAREN condition RPAREN DO statements DONE •
+
+    $défaut  réduction par utilisation de la règle 19 (while_stmt)
+
+
+État 90
+
+   22 do_while_stmt: DO statements WHILE LPAREN condition RPAREN SEMICOLON •
+
+    $défaut  réduction par utilisation de la règle 22 (do_while_stmt)
+
+
+État 91
+
+   26 case_item: CASE • INTEGER COLON statements BREAK SEMICOLON
+
+    INTEGER  décalage et aller à l'état 98
+
+
+État 92
+
+   27 default_case: DEFAULT • COLON statements
+
+    COLON  décalage et aller à l'état 99
+
+
+État 93
+
+   25 case_list: case_list case_item •
+
+    $défaut  réduction par utilisation de la règle 25 (case_list)
+
+
+État 94
+
+   23 switch_stmt: SWITCH LPAREN VARIABLE RPAREN LBRACE case_list default_case • RBRACE
+
+    RBRACE  décalage et aller à l'état 100
+
+
+État 95
+
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO expression STEP • expression statements NEXT SEMICOLON
+
+    INTEGER   décalage et aller à l'état 24
+    VARIABLE  décalage et aller à l'état 25
+    MINUS     décalage et aller à l'état 26
+    LPAREN    décalage et aller à l'état 27
+
+    expression  aller à l'état 101
+    term        aller à l'état 29
+    factor      aller à l'état 30
+
+
+État 96
+
+    3 statements: statements • statement
+   20 for_simple_stmt: FOR VARIABLE ASSIGN expression TO expression statements • NEXT SEMICOLON
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+    NEXT      décalage et aller à l'état 102
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 97
+
+    3 statements: statements • statement
+   17 if_else_stmt: IF LPAREN condition RPAREN THEN statements ELSE statements • FI
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    FI        décalage et aller à l'état 103
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 98
+
+   26 case_item: CASE INTEGER • COLON statements BREAK SEMICOLON
+
+    COLON  décalage et aller à l'état 104
+
+
+État 99
+
+   27 default_case: DEFAULT COLON • statements
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 105
+
+
+État 100
+
+   23 switch_stmt: SWITCH LPAREN VARIABLE RPAREN LBRACE case_list default_case RBRACE •
+
+    $défaut  réduction par utilisation de la règle 23 (switch_stmt)
+
+
+État 101
+
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO expression STEP expression • statements NEXT SEMICOLON
+   36 expression: expression • PLUS term
+   37           | expression • MINUS term
+
+    PLUS   décalage et aller à l'état 40
+    MINUS  décalage et aller à l'état 41
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 106
+
+
+État 102
+
+   20 for_simple_stmt: FOR VARIABLE ASSIGN expression TO expression statements NEXT • SEMICOLON
+
+    SEMICOLON  décalage et aller à l'état 107
+
+
+État 103
+
+   17 if_else_stmt: IF LPAREN condition RPAREN THEN statements ELSE statements FI •
+
+    $défaut  réduction par utilisation de la règle 17 (if_else_stmt)
+
+
+État 104
+
+   26 case_item: CASE INTEGER COLON • statements BREAK SEMICOLON
+
+    $défaut  réduction par utilisation de la règle 2 (statements)
+
+    statements  aller à l'état 108
+
+
+État 105
+
+    3 statements: statements • statement
+   27 default_case: DEFAULT COLON statements •
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+
+    $défaut  réduction par utilisation de la règle 27 (default_case)
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 106
+
+    3 statements: statements • statement
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO expression STEP expression statements • NEXT SEMICOLON
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    FOR       décalage et aller à l'état 11
+    NEXT      décalage et aller à l'état 109
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 107
+
+   20 for_simple_stmt: FOR VARIABLE ASSIGN expression TO expression statements NEXT SEMICOLON •
+
+    $défaut  réduction par utilisation de la règle 20 (for_simple_stmt)
+
+
+État 108
+
+    3 statements: statements • statement
+   26 case_item: CASE INTEGER COLON statements • BREAK SEMICOLON
+
+    VARIABLE  décalage et aller à l'état 4
+    PRINT     décalage et aller à l'état 5
+    READ      décalage et aller à l'état 6
+    IF        décalage et aller à l'état 7
+    WHILE     décalage et aller à l'état 8
+    DO        décalage et aller à l'état 9
+    SWITCH    décalage et aller à l'état 10
+    BREAK     décalage et aller à l'état 110
+    FOR       décalage et aller à l'état 11
+
+    statement        aller à l'état 12
+    assignment       aller à l'état 13
+    print_stmt       aller à l'état 14
+    read_stmt        aller à l'état 15
+    if_else_stmt     aller à l'état 16
+    if_simple_stmt   aller à l'état 17
+    while_stmt       aller à l'état 18
+    for_simple_stmt  aller à l'état 19
+    for_step_stmt    aller à l'état 20
+    do_while_stmt    aller à l'état 21
+    switch_stmt      aller à l'état 22
+
+
+État 109
+
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO expression STEP expression statements NEXT • SEMICOLON
+
+    SEMICOLON  décalage et aller à l'état 111
+
+
+État 110
+
+   26 case_item: CASE INTEGER COLON statements BREAK • SEMICOLON
+
+    SEMICOLON  décalage et aller à l'état 112
+
+
+État 111
+
+   21 for_step_stmt: FOR VARIABLE ASSIGN expression TO expression STEP expression statements NEXT SEMICOLON •
+
+    $défaut  réduction par utilisation de la règle 21 (for_step_stmt)
+
+
+État 112
+
+   26 case_item: CASE INTEGER COLON statements BREAK SEMICOLON •
+
+    $défaut  réduction par utilisation de la règle 26 (case_item)

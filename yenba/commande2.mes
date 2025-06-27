@@ -1,0 +1,33 @@
+tamba 1000;
+nyam a;
+tamba a;
+
+// Initialisation
+b = 1;
+c = a;
+
+// Boucle factoriel avec PITEH (while)
+piteh (c > 1) ke
+    b = b * c;
+    tamba b;
+    c = c - 1;
+kelap
+
+// Affichage résultat final
+tamba 9999;
+tamba b;
+
+// Alternative avec MBOMBO (for) - factoriel décroissant
+a = 5;
+b = 1;
+tamba 2222;
+
+// MBOMBO gère automatiquement c de 5 vers 1
+mbombo c = a kesi 1
+    b = b * c;
+    tamba b;
+sueh; 
+
+// Test final
+tamba 3333;
+tamba b;

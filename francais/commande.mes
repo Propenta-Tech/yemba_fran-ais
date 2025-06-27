@@ -1,0 +1,106 @@
+// Programme FRANÇAIS avec toutes les structures
+// =============================================
+
+// 1. Variables de base  
+a = 10;
+b = 3;
+afficher a;
+afficher b;
+
+// 2. Calculs
+c = a + b;
+afficher c;
+d = a - b;  
+afficher d;
+x = a * b;
+afficher x;
+
+// 3. LIRE (READ en français)
+afficher 999;
+lire y;
+afficher y;
+afficher a;
+
+// 4. POUR parfait (FOR en français)
+pour a = 1 jusqua 4
+    afficher a;
+suivant;
+
+// 5. POUR avec saisie
+afficher 888;
+lire z;
+pour b = 1 jusqua z
+    afficher b;
+suivant;
+
+// 6. TANTQUE parfait (WHILE en français)
+c = 3;
+tantque (c > 0) faire
+    afficher c;
+    c = c - 1;
+fait
+
+// 7. FAIRE-TANTQUE parfait (DO-WHILE en français)
+d = 1;
+faire
+    afficher d;
+    d = d + 1;
+tantque (d < 4);
+
+// 8. SI-SINON (IF-ELSE en français)
+a = 10;
+b = 3;
+si (a > b) alors afficher a; sinon afficher b; fsi
+
+// 9. SI simple (IF simple en français)
+si (y > 5) alors afficher y; fsi
+
+// 10. Autres calculs
+x = a + b;
+afficher x;
+
+// 11. Boucle avec calculs parfaite
+c = 0;
+pour d = 1 jusqua 5
+    c = c + d;
+    afficher c;
+suivant;
+
+// 12. Final
+afficher 777;
+lire z;  
+a = y + z;
+afficher a;
+
+// 13. SELON (SWITCH en français)
+a = 1;
+selon (a) {
+    cas 1: afficher 100; arreter;
+    cas 2: afficher 200; arreter;  
+    cas 3: afficher 300; arreter;
+    defaut: afficher 999;
+}
+
+a = 2;
+selon (a) {
+    cas 1: afficher 100; arreter;
+    cas 2: afficher 200; arreter;
+    cas 3: afficher 300; arreter;
+    defaut: afficher 999;
+}
+
+a = 3;
+selon (a) {
+    cas 1: afficher 100; arreter;
+    cas 2: afficher 200; arreter;
+    cas 3: afficher 300; arreter;
+    defaut: afficher 999;
+}
+
+a = 5;  // Valeur non gérée -> DÉFAUT
+selon (a) {
+    cas 1: afficher 100; arreter;
+    cas 2: afficher 200; arreter;
+    cas 3: afficher 300; arreter;
+    defaut: afficher 999;
+}

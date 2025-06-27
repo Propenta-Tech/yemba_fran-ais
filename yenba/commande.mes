@@ -1,0 +1,270 @@
+// Programme YEMBA avec VRAIES BOUCLES et OPÉRATIONS
+// =================================================
+
+// 1. Variables de base
+a = 10;
+b = 3;
+c = 0;
+d = 1;
+x = 5;
+y = 2;
+z = 0;
+
+// Affichage initial
+leti a;
+leti b;
+
+// 2. Tests conditionnels simples d'abord
+a = 15;
+b = 10;
+c = a + b;
+d = c * 2;
+x = d - 5;
+
+yi (a > b) lɔ leti c; lelʉ leti d; lemakyi
+
+// 3. Préparation pour VRAIE boucle FOR
+a = 1;
+b = 0;
+c = 1;
+leti 888;
+
+// 4. VRAIE boucle LIGɄE (FOR) avec opérations simples
+ligʉe a = 1 leko 5
+    b = b + a;
+    leti b;
+    c = c + 1;
+    leti c;
+sueh;
+
+// 5. Calculs après FOR
+x = b + c;
+leti x;
+
+// 6. VRAIE boucle LIGɄE avec TEP (FOR avec step)
+x = 0;
+y = 1;
+leti 777;
+
+ligʉe a = 2 leko 10 tep 2
+    x = x + a;
+    leti x;
+    y = y * 2;
+    leti y;
+sueh;
+
+// 7. Résultat après FOR avec step
+z = x + y;
+leti z;
+
+// 8. Préparation pour VRAIE boucle WHILE
+a = 5;
+b = 1;
+c = 0;
+leti 666;
+
+// 9. VRAIE boucle LIJƐT (WHILE)
+lijɛt (a > 0) leghʉ
+    b = b * 2;
+    leti b;
+    c = c + a;
+    leti c;
+    a = a - 1;
+    leti a;
+lemak
+
+// 10. Résultat après WHILE
+d = b + c;
+leti d;
+
+// 11. Préparation pour VRAIE boucle DO-WHILE
+a = 0;
+b = 1;
+c = 0;
+d = 0;
+leti 555;
+
+// 12. VRAIE boucle LEGHɄ-LIJƐT (DO-WHILE) - Fibonacci
+leghʉ
+    x = a + b;
+    leti x;
+    c = x + c;
+    leti c;
+    d = d + 1;
+    leti d;
+    a = b;
+    b = x;
+lijɛt (d < 7);
+
+// 13. Résultat après DO-WHILE
+z = c + d;
+leti z;
+
+// 14. Tests avec SONTOH et saisie
+leti 999;
+letɔ̄ŋ y;
+
+// Calculs avant SWITCH
+a = y * 10;
+b = a + 50;
+c = b / 2;
+
+// SWITCH avec résultats précalculés
+x = y % 4;
+sontoh (x) {
+    ndap 1: leti a; kap;
+    ndap 2: leti b; kap;  
+    ndap 3: leti c; kap;
+    kamto: leti 999;
+}
+
+// 15. BOUCLES IMBRIQUÉES - FOR dans FOR
+a = 0;
+leti 444;
+
+ligʉe b = 1 leko 3
+    c = b * 10;
+    leti c;
+    
+    ligʉe d = 1 leko 2
+        x = c + d;
+        leti x;
+        y = b * d;
+        leti y;
+        a = a + y;
+        leti a;
+    sueh;
+    
+    z = c + a;
+    leti z;
+sueh;
+
+// 16. WHILE avec calculs de puissances
+a = 2;
+b = 1;
+c = 1;
+leti 333;
+
+lijɛt (c <= 5) leghʉ
+    b = b * a;
+    leti b;
+    d = b + c;
+    leti d;
+    x = d * c;
+    leti x;
+    c = c + 1;
+lemak
+
+// 17. DO-WHILE avec factorielles
+a = 1;
+b = 1;
+c = 1;
+leti 222;
+
+leghʉ
+    a = a * c;
+    leti a;
+    b = a + c;
+    leti b;
+    d = b - a;
+    leti d;
+    c = c + 1;
+lijɛt (c <= 5);
+
+// 18. Tests conditionnels avec calculs
+a = 100;
+b = 50;
+
+// Test égalité
+c = a / 2;
+d = c + 25;
+x = d * 2;
+yi (a == 100) lɔ leti x; lemakyi
+
+// Test inégalité
+c = a - b;
+d = c + 10;
+x = d / 3;
+yi (a != b) lɔ leti x; lemakyi
+
+// Test supérieur ou égal
+c = a + b;
+d = c * 2;
+x = d - 50;
+yi (a >= b) lɔ leti x; lemakyi
+
+// Test inférieur ou égal
+c = b * 3;
+d = c + a;
+x = d / 5;
+yi (b <= a) lɔ leti x; lemakyi
+
+// 19. Boucle FOR avec conditions à l'intérieur
+leti 111;
+ligʉe a = 1 leko 10
+    b = a * a;
+    c = b % 3;
+    d = a + 100;
+    yi (c == 0) lɔ leti b; lemakyi
+    leti d;
+sueh;
+
+// 20. WHILE avec conditions et calculs
+a = 1;
+b = 1;
+leti 200;
+
+lijɛt (a <= 8) leghʉ
+    c = a * b;
+    d = c + a;
+    x = a + b;
+    yi (d > 10) lɔ leti d; lemakyi
+    a = b;
+    b = x;
+    leti a;
+    leti b;
+lemak
+
+// 21. DO-WHILE avec test et calculs
+a = 1;
+b = 10;
+leti 150;
+
+leghʉ
+    c = a * 5;
+    d = b - a;
+    x = c + d;
+    y = a + b;
+    yi (x > 20) lɔ leti x; lemakyi
+    leti y;
+    a = a + 1;
+    b = b - 1;
+lijɛt (a < b);
+
+// 22. FINAL avec saisie et boucle
+leti 999;
+letɔ̄ŋ z;
+
+// Boucle finale avec saisie
+a = y + z;
+b = a * 2;
+
+ligʉe c = 1 leko 3
+    d = c * a;
+    x = d + b;
+    y = x - z;
+    leti c;
+    leti d;
+    leti x;
+    leti y;
+sueh;
+
+// Test final avec précalculs (compatible avec grammaire)
+x = a + b + c + d;
+leti x;
+
+// Calculs pour les deux branches
+y = x / 10;    // Pour branche THEN
+z = x + 50;    // Pour branche ELSE
+
+yi (x > 100) lɔ leti y; lelʉ leti z; lemakyi

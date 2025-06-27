@@ -1,0 +1,153 @@
+// Programme YEMBA - TEST DE STRESS COMPILATEUR
+// ============================================
+// Test intensif de toutes les fonctionnalités
+
+// Test 1: Expressions arithmétiques complexes
+a = 10;
+b = 3;
+c = 2;
+x = a + b * c - a / b + c % b;
+tamba x;
+
+y = -a + b * -c;
+tamba y;
+
+z = (a + b) * (c - b) / (a + c);
+tamba z;
+
+// Test 2: Conditions complexes multiples
+nde (a > b) toh
+    nde (b > c) toh
+        tamba 111;
+    sede
+        tamba 222;
+    finit;
+sede
+    nde (c > a) toh
+        tamba 333;
+    sede
+        tamba 444;
+    finit;
+finit;
+
+// Test 3: Boucles imbriquées avec conditions
+a = 0;
+mbombo b = 1 kesi 3
+    mbombo c = 1 kesi 3
+        nde (b == c) toh
+            a = a + b + c;
+        sede
+            a = a + b * c;
+        finit;
+        tamba a;
+    sueh;
+sueh;
+
+// Test 4: PITEH avec conditions multiples
+a = 10;
+b = 5;
+piteh (a > 0) ke
+    nde (a > b) toh
+        a = a - 2;
+    sede
+        a = a - 1;
+    finit;
+    tamba a;
+kelap;
+
+// Test 5: KE-PITEH avec calculs
+a = 1;
+b = 1;
+ke
+    c = a + b;
+    tamba c;
+    a = b;
+    b = c;
+    c = c + 1;
+piteh (c < 100);
+
+// Test 6: SONTOH avec calculs dans chaque cas
+a = 1;
+b = 0;
+
+sontoh (a) {
+    ndap 1:
+        b = 10 + 5 * 2;
+        tamba b;
+        kap;
+    ndap 2:
+        b = 20 - 3 * 4;
+        tamba b;
+        kap;
+    ndap 3:
+        b = 30 / 2 + 1;
+        tamba b;
+        kap;
+    kamto:
+        b = 100 % 7;
+        tamba b;
+}
+
+// Test 7: Alternance READ/PRINT intensive
+tamba 1000;
+nyam a;
+tamba a;
+nyam b;
+tamba b;
+nyam c;
+tamba c;
+
+// Test 8: Calculs avec toutes opérations
+x = a + b - c;
+tamba x;
+x = a * b / c;
+tamba x;
+x = a % b + c;
+tamba x;
+
+// Test 9: Boucle FOR avec STEP implicite
+mbombo a = 1 kesi 10
+    b = a * a;
+    tamba b;
+    c = a + b;
+    tamba c;
+sueh;
+
+// Test 10: Combinaison extrême
+a = 2;
+mbombo b = 1 kesi 5
+    piteh (a > 0) ke
+        sontoh (a) {
+            ndap 1: tamba 100; kap;
+            ndap 2: 
+                nde (b > 2) toh
+                    tamba 200;
+                sede
+                    tamba 201;
+                finit;
+                kap;
+            kamto: tamba 999;
+        }
+        a = a - 1;
+    kelap;
+    a = b;
+sueh;
+
+// Test 11: Séquence finale complexe
+a = 5;
+ke
+    b = a * 2;
+    c = b + 1;
+    
+    nde (c > 10) toh
+        mbombo d = 1 kesi c
+            nde (d % 2 == 0) toh
+                tamba d;
+            finit;
+        sueh;
+    finit;
+    
+    a = a + 3;
+piteh (a < 20);
+
+tamba 9999;

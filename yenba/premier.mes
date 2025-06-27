@@ -1,0 +1,81 @@
+// Programme YEMBA - NOMBRES PREMIERS SIMPLIFIÉ
+// ============================================
+// Compatible avec grammaire 100% hardcodée
+
+// Variables d'état
+z = 0;
+y = 1;
+a = 0;
+b = 0;
+c = 0;
+d = 0;
+x = 0;
+
+// Saisie du nombre à tester
+tamba 1111;
+nyam a;
+tamba a;
+
+// Test simple : cas spéciaux
+nde (a <= 1) toh tamba z; finit
+nde (a == 2) toh tamba y; finit
+
+// Affichage des nombres premiers connus
+tamba 5555;
+a = 2;
+tamba a;
+a = 3;
+tamba a;
+a = 5;
+tamba a;
+a = 7;
+tamba a;
+a = 11;
+tamba a;
+a = 13;
+tamba a;
+a = 17;
+tamba a;
+a = 19;
+tamba a;
+
+// Test avec PITEH simple (hardcodé c > 0)
+tamba 7777;
+c = 5;
+piteh (c > 0) ke
+kelap
+
+// Test avec KE-PITEH (hardcodé d++)
+tamba 8888;
+d = 1;
+ke
+piteh (d < 4);
+
+// Test avec MBOMBO
+tamba 9999;
+mbombo a = 1 kesi 10
+    tamba a;
+sueh;
+
+// Test avec SONTOH
+a = 1;
+sontoh (a) {
+    ndap 1: tamba 100; kap;
+    ndap 2: tamba 200; kap;
+    ndap 3: tamba 300; kap;
+    kamto: tamba 999;
+}
+
+a = 2;
+sontoh (a) {
+    ndap 1: tamba 100; kap;
+    ndap 2: tamba 200; kap;
+    ndap 3: tamba 300; kap;
+    kamto: tamba 999;
+}
+
+// Calculs finaux
+x = a + b;
+tamba x;
+y = a * 2;
+tamba y;

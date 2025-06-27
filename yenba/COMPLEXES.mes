@@ -1,0 +1,121 @@
+// Programme YEMBA - ALGORITHMES COMPLEXES
+// =======================================
+// Combinaison de plusieurs algorithmes
+
+// 1. PGCD avec algorithme d'Euclide
+tamba 1111;
+nyam a;
+tamba 2222;
+nyam b;
+
+piteh (b != 0) ke
+    c = a % b;
+    a = b;
+    b = c;
+kelap;
+
+tamba 3333;
+tamba a;
+
+// 2. Test de palindrome (nombres simples)
+tamba 4444;
+nyam x;
+
+// Inversion du nombre
+y = 0;
+z = x;
+
+piteh (z > 0) ke
+    y = y * 10;
+    d = z % 10;
+    y = y + d;
+    z = z / 10;
+kelap;
+
+nde (x == y) toh tamba 1; sede tamba 0; finit;
+
+// 3. Somme des chiffres
+tamba 5555;
+nyam x;
+
+y = 0;
+piteh (x > 0) ke
+    d = x % 10;
+    y = y + d;
+    x = x / 10;
+kelap;
+
+tamba 6666;
+tamba y;
+
+// 4. Table de multiplication avec SONTOH
+tamba 7777;
+nyam a;
+
+sontoh (a) {
+    ndap 1:
+        mbombo b = 1 kesi 10
+            c = 1 * b;
+            tamba c;
+        sueh;
+        kap;
+    ndap 2:
+        mbombo b = 1 kesi 10
+            c = 2 * b;
+            tamba c;
+        sueh;
+        kap;
+    ndap 3:
+        mbombo b = 1 kesi 10
+            c = 3 * b;
+            tamba c;
+        sueh;
+        kap;
+    kamto:
+        mbombo b = 1 kesi 10
+            c = a * b;
+            tamba c;
+        sueh;
+}
+
+// 5. Calcul avec boucles imbriquées
+tamba 8888;
+a = 0;
+
+mbombo b = 1 kesi 5
+    mbombo c = 1 kesi b
+        a = a + c;
+        tamba a;
+    sueh;
+sueh;
+
+// 6. Séquence de Collatz (3n+1)
+tamba 9999;
+nyam x;
+
+piteh (x != 1) ke
+    tamba x;
+    
+    d = x % 2;
+    nde (d == 0) toh
+        x = x / 2;
+    sede
+        x = 3 * x + 1;
+    finit;
+kelap;
+
+tamba 1;
+
+// 7. Recherche du maximum
+a = 0;
+tamba 1010;
+
+mbombo b = 1 kesi 10
+    nyam c;
+    nde (c > a) toh
+        a = c;
+    finit;
+sueh;
+
+tamba 2020;
+tamba a;
