@@ -447,7 +447,7 @@ int main(int argc, char **argv) {
 
     fichier_sortie = fopen(argv[2], "w");
     if (!fichier_sortie) {
-        printf("Erreur: impossible de créer le fichier de sortie %s\n", argv[2]);
+        printf("Erreur: impossible de créer le fichier de sortie\n");
         fclose(fichier_source);
         return 1;
     }
@@ -465,7 +465,7 @@ int main(int argc, char **argv) {
     fclose(fichier_sortie);
     
     if (result == 0) {
-        printf("Code C généré dans %s\n", argv[2]);
+        printf("Code généré \n" );
     }
     
     return result;

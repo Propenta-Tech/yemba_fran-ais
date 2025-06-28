@@ -13,6 +13,8 @@ clean:
 	rm -f parser exo20-23.tab.c exo20-23.tab.h lex.yy.c test.c test_programme
 
 install:
+	sudo cp parser /usr/local/bin/yemba-compiler
+	sudo chmod +x /usr/local/bin/yemba-compiler
 	sudo cp parser /usr/local/bin/yemba-c
 
 test:

@@ -1,0 +1,129 @@
+pour installer le compilateur pour le yemba
+
+#sudo nano /usr/local/bin/yemba 
+
+et le code si a l'interieur 
+
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage : yemba <fichier_source.yemba>"
+    exit 1
+fi
+
+fichier="$1"
+
+if [ ! -f "$fichier" ]; then
+    echo "Erreur : le fichier '$fichier' n'existe pas."
+    exit 1
+fi
+
+if [[ "$fichier" != *.yemba ]]; then
+    echo "Erreur : le fichier doit avoir l'extension .yemba"
+    exit 1
+fi
+
+nom_base="${fichier%.yemba}"
+fichier_c="${nom_base}.c"
+fichier_exe="${nom_base}.out"
+
+echo "Compilation Yemba "
+yemba-compiler "$fichier" "$fichier_c"
+code_retour=$?
+
+if [ "$code_retour" -ne 0 ]; then
+    echo "Échec de la compilation du fichier Yemba."
+    echo "Veuillez corriger les erreurs signalées ci-dessus dans '$fichier'."
+    exit 2
+fi
+
+echo "Compilation  → exécutable..."
+gcc "$fichier_c" -o "$fichier_exe"
+code_retour=$?
+
+if [ "$code_retour" -ne 0 ]; then
+    echo "Échec de la compilation . Vérifiez le code ."
+    exit 3
+fi
+
+echo "Compilation réussie."
+echo "Exécutable généré : $fichier_exe"
+
+Colle tout le script ci-dessus
+
+Sauvegarde et ferme (Ctrl+O, Entrée, Ctrl+X)
+
+Rends le script exécutable :   
+   sudo chmod +x /usr/local/bin/yemba
+
+et tape: make install au terminal
+
+pour compile le code  yemba nom_fichier.yemba
+execute ./nom_fichier.out
+
+
+### pour le francais 
+
+tape la commande: sudo nano /usr/local/bin/franc
+et copie le script si dessous a l'interieur 
+
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage : franc <fichier_source.fr>"
+    exit 1
+fi
+
+fichier="$1"
+
+if [ ! -f "$fichier" ]; then
+    echo "Erreur : le fichier '$fichier' n'existe pas."
+    exit 1
+fi
+
+if [[ "$fichier" != *.fr ]]; then
+    echo "Erreur : le fichier doit avoir l'extension .fr"
+    exit 1
+fi
+
+nom_base="${fichier%.fr}"
+fichier_c="${nom_base}.c"
+fichier_exe="${nom_base}.out"
+
+echo "Compilation Français "
+compil-fr "$fichier" "$fichier_c"
+code_retour=$?
+
+if [ "$code_retour" -ne 0 ]; then
+    echo "Échec de la compilation du fichier français."
+    echo "Veuillez corriger les erreurs signalées dans '$fichier'."
+    exit 2
+fi
+
+echo "Compilation → exécutable..."
+gcc "$fichier_c" -o "$fichier_exe"
+code_retour=$?
+
+if [ "$code_retour" -ne 0 ]; then
+    echo "Échec de la compilation . Vérifiez le code."
+    exit 3
+fi
+
+echo "Compilation réussie."
+echo "Exécutable généré : $fichier_exe"
+
+Colle tout le script ci-dessus
+
+Sauvegarde et ferme (Ctrl+O, Entrée, Ctrl+X)
+
+Rends le script exécutable : 
+  sudo chmod +x /usr/local/bin/franc
+  
+
+et tape: make install au terminal
+
+pour compile le code  franc nom_fichier.fr
+execute ./nom_fichier.out
+
+
+

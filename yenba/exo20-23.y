@@ -465,7 +465,7 @@ int main(int argc, char **argv) {
     fclose(fichier_sortie);
     
     if (result == 0) {
-        printf("Kemak C yi %s (Code C généré dans %s)\n", argv[2], argv[2]);
+        printf("Kemak C yi  (Code  compile dans )\n");
     }
     
     return result;

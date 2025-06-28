@@ -11,29 +11,29 @@ int main() {
     int resultat;
     int compteur;
     int continuer = 1;
-    printf("=======================================");
-    printf("    TESTS DU COMPILATEUR FRANÇAIS");
-    printf("=======================================");
+    printf("=======================================\n");
+    printf("    TESTS DU COMPILATEUR FRANÇAIS\n");
+    printf("=======================================\n");
     while ((continuer == 1)) {
-        printf("");
-        printf("Choisissez un test:");
-        printf("1 - Test Fibonacci");
-        printf("2 - Test Factorielle");
-        printf("3 - Test Switch/Case");
-        printf("4 - Test Boucles");
-        printf("5 - Test Expressions");
-        printf("6 - Test Do-While");
-        printf("0 - Quitter");
-        printf("");
+        printf("--\n");
+        printf("Choisissez un test:\n");
+        printf("1 - Test Fibonacci\n");
+        printf("2 - Test Factorielle\n");
+        printf("3 - Test Switch/Case\n");
+        printf("4 - Test Boucles\n");
+        printf("5 - Test Expressions\n");
+        printf("6 - Test Do-While\n");
+        printf("0 - Quitter\n");
+        printf("--\n");
         printf("Votre choix (0-6):");
         scanf("%d", &choix);
         switch (choix) {
             case 1:
                 printf("=== TEST FIBONACCI ===");
-                printf("Entrez le nombre de termes:");
+                printf("Entrez le nombre de termes\n:");
                 scanf("%d", &n);
                 if ((n <= 0)) {
-                    printf("Erreur: n doit être positif!");
+                    printf("Erreur: n doit être positif!\n");
                 } else {
                     int a = 0;
                     int b = 1;
@@ -61,7 +61,7 @@ int main() {
             break;
             case 2:
                 printf("=== TEST FACTORIELLE ===");
-                printf("Entrez un nombre:");
+                printf("Entrez un nombre:\n");
                 scanf("%d", &n);
                 if ((n < 0)) {
                     printf("Erreur: n doit être >= 0!");

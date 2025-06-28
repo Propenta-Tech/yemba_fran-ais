@@ -12,10 +12,10 @@ int main() {
     int compteur;
     int continuer = 1;
     printf("=======================================\n");
-    printf("    TESTS COMPLETS DU COMPILATEUR YEMBA");
+    printf("    TESTS COMPLETS DU COMPILATEUR YEMBA\n");
     printf("=======================================\n");
     while ((continuer == 1)) {
-        printf("--");
+        printf("--\n");
         printf("Choisissez un test:\n");
         printf("1 - Test Fibonacci\n");
         printf("2 - Test Factorielle (for)\n");
