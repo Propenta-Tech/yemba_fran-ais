@@ -13,6 +13,7 @@ void yyerror(const char *s);
 FILE *fichier_sortie;
 int niveau_indentation = 0;
 int current_case_value;
+
 void indenter() {
     for(int i = 0; i < niveau_indentation; i++) {
         fprintf(fichier_sortie, "    ");
@@ -49,7 +50,7 @@ void generer_main_fin() {
 %token <chaine> CHAINE VARIABLE
 %token SI ALORS SINON FINSI
 %token TANT_QUE FAIRE FINTANTQUE
-%token POUR A FINPOUR
+%token POUR A FINPOUR PAS
 %token LIRE AFFICHER
 %token TYPE_ENTIER TYPE_REEL TYPE_CHAINE
 %token PROGRAMME FINPROGRAMME FONCTION RETOURNER
@@ -72,10 +73,10 @@ void generer_main_fin() {
 
 programme:
     PROGRAMME liste_instructions FINPROGRAMME {
-        printf("Kemak yisue! (Compilation terminée avec succès!)\n");
+        printf("Compilation terminée avec succès !\n");
     }
     | liste_instructions {
-        printf("Kemak yisue! (Compilation terminée avec succès!)\n");
+        printf("Compilation terminée avec succès !\n");
     }
     ;
 
@@ -291,7 +292,7 @@ default_optionnel:
     }
     break_optionnel
     ;
-/* SOLUTION: Suppression de la règle problématique condition: expression */
+
 condition:
     expression EGAL expression {
         char *result = malloc(strlen($1) + strlen($3) + 10);
@@ -429,25 +430,24 @@ expression:
 %%
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Keme yi dzem %d: %s (Erreur de syntaxe à la ligne %d: %s)\n", ligne, s, ligne, s);
+    fprintf(stderr, "Erreur de syntaxe à la ligne %d: %s\n", ligne, s);
 }
 
 int main(int argc, char **argv) {
     if (argc != 3) {
-        printf("Le yi: %s <fichier_source.yemba> <fichier_sortie.c>\n", argv[0]);
-        printf("Usage: %s <fichier_source.yemba> <fichier_sortie.c>\n", argv[0]);
+        printf("Usage: %s <fichier_source.fr> <fichier_sortie.c>\n", argv[0]);
         return 1;
     }
 
     FILE *fichier_source = fopen(argv[1], "r");
     if (!fichier_source) {
-        printf("Keme: tene yi dzem %s (Erreur: impossible d'ouvrir le fichier source %s)\n", argv[1], argv[1]);
+        printf("Erreur: impossible d'ouvrir le fichier source %s\n", argv[1]);
         return 1;
     }
 
     fichier_sortie = fopen(argv[2], "w");
     if (!fichier_sortie) {
-        printf("Keme: tene yi kemak dzem %s (Erreur: impossible de créer le fichier de sortie %s)\n", argv[2], argv[2]);
+        printf("Erreur: impossible de créer le fichier de sortie %s\n", argv[2]);
         fclose(fichier_source);
         return 1;
     }
@@ -465,7 +465,7 @@ int main(int argc, char **argv) {
     fclose(fichier_sortie);
     
     if (result == 0) {
-        printf("Kemak C yi %s (Code C généré dans %s)\n", argv[2], argv[2]);
+        printf("Code C généré dans %s\n", argv[2]);
     }
     
     return result;

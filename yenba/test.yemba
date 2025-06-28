@@ -1,0 +1,233 @@
+yisue
+nomba choix;
+nomba n;
+nomba i;
+nomba j;
+nomba temp;
+nomba resultat;
+nomba compteur;
+nomba continuer = 1;
+
+leti "=======================================\n";
+leti "    TESTS COMPLETS DU COMPILATEUR YEMBA\n";
+leti "=======================================\n";
+
+lijet (continuer == 1) leghu
+    leti "--\n";
+    leti "Choisissez un test:\n";
+    leti "1 - Test Fibonacci\n";
+    leti "2 - Test Factorielle (for)\n";
+    leti "3 - Test Factorielle (while)\n";
+    leti "4 - Test Switch/Case\n";
+    leti "5 - Test Boucles imbriquées\n";
+    leti "6 - Test Expressions complexes\n";
+    leti "7 - Test Do-While\n";
+    leti "0 - Quitter\n";
+    leti "--\n";
+    leti "Votre choix (0-7):";
+    letong choix;
+
+    sontoh (choix) {
+        ndap 1: 
+            leti "=== TEST FIBONACCI ===";
+            leti "Entrez le nombre de termes:";
+            letong n;
+            
+            yi (n <= 0) lo
+                leti "Erreur: n doit être positif!";
+            lelu
+                nomba a = 0;
+                nomba b = 1;
+                
+                yi (n == 1) lo
+                    leti "F(1) = 0";
+                lelu
+                    yi (n == 2) lo
+                        leti "F(1) = 0";
+                        leti "F(2) = 1";
+                    lelu
+                        leti "F(1) = 0";
+                        leti "F(2) = 1";
+                        
+                        lighe i leko 3 leko n leghu
+                            temp = a + b;
+                            leti "F(";
+                            leti i;
+                            leti ") =";
+                            leti temp;
+                            a = b;
+                            b = temp;
+                        sueh
+                    lemakyi
+                lemakyi
+            lemakyi
+            kap;
+            
+        ndap 2:
+            leti "=== TEST FACTORIELLE (FOR) ===";
+            leti "Entrez un nombre:";
+            letong n;
+            
+            yi (n < 0) lo
+                leti "Erreur: n doit être >= 0!";
+            lelu
+                resultat = 1;
+                yi (n == 0) lo
+                    leti "0! = 1";
+                lelu
+                    lighe i leko 1 leko n leghu
+                        resultat = resultat * i;
+                        leti i;
+                        leti "! =";
+                        leti resultat;
+                    sueh
+                    
+                    leti "=== Résultat final ===";
+                    leti n;
+                    leti "! =";
+                    leti resultat;
+                lemakyi
+            lemakyi
+            kap;
+            
+        ndap 3:
+            leti "=== TEST FACTORIELLE (WHILE) ===";
+            leti "Entrez un nombre:";
+            letong n;
+            
+            yi (n < 0) lo
+                leti "Nombre négatif!";
+            lelu
+                resultat = 1;
+                compteur = 1;
+                
+                lijet (compteur <= n) leghu
+                    resultat = resultat * compteur;
+                    leti "Étape";
+                    leti compteur;
+                    leti ": résultat =";
+                    leti resultat;
+                    compteur = compteur + 1;
+                lemak
+                
+                leti "Factorielle finale:";
+                leti resultat;
+            lemakyi
+            kap;
+            
+        ndap 4:
+            leti "=== TEST SWITCH/CASE ===";
+            leti "Entrez un nombre (0-3):";
+            letong n;
+            
+            leti "Analyse du nombre:";
+            sontoh (n) {
+                ndap 0: 
+                    leti "C'est zéro!"; 
+                    kap;
+                ndap 1: 
+                    leti "C'est un!"; 
+                    kap;
+                ndap 2: 
+                    leti "C'est deux!"; 
+                    kap;
+                ndap 3: 
+                    leti "C'est trois!"; 
+                    kap;
+                kamto: 
+                    leti "Nombre non reconnu!";
+            }
+            
+            leti "Test parité:";
+            sontoh (n % 2) {
+                ndap 0: 
+                    leti "Nombre pair"; 
+                    kap;
+                ndap 1: 
+                    leti "Nombre impair"; 
+                    kap;
+            }
+            kap;
+            
+        ndap 5:
+            leti "=== TEST BOUCLES IMBRIQUÉES ===";
+            leti "Table de multiplication 3x3:";
+            
+            lighe i leko 1 leko 3 leghu
+                lighe j leko 1 leko 3 leghu
+                    resultat = i * j;
+                    leti i;
+                    leti " x ";
+                    leti j;
+                    leti " = ";
+                    leti resultat;
+                sueh
+                leti "---";
+            sueh
+            kap;
+            
+        ndap 6:
+            leti "=== TEST EXPRESSIONS COMPLEXES ===";
+            leti "Entrez deux nombres:";
+            leti "Premier nombre:";
+            letong i;
+            leti "Deuxième nombre:";
+            letong j;
+            
+            resultat = (i + j) * 2 - 1;
+            leti "Expression: (";
+            leti i;
+            leti " + ";
+            leti j;
+            leti ") * 2 - 1 = ";
+            leti resultat;
+            
+            resultat = i * i + j * j;
+            leti "Somme des carrés: ";
+            leti i;
+            leti "² + ";
+            leti j;
+            leti "² = ";
+            leti resultat;
+            
+            yi (i > j) lo
+                leti "Le premier est plus grand";
+            lelu
+                yi (i < j) lo
+                    leti "Le deuxième est plus grand";
+                lelu
+                    leti "Les deux sont égaux";
+                lemakyi
+            lemakyi
+            kap;
+            
+        ndap 7:
+            leti "=== TEST DO-WHILE ===";
+            leti "Entrez un nombre de départ:";
+            letong n;
+            
+            leti "Compte à rebours:";
+            compteur = n;
+            
+            kesue_keto
+                leti "Compteur:";
+                leti compteur;
+                compteur = compteur - 1;
+            kemak_sue (compteur <= 0)
+            
+            leti "Fini!";
+            kap;
+            
+        ndap 0:
+            leti "Au revoir!";
+            continuer = 0;
+            kap;
+            
+        kamto:
+            leti "Choix invalide!";
+            leti "Veuillez choisir entre 0 et 7.";
+    }
+lemak
+
+leti "=== FIN DU PROGRAMME ===";
+kemak

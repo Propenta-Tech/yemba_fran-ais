@@ -67,43 +67,48 @@
 
 
 /* First part of user prologue.  */
-#line 2 "exo20-23.y"
+#line 1 "francais.y"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-extern int yylex(void);
-int yyerror(char *s);
+extern int yylex();
+extern int yyparse();
+extern FILE *yyin;
+extern int ligne;
 
-extern FILE *yyout;
-int compteurSi = 0, compteurWhile = 0, compteurSwitch = 0, compteurFor = 0, compteurTest = 0;
-int compteurDoWhile = 0;
-char if_then_var, if_else_var;
+void yyerror(const char *s);
 
-char *header = "extern printf,scanf\n"
-               "section .data\n"
-               "    a: dd 0\n"
-               "    b: dd 0\n"
-               "    c: dd 0\n"
-               "    d: dd 0\n"
-               "    x: dd 0\n"
-               "    y: dd 0\n"
-               "    z: dd 0\n"
-               "    temp_for_end: dd 0\n"    
-               "    temp_for_step: dd 0\n"
-               "    fmt: db \"%d\", 10, 0\n"
-               "    fmtlec: db \"%d\", 0\n"
-               "section .text\n"
-               "global _start\n"
-               "_start:\n\n";
+FILE *fichier_sortie;
+int niveau_indentation = 0;
+int current_case_value;
 
-char *trailer = "    ; Fin du programme\n"
-                "    mov eax, 1\n"
-                "    mov ebx, 0\n"
-                "    int 0x80\n";
+void indenter() {
+    for(int i = 0; i < niveau_indentation; i++) {
+        fprintf(fichier_sortie, "    ");
+    }
+}
 
+void generer_en_tete() {
+    fprintf(fichier_sortie, "#include <stdio.h>\n");
+    fprintf(fichier_sortie, "#include <stdlib.h>\n");
+    fprintf(fichier_sortie, "#include <string.h>\n\n");
+}
 
-#line 107 "exo20-23.c"
+void generer_main_debut() {
+    fprintf(fichier_sortie, "int main() {\n");
+    niveau_indentation++;
+}
+
+void generer_main_fin() {
+    niveau_indentation--;
+    indenter();
+    fprintf(fichier_sortie, "return 0;\n");
+    fprintf(fichier_sortie, "}\n");
+}
+
+#line 112 "francais.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -126,7 +131,7 @@ char *trailer = "    ; Fin du programme\n"
 #  endif
 # endif
 
-#include "simple.h"
+#include "francais.tab.h"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -134,67 +139,90 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_INTEGER = 3,                    /* INTEGER  */
-  YYSYMBOL_VARIABLE = 4,                   /* VARIABLE  */
-  YYSYMBOL_PLUS = 5,                       /* PLUS  */
-  YYSYMBOL_MINUS = 6,                      /* MINUS  */
-  YYSYMBOL_MULTIPLY = 7,                   /* MULTIPLY  */
-  YYSYMBOL_DIVIDE = 8,                     /* DIVIDE  */
-  YYSYMBOL_MODULO = 9,                     /* MODULO  */
-  YYSYMBOL_ASSIGN = 10,                    /* ASSIGN  */
-  YYSYMBOL_SEMICOLON = 11,                 /* SEMICOLON  */
-  YYSYMBOL_EQ = 12,                        /* EQ  */
-  YYSYMBOL_NE = 13,                        /* NE  */
-  YYSYMBOL_LT = 14,                        /* LT  */
-  YYSYMBOL_GT = 15,                        /* GT  */
-  YYSYMBOL_LE = 16,                        /* LE  */
-  YYSYMBOL_GE = 17,                        /* GE  */
-  YYSYMBOL_LPAREN = 18,                    /* LPAREN  */
-  YYSYMBOL_RPAREN = 19,                    /* RPAREN  */
-  YYSYMBOL_LBRACE = 20,                    /* LBRACE  */
-  YYSYMBOL_RBRACE = 21,                    /* RBRACE  */
-  YYSYMBOL_COLON = 22,                     /* COLON  */
-  YYSYMBOL_PRINT = 23,                     /* PRINT  */
-  YYSYMBOL_READ = 24,                      /* READ  */
-  YYSYMBOL_IF = 25,                        /* IF  */
-  YYSYMBOL_THEN = 26,                      /* THEN  */
-  YYSYMBOL_ELSE = 27,                      /* ELSE  */
-  YYSYMBOL_FI = 28,                        /* FI  */
-  YYSYMBOL_WHILE = 29,                     /* WHILE  */
-  YYSYMBOL_DO = 30,                        /* DO  */
-  YYSYMBOL_DONE = 31,                      /* DONE  */
-  YYSYMBOL_SWITCH = 32,                    /* SWITCH  */
-  YYSYMBOL_CASE = 33,                      /* CASE  */
-  YYSYMBOL_DEFAULT = 34,                   /* DEFAULT  */
-  YYSYMBOL_BREAK = 35,                     /* BREAK  */
-  YYSYMBOL_FOR = 36,                       /* FOR  */
-  YYSYMBOL_TO = 37,                        /* TO  */
-  YYSYMBOL_NEXT = 38,                      /* NEXT  */
-  YYSYMBOL_STEP = 39,                      /* STEP  */
-  YYSYMBOL_UMINUS = 40,                    /* UMINUS  */
-  YYSYMBOL_YYACCEPT = 41,                  /* $accept  */
-  YYSYMBOL_program = 42,                   /* program  */
-  YYSYMBOL_statements = 43,                /* statements  */
-  YYSYMBOL_statement = 44,                 /* statement  */
-  YYSYMBOL_assignment = 45,                /* assignment  */
-  YYSYMBOL_print_stmt = 46,                /* print_stmt  */
-  YYSYMBOL_read_stmt = 47,                 /* read_stmt  */
-  YYSYMBOL_if_print_then = 48,             /* if_print_then  */
-  YYSYMBOL_if_print_else = 49,             /* if_print_else  */
-  YYSYMBOL_if_else_stmt = 50,              /* if_else_stmt  */
-  YYSYMBOL_if_simple_stmt = 51,            /* if_simple_stmt  */
-  YYSYMBOL_while_stmt = 52,                /* while_stmt  */
-  YYSYMBOL_for_simple_stmt = 53,           /* for_simple_stmt  */
-  YYSYMBOL_for_step_stmt = 54,             /* for_step_stmt  */
-  YYSYMBOL_do_while_stmt = 55,             /* do_while_stmt  */
-  YYSYMBOL_switch_stmt = 56,               /* switch_stmt  */
-  YYSYMBOL_case_list = 57,                 /* case_list  */
-  YYSYMBOL_case_item = 58,                 /* case_item  */
-  YYSYMBOL_default_case = 59,              /* default_case  */
-  YYSYMBOL_condition = 60,                 /* condition  */
-  YYSYMBOL_expression = 61,                /* expression  */
-  YYSYMBOL_term = 62,                      /* term  */
-  YYSYMBOL_factor = 63                     /* factor  */
+  YYSYMBOL_ENTIER = 3,                     /* ENTIER  */
+  YYSYMBOL_REEL = 4,                       /* REEL  */
+  YYSYMBOL_CHAINE = 5,                     /* CHAINE  */
+  YYSYMBOL_VARIABLE = 6,                   /* VARIABLE  */
+  YYSYMBOL_SI = 7,                         /* SI  */
+  YYSYMBOL_ALORS = 8,                      /* ALORS  */
+  YYSYMBOL_SINON = 9,                      /* SINON  */
+  YYSYMBOL_FINSI = 10,                     /* FINSI  */
+  YYSYMBOL_TANT_QUE = 11,                  /* TANT_QUE  */
+  YYSYMBOL_FAIRE = 12,                     /* FAIRE  */
+  YYSYMBOL_FINTANTQUE = 13,                /* FINTANTQUE  */
+  YYSYMBOL_POUR = 14,                      /* POUR  */
+  YYSYMBOL_A = 15,                         /* A  */
+  YYSYMBOL_FINPOUR = 16,                   /* FINPOUR  */
+  YYSYMBOL_PAS = 17,                       /* PAS  */
+  YYSYMBOL_LIRE = 18,                      /* LIRE  */
+  YYSYMBOL_AFFICHER = 19,                  /* AFFICHER  */
+  YYSYMBOL_TYPE_ENTIER = 20,               /* TYPE_ENTIER  */
+  YYSYMBOL_TYPE_REEL = 21,                 /* TYPE_REEL  */
+  YYSYMBOL_TYPE_CHAINE = 22,               /* TYPE_CHAINE  */
+  YYSYMBOL_PROGRAMME = 23,                 /* PROGRAMME  */
+  YYSYMBOL_FINPROGRAMME = 24,              /* FINPROGRAMME  */
+  YYSYMBOL_FONCTION = 25,                  /* FONCTION  */
+  YYSYMBOL_RETOURNER = 26,                 /* RETOURNER  */
+  YYSYMBOL_REPETER_JUSQUA = 27,            /* REPETER_JUSQUA  */
+  YYSYMBOL_FIN_REPETER = 28,               /* FIN_REPETER  */
+  YYSYMBOL_SWITCH = 29,                    /* SWITCH  */
+  YYSYMBOL_CASE = 30,                      /* CASE  */
+  YYSYMBOL_DEFAULT = 31,                   /* DEFAULT  */
+  YYSYMBOL_BREAK = 32,                     /* BREAK  */
+  YYSYMBOL_PLUS = 33,                      /* PLUS  */
+  YYSYMBOL_MOINS = 34,                     /* MOINS  */
+  YYSYMBOL_MULT = 35,                      /* MULT  */
+  YYSYMBOL_DIV = 36,                       /* DIV  */
+  YYSYMBOL_MODULO = 37,                    /* MODULO  */
+  YYSYMBOL_AFFECTATION = 38,               /* AFFECTATION  */
+  YYSYMBOL_EGAL = 39,                      /* EGAL  */
+  YYSYMBOL_DIFFERENT = 40,                 /* DIFFERENT  */
+  YYSYMBOL_INFERIEUR = 41,                 /* INFERIEUR  */
+  YYSYMBOL_SUPERIEUR = 42,                 /* SUPERIEUR  */
+  YYSYMBOL_INFERIEUR_EGAL = 43,            /* INFERIEUR_EGAL  */
+  YYSYMBOL_SUPERIEUR_EGAL = 44,            /* SUPERIEUR_EGAL  */
+  YYSYMBOL_ET = 45,                        /* ET  */
+  YYSYMBOL_OU = 46,                        /* OU  */
+  YYSYMBOL_NON = 47,                       /* NON  */
+  YYSYMBOL_48_ = 48,                       /* ';'  */
+  YYSYMBOL_49_ = 49,                       /* '{'  */
+  YYSYMBOL_50_ = 50,                       /* '}'  */
+  YYSYMBOL_51_ = 51,                       /* '('  */
+  YYSYMBOL_52_ = 52,                       /* ')'  */
+  YYSYMBOL_53_ = 53,                       /* ':'  */
+  YYSYMBOL_YYACCEPT = 54,                  /* $accept  */
+  YYSYMBOL_programme = 55,                 /* programme  */
+  YYSYMBOL_liste_instructions = 56,        /* liste_instructions  */
+  YYSYMBOL_instruction = 57,               /* instruction  */
+  YYSYMBOL_bloc_instructions = 58,         /* bloc_instructions  */
+  YYSYMBOL_59_1 = 59,                      /* $@1  */
+  YYSYMBOL_declaration = 60,               /* declaration  */
+  YYSYMBOL_type_variable = 61,             /* type_variable  */
+  YYSYMBOL_affectation = 62,               /* affectation  */
+  YYSYMBOL_lecture = 63,                   /* lecture  */
+  YYSYMBOL_affichage = 64,                 /* affichage  */
+  YYSYMBOL_condition_si = 65,              /* condition_si  */
+  YYSYMBOL_66_2 = 66,                      /* $@2  */
+  YYSYMBOL_sinon_optionnel = 67,           /* sinon_optionnel  */
+  YYSYMBOL_68_3 = 68,                      /* $@3  */
+  YYSYMBOL_boucle_tant_que = 69,           /* boucle_tant_que  */
+  YYSYMBOL_70_4 = 70,                      /* $@4  */
+  YYSYMBOL_boucle_pour = 71,               /* boucle_pour  */
+  YYSYMBOL_72_5 = 72,                      /* $@5  */
+  YYSYMBOL_boucle_repeter_jusqua = 73,     /* boucle_repeter_jusqua  */
+  YYSYMBOL_74_6 = 74,                      /* $@6  */
+  YYSYMBOL_switch_case = 75,               /* switch_case  */
+  YYSYMBOL_76_7 = 76,                      /* $@7  */
+  YYSYMBOL_liste_cases = 77,               /* liste_cases  */
+  YYSYMBOL_case = 78,                      /* case  */
+  YYSYMBOL_79_8 = 79,                      /* $@8  */
+  YYSYMBOL_80_9 = 80,                      /* $@9  */
+  YYSYMBOL_break_optionnel = 81,           /* break_optionnel  */
+  YYSYMBOL_default_optionnel = 82,         /* default_optionnel  */
+  YYSYMBOL_83_10 = 83,                     /* $@10  */
+  YYSYMBOL_84_11 = 84,                     /* $@11  */
+  YYSYMBOL_condition = 85,                 /* condition  */
+  YYSYMBOL_expression = 86                 /* expression  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -311,7 +339,7 @@ typedef int yytype_uint16;
 
 
 /* Stored state numbers (used for stacks). */
-typedef yytype_int8 yy_state_t;
+typedef yytype_uint8 yy_state_t;
 
 /* State numbers in computations.  */
 typedef int yy_state_fast_t;
@@ -520,21 +548,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  3
+#define YYFINAL  47
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   143
+#define YYLAST   334
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  41
+#define YYNTOKENS  54
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  23
+#define YYNNTS  33
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  48
+#define YYNRULES  70
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  123
+#define YYNSTATES  140
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   295
+#define YYMAXUTOK   302
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -552,15 +580,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      51,    52,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,    53,    48,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,    49,     2,    50,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -577,18 +605,22 @@ static const yytype_int8 yytranslate[] =
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
+      45,    46,    47
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    53,    53,    58,    60,    64,    65,    66,    67,    68,
-      69,    70,    71,    72,    73,    77,    86,    98,   111,   118,
-     126,   156,   178,   206,   238,   267,   294,   351,   353,   357,
-     363,   366,   371,   382,   393,   404,   415,   426,   441,   442,
-     449,   459,   460,   467,   475,   486,   489,   493,   494
+       0,    75,    75,    78,    84,    85,    89,    90,    91,    92,
+      93,    94,    95,    96,    97,    98,   102,   102,   115,   121,
+     131,   132,   133,   137,   146,   154,   159,   167,   167,   183,
+     184,   184,   194,   194,   209,   209,   227,   227,   242,   242,
+     258,   259,   263,   269,   263,   275,   277,   283,   285,   290,
+     285,   297,   304,   311,   318,   325,   332,   339,   346,   353,
+     359,   368,   373,   378,   381,   388,   395,   402,   409,   416,
+     422
 };
 #endif
 
@@ -604,17 +636,21 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "INTEGER", "VARIABLE",
-  "PLUS", "MINUS", "MULTIPLY", "DIVIDE", "MODULO", "ASSIGN", "SEMICOLON",
-  "EQ", "NE", "LT", "GT", "LE", "GE", "LPAREN", "RPAREN", "LBRACE",
-  "RBRACE", "COLON", "PRINT", "READ", "IF", "THEN", "ELSE", "FI", "WHILE",
-  "DO", "DONE", "SWITCH", "CASE", "DEFAULT", "BREAK", "FOR", "TO", "NEXT",
-  "STEP", "UMINUS", "$accept", "program", "statements", "statement",
-  "assignment", "print_stmt", "read_stmt", "if_print_then",
-  "if_print_else", "if_else_stmt", "if_simple_stmt", "while_stmt",
-  "for_simple_stmt", "for_step_stmt", "do_while_stmt", "switch_stmt",
-  "case_list", "case_item", "default_case", "condition", "expression",
-  "term", "factor", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "ENTIER", "REEL",
+  "CHAINE", "VARIABLE", "SI", "ALORS", "SINON", "FINSI", "TANT_QUE",
+  "FAIRE", "FINTANTQUE", "POUR", "A", "FINPOUR", "PAS", "LIRE", "AFFICHER",
+  "TYPE_ENTIER", "TYPE_REEL", "TYPE_CHAINE", "PROGRAMME", "FINPROGRAMME",
+  "FONCTION", "RETOURNER", "REPETER_JUSQUA", "FIN_REPETER", "SWITCH",
+  "CASE", "DEFAULT", "BREAK", "PLUS", "MOINS", "MULT", "DIV", "MODULO",
+  "AFFECTATION", "EGAL", "DIFFERENT", "INFERIEUR", "SUPERIEUR",
+  "INFERIEUR_EGAL", "SUPERIEUR_EGAL", "ET", "OU", "NON", "';'", "'{'",
+  "'}'", "'('", "')'", "':'", "$accept", "programme", "liste_instructions",
+  "instruction", "bloc_instructions", "$@1", "declaration",
+  "type_variable", "affectation", "lecture", "affichage", "condition_si",
+  "$@2", "sinon_optionnel", "$@3", "boucle_tant_que", "$@4", "boucle_pour",
+  "$@5", "boucle_repeter_jusqua", "$@6", "switch_case", "$@7",
+  "liste_cases", "case", "$@8", "$@9", "break_optionnel",
+  "default_optionnel", "$@10", "$@11", "condition", "expression", YY_NULLPTR
 };
 
 static const char *
@@ -624,7 +660,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-32)
+#define YYPACT_NINF (-33)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -638,19 +674,20 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -32,     5,    59,   -32,    -3,   107,    12,    -8,    15,   -32,
-      21,    42,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,
-     -32,   -32,   -32,   107,   -32,   -32,   107,   107,     7,    46,
-     -32,    63,   107,   107,    76,    72,    31,     9,   -32,    97,
-     107,   107,   -32,   107,   107,   107,   -32,    68,   114,    71,
-      74,    75,   107,   -32,   -32,    46,    46,   -32,   -32,   -32,
-      78,   107,   107,   107,   107,   107,   107,    67,   107,    87,
-      -2,    86,    16,    16,    16,    16,    16,    16,   -32,    79,
-     -32,   107,   110,    37,    20,     6,    52,     3,   104,    94,
-     -32,   -32,   -32,   115,    99,   -32,   101,   107,     2,   -32,
-     119,    96,   111,   109,   -32,    16,   123,   124,   -32,   113,
-     134,    43,   -32,   -32,   135,   128,   129,   130,   -32,   -32,
-     108,   131,   -32
+     133,   -32,     1,     1,     7,    10,     5,   -33,   -33,   -33,
+     256,   -33,   -13,   -33,    47,   256,   -33,   -33,     3,    52,
+      13,    16,    23,   -33,   -33,   -33,   -33,   -33,    11,   -33,
+     -33,   -33,    11,     1,     1,     4,   282,     9,    57,   -33,
+     -33,    11,   297,   157,   256,    11,   256,   -33,   -33,   -33,
+      50,   -33,   -33,   -33,   297,     6,   -33,   -15,   257,   -33,
+       1,     1,    11,    11,    11,    11,    11,    11,    11,    11,
+      11,    11,    11,   -33,    11,    33,   -33,   181,   277,   116,
+      11,   -33,   -33,   256,   -33,    46,     6,     6,   -33,   -33,
+     -33,   297,   297,   297,   297,   297,   297,   256,    79,     1,
+      44,   -33,   297,   205,   222,    11,   -26,   -33,   -33,    85,
+     -33,    -9,    66,   256,   -33,   -33,    94,    -8,   -33,   256,
+     256,    48,    49,   -33,    54,   239,   -33,   -33,   -33,   -33,
+     256,   256,   256,   256,    67,    67,    58,   -33,   -33,   -33
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -658,115 +695,163 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     2,     1,     0,     0,     0,     0,     0,     3,
-       0,     0,     4,     5,     6,     7,     9,     8,    10,    13,
-      14,    11,    12,     0,    45,    46,     0,     0,     0,    38,
-      41,     0,     0,     0,     0,     0,     0,     0,    48,     0,
-       0,     0,    16,     0,     0,     0,    17,     0,     0,     0,
-       0,     0,     0,    15,    47,    39,    40,    42,    43,    44,
+       0,     0,     0,     0,     0,     0,     0,    20,    21,    22,
+       0,    36,     0,    16,     0,     3,     4,    15,     0,     0,
+       0,     0,     0,    10,    11,    12,    13,    14,     0,    61,
+      62,    63,     0,     0,     0,     0,     0,     0,     0,    24,
+      26,     0,    25,     0,     0,     0,     0,     1,     5,     6,
+      18,     7,     8,     9,    23,    69,    59,     0,     0,    27,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    32,    33,    34,    35,    36,    37,     3,     0,
-      27,     0,     0,     0,     0,     0,    31,     3,     0,     0,
-      21,    22,    25,     0,     0,    28,     0,     0,     0,    18,
-       0,     0,     0,     0,    26,     3,     0,     0,    20,     0,
-       0,     0,    23,    19,     0,     0,     0,     0,    30,    24,
-       0,     0,    29
+       0,     0,     0,    32,     0,     0,     2,     0,     0,     0,
+       0,    60,    70,     0,    57,    58,    64,    65,    66,    67,
+      68,    51,    52,    53,    54,    55,    56,     0,     0,     0,
+       0,    17,    19,    29,     0,     0,    37,    38,    30,     0,
+      33,     0,     0,     0,    28,    34,     0,    47,    40,    31,
+       0,     0,     0,    41,     0,     0,    42,    48,    39,    35,
+       0,     0,    43,    49,    45,    45,     0,    44,    50,    46
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -32,   -32,    -9,   -32,   -32,   -32,   -32,   -32,   -32,   -32,
-     -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -31,
-      -4,    30,   -15
+     -33,   -33,   -10,   -14,   -33,   -33,   -33,   -33,   -33,   -33,
+     -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,
+     -33,   -33,   -33,   -33,   -17,   -33,   -33,   -28,   -33,   -33,
+     -33,    -1,    12
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
-static const yytype_int8 yydefgoto[] =
+static const yytype_uint8 yydefgoto[] =
 {
-       0,     1,     2,    12,    13,    14,    15,    83,   101,    16,
-      17,    18,    19,    20,    21,    22,    86,    95,    96,    47,
-      48,    29,    30
+       0,    14,    15,    16,    17,    46,    18,    19,    20,    21,
+      22,    23,    83,   109,   113,    24,    97,    25,   120,    26,
+      44,    27,   112,   117,   118,   130,   134,   137,   124,   131,
+     135,    35,    36
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule whose
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_int8 yytable[] =
+static const yytype_uint8 yytable[] =
 {
-      34,    28,    49,    40,    41,     3,     4,    23,    40,    41,
-      32,    38,    40,    41,    40,    41,    31,    92,    42,    37,
-      53,    40,    41,    39,     4,     5,     6,     7,    57,    58,
-      59,     8,     9,    33,    10,    81,    78,    79,    11,    35,
-     106,    52,    97,     5,     6,     7,    36,     4,    70,     8,
-       9,    91,    10,    43,    44,    45,    11,    72,    73,    74,
-      75,    76,    77,     4,    89,    90,     5,     6,     7,    84,
-      55,    56,     8,     9,    46,    10,    51,    87,    98,    11,
-       4,   116,     5,     6,     7,    93,    94,    60,     8,     9,
-      67,    10,    68,   105,    69,    11,   111,    78,    85,     5,
-       6,     7,    40,    41,    71,    50,     9,    80,    10,    82,
-      24,    25,    11,    26,    88,    99,    54,   100,   102,    40,
-      41,   103,   104,   107,   108,    27,    61,    62,    63,    64,
-      65,    66,   110,   109,   112,   113,   114,   115,   117,   118,
-     119,   120,   122,   121
+      43,    48,    37,   115,    29,    30,    28,    31,    29,    30,
+      40,    31,    59,    38,    29,    30,    39,    31,    42,    60,
+      61,    73,   116,   122,    62,    63,    64,    65,    66,    48,
+      60,    61,    56,    57,    77,    32,    79,    81,    45,    32,
+      54,    64,    65,    66,    55,    32,    58,    47,    33,    60,
+      61,    49,    34,    75,    60,    61,    41,    78,    50,    84,
+      85,    51,    41,    48,    52,    48,    62,    63,    64,    65,
+      66,    53,    74,   103,    86,    87,    88,    89,    90,    91,
+      92,    93,    94,    95,    96,    82,    98,   104,    80,    48,
+      48,    60,   102,   107,   105,   114,   116,   121,   106,   136,
+     123,   126,   127,   119,   128,    48,   139,   138,     0,     0,
+     125,    48,    62,    63,    64,    65,    66,   111,    48,    48,
+     132,   133,     1,     2,     0,     0,     0,     3,     0,     0,
+       4,     0,     0,     0,     5,     6,     7,     8,     9,     1,
+       2,     0,     0,    11,     3,    12,     0,     4,     0,     0,
+       0,     5,     6,     7,     8,     9,    10,     0,     0,     0,
+      11,     0,    12,     1,     2,    13,   101,     0,     3,     0,
+       0,     4,     0,     0,     0,     5,     6,     7,     8,     9,
+       0,    76,    13,     0,    11,     0,    12,     1,     2,     0,
+       0,     0,     3,     0,     0,     4,     0,     0,     0,     5,
+       6,     7,     8,     9,     0,     0,    13,     0,    11,    99,
+      12,     1,     2,     0,   108,     0,     3,     0,     0,     4,
+       0,     0,     0,     5,     6,     7,     8,     9,     1,     2,
+      13,     0,    11,     3,    12,   110,     4,     0,     0,     0,
+       5,     6,     7,     8,     9,     1,     2,     0,     0,    11,
+       3,    12,     0,     4,    13,   129,     0,     5,     6,     7,
+       8,     9,     1,     2,     0,     0,    11,     3,    12,     0,
+       4,    13,     0,     0,     5,     6,     7,     8,     9,     0,
+       0,     0,     0,    11,     0,    12,     0,     0,    13,     0,
+      62,    63,    64,    65,    66,     0,    67,    68,    69,    70,
+      71,    72,     0,     0,     0,    13,     0,     0,     0,    82,
+      62,    63,    64,    65,    66,    62,    63,    64,    65,    66,
+       0,    67,    68,    69,    70,    71,    72,     0,     0,   100,
+      62,    63,    64,    65,    66
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_int16 yycheck[] =
 {
-       9,     5,    33,     5,     6,     0,     4,    10,     5,     6,
-      18,    26,     5,     6,     5,     6,     4,    11,    11,    23,
-      11,     5,     6,    27,     4,    23,    24,    25,    43,    44,
-      45,    29,    30,    18,    32,    37,    30,    68,    36,    18,
-      38,    10,    39,    23,    24,    25,     4,     4,    52,    29,
-      30,    31,    32,     7,     8,     9,    36,    61,    62,    63,
-      64,    65,    66,     4,    27,    28,    23,    24,    25,    78,
-      40,    41,    29,    30,    11,    32,     4,    81,    87,    36,
-       4,    38,    23,    24,    25,    33,    34,    19,    29,    30,
-      19,    32,    18,    97,    19,    36,   105,    30,    19,    23,
-      24,    25,     5,     6,    26,    29,    30,    20,    32,    23,
-       3,     4,    36,     6,     4,    11,    19,    23,     3,     5,
-       6,    22,    21,     4,    28,    18,    12,    13,    14,    15,
-      16,    17,    23,    22,    11,    11,    23,     3,     3,    11,
-      11,    11,    11,    35
+      10,    15,     3,    12,     3,     4,    38,     6,     3,     4,
+       5,     6,     8,     6,     3,     4,     6,     6,     6,    45,
+      46,    12,    30,    31,    33,    34,    35,    36,    37,    43,
+      45,    46,    33,    34,    44,    34,    46,    52,    51,    34,
+      28,    35,    36,    37,    32,    34,    34,     0,    47,    45,
+      46,    48,    51,    41,    45,    46,    51,    45,     6,    60,
+      61,    48,    51,    77,    48,    79,    33,    34,    35,    36,
+      37,    48,    15,    83,    62,    63,    64,    65,    66,    67,
+      68,    69,    70,    71,    72,    52,    74,    97,    38,   103,
+     104,    45,    80,    49,    15,    10,    30,     3,    99,    32,
+     117,    53,    53,   113,    50,   119,    48,   135,    -1,    -1,
+     120,   125,    33,    34,    35,    36,    37,   105,   132,   133,
+     130,   131,     6,     7,    -1,    -1,    -1,    11,    -1,    -1,
+      14,    -1,    -1,    -1,    18,    19,    20,    21,    22,     6,
+       7,    -1,    -1,    27,    11,    29,    -1,    14,    -1,    -1,
+      -1,    18,    19,    20,    21,    22,    23,    -1,    -1,    -1,
+      27,    -1,    29,     6,     7,    49,    50,    -1,    11,    -1,
+      -1,    14,    -1,    -1,    -1,    18,    19,    20,    21,    22,
+      -1,    24,    49,    -1,    27,    -1,    29,     6,     7,    -1,
+      -1,    -1,    11,    -1,    -1,    14,    -1,    -1,    -1,    18,
+      19,    20,    21,    22,    -1,    -1,    49,    -1,    27,    28,
+      29,     6,     7,    -1,     9,    -1,    11,    -1,    -1,    14,
+      -1,    -1,    -1,    18,    19,    20,    21,    22,     6,     7,
+      49,    -1,    27,    11,    29,    13,    14,    -1,    -1,    -1,
+      18,    19,    20,    21,    22,     6,     7,    -1,    -1,    27,
+      11,    29,    -1,    14,    49,    16,    -1,    18,    19,    20,
+      21,    22,     6,     7,    -1,    -1,    27,    11,    29,    -1,
+      14,    49,    -1,    -1,    18,    19,    20,    21,    22,    -1,
+      -1,    -1,    -1,    27,    -1,    29,    -1,    -1,    49,    -1,
+      33,    34,    35,    36,    37,    -1,    39,    40,    41,    42,
+      43,    44,    -1,    -1,    -1,    49,    -1,    -1,    -1,    52,
+      33,    34,    35,    36,    37,    33,    34,    35,    36,    37,
+      -1,    39,    40,    41,    42,    43,    44,    -1,    -1,    52,
+      33,    34,    35,    36,    37
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    42,    43,     0,     4,    23,    24,    25,    29,    30,
-      32,    36,    44,    45,    46,    47,    50,    51,    52,    53,
-      54,    55,    56,    10,     3,     4,     6,    18,    61,    62,
-      63,     4,    18,    18,    43,    18,     4,    61,    63,    61,
-       5,     6,    11,     7,     8,     9,    11,    60,    61,    60,
-      29,     4,    10,    11,    19,    62,    62,    63,    63,    63,
-      19,    12,    13,    14,    15,    16,    17,    19,    18,    19,
-      61,    26,    61,    61,    61,    61,    61,    61,    30,    60,
-      20,    37,    23,    48,    43,    19,    57,    61,     4,    27,
-      28,    31,    11,    33,    34,    58,    59,    39,    43,    11,
-      23,    49,     3,    22,    21,    61,    38,     4,    28,    22,
-      23,    43,    11,    11,    23,     3,    38,     3,    11,    11,
-      11,    35,    11
+       0,     6,     7,    11,    14,    18,    19,    20,    21,    22,
+      23,    27,    29,    49,    55,    56,    57,    58,    60,    61,
+      62,    63,    64,    65,    69,    71,    73,    75,    38,     3,
+       4,     6,    34,    47,    51,    85,    86,    85,     6,     6,
+       5,    51,    86,    56,    74,    51,    59,     0,    57,    48,
+       6,    48,    48,    48,    86,    86,    85,    85,    86,     8,
+      45,    46,    33,    34,    35,    36,    37,    39,    40,    41,
+      42,    43,    44,    12,    15,    86,    24,    56,    86,    56,
+      38,    52,    52,    66,    85,    85,    86,    86,    86,    86,
+      86,    86,    86,    86,    86,    86,    86,    70,    86,    28,
+      52,    50,    86,    56,    56,    15,    85,    49,     9,    67,
+      13,    86,    76,    68,    10,    12,    30,    77,    78,    56,
+      72,     3,    31,    78,    82,    56,    53,    53,    50,    16,
+      79,    83,    56,    56,    80,    84,    32,    81,    81,    48
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    41,    42,    43,    43,    44,    44,    44,    44,    44,
-      44,    44,    44,    44,    44,    45,    46,    47,    48,    49,
-      50,    51,    52,    53,    54,    55,    56,    57,    57,    58,
-      59,    59,    60,    60,    60,    60,    60,    60,    61,    61,
-      61,    62,    62,    62,    62,    63,    63,    63,    63
+       0,    54,    55,    55,    56,    56,    57,    57,    57,    57,
+      57,    57,    57,    57,    57,    57,    59,    58,    60,    60,
+      61,    61,    61,    62,    63,    64,    64,    66,    65,    67,
+      68,    67,    70,    69,    72,    71,    74,    73,    76,    75,
+      77,    77,    79,    80,    78,    81,    81,    82,    83,    84,
+      82,    85,    85,    85,    85,    85,    85,    85,    85,    85,
+      85,    86,    86,    86,    86,    86,    86,    86,    86,    86,
+      86
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     0,     2,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     4,     3,     3,     3,     3,
-       9,     7,     7,     9,    11,     7,     8,     0,     2,     8,
-       5,     0,     3,     3,     3,     3,     3,     3,     1,     3,
-       3,     1,     3,     3,     3,     1,     1,     3,     2
+       0,     2,     3,     1,     1,     2,     2,     2,     2,     2,
+       1,     1,     1,     1,     1,     1,     0,     4,     2,     4,
+       1,     1,     1,     3,     2,     2,     2,     0,     7,     0,
+       0,     3,     0,     6,     0,    10,     0,     5,     0,     9,
+       1,     2,     0,     0,     7,     0,     2,     0,     0,     0,
+       6,     3,     3,     3,     3,     3,     3,     3,     3,     2,
+       3,     1,     1,     1,     3,     3,     3,     3,     3,     2,
+       3
 };
 
 
@@ -1229,508 +1314,524 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* program: statements  */
-#line 53 "exo20-23.y"
-               {
-        printf("✅ AUTOMATE : Programme français compilé avec succès\n");
+  case 2: /* programme: PROGRAMME liste_instructions FINPROGRAMME  */
+#line 75 "francais.y"
+                                              {
+        printf("Compilation terminée avec succès !\n");
     }
-#line 1238 "exo20-23.c"
+#line 1323 "francais.tab.c"
     break;
 
-  case 15: /* assignment: VARIABLE ASSIGN expression SEMICOLON  */
-#line 77 "exo20-23.y"
-                                         {
-        printf("AUTOMATE : Affectation %c\n", yyvsp[-3]);
-        fprintf(yyout, "    ; %c = expression\n", yyvsp[-3]);
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    mov [%c], eax\n\n", yyvsp[-3]);
-    }
-#line 1249 "exo20-23.c"
-    break;
-
-  case 16: /* print_stmt: PRINT expression SEMICOLON  */
-#line 86 "exo20-23.y"
-                               {
-        printf("AUTOMATE : Afficher expression\n");
-        fprintf(yyout, "    ; afficher expression\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    push eax\n");
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n\n");
-    }
-#line 1263 "exo20-23.c"
-    break;
-
-  case 17: /* read_stmt: READ VARIABLE SEMICOLON  */
-#line 98 "exo20-23.y"
-                            {
-        printf("AUTOMATE : Lire %c\n", yyvsp[-1]);
-        fprintf(yyout, "    ; lire %c\n", yyvsp[-1]);
-        fprintf(yyout, "    push %c\n", yyvsp[-1]);
-        fprintf(yyout, "    push fmtlec\n");
-        fprintf(yyout, "    call scanf\n");
-        fprintf(yyout, "    add esp, 8\n\n");
-    }
-#line 1276 "exo20-23.c"
-    break;
-
-  case 18: /* if_print_then: PRINT VARIABLE SEMICOLON  */
-#line 111 "exo20-23.y"
-                             {
-        if_then_var = yyvsp[-1];
-        printf("AUTOMATE : AFFICHER %c stocké pour ALORS\n", yyvsp[-1]);
-    }
-#line 1285 "exo20-23.c"
-    break;
-
-  case 19: /* if_print_else: PRINT VARIABLE SEMICOLON  */
-#line 118 "exo20-23.y"
-                             {
-        if_else_var = yyvsp[-1];
-        printf("AUTOMATE : AFFICHER %c stocké pour SINON\n", yyvsp[-1]);
-    }
-#line 1294 "exo20-23.c"
-    break;
-
-  case 20: /* if_else_stmt: IF LPAREN condition RPAREN THEN if_print_then ELSE if_print_else FI  */
-#line 126 "exo20-23.y"
-                                                                        {
-        compteurSi++;
-        printf("AUTOMATE : SI-SINON %d COMPLET\n", compteurSi);
-        
-        fprintf(yyout, "    ; === SI-SINON %d COMPLET ===\n", compteurSi);
-        
-        fprintf(yyout, "    pop eax               ; condition\n");
-        fprintf(yyout, "    cmp eax, 0\n");
-        fprintf(yyout, "    je sinon_%d           ; aller à SINON si faux\n", compteurSi);
-        
-        fprintf(yyout, "    ; === BRANCHE ALORS ===\n");
-        fprintf(yyout, "    push dword [%c]       ; afficher %c\n", if_then_var, if_then_var);
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        fprintf(yyout, "    jmp finsi_%d          ; sauter SINON\n", compteurSi);
-        
-        fprintf(yyout, "sinon_%d:\n", compteurSi);
-        fprintf(yyout, "    ; === BRANCHE SINON ===\n");
-        fprintf(yyout, "    push dword [%c]       ; afficher %c\n", if_else_var, if_else_var);
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        
-        fprintf(yyout, "finsi_%d:\n\n", compteurSi);
-    }
-#line 1325 "exo20-23.c"
-    break;
-
-  case 21: /* if_simple_stmt: IF LPAREN condition RPAREN THEN if_print_then FI  */
-#line 156 "exo20-23.y"
-                                                     {
-        compteurSi++;
-        printf("AUTOMATE : SI %d SIMPLE\n", compteurSi);
-        
-        fprintf(yyout, "    ; === SI %d SIMPLE ===\n", compteurSi);
-        
-        fprintf(yyout, "    pop eax               ; condition\n");
-        fprintf(yyout, "    cmp eax, 0\n");
-        fprintf(yyout, "    je finsi_%d           ; sauter si faux\n", compteurSi);
-        
-        fprintf(yyout, "    ; === BRANCHE ALORS ===\n");
-        fprintf(yyout, "    push dword [%c]       ; afficher %c\n", if_then_var, if_then_var);
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        
-        fprintf(yyout, "finsi_%d:\n\n", compteurSi);
-    }
-#line 1348 "exo20-23.c"
-    break;
-
-  case 22: /* while_stmt: WHILE LPAREN condition RPAREN DO statements DONE  */
-#line 178 "exo20-23.y"
-                                                     {
-        compteurWhile++;
-        printf("AUTOMATE : TANTQUE %d FONCTIONNEL\n", compteurWhile);
-        
-        fprintf(yyout, "    ; === TANTQUE %d VRAIMENT FONCTIONNEL ===\n", compteurWhile);
-        
-        fprintf(yyout, "    pop eax               ; condition initiale (ignorée)\n");
-        
-        fprintf(yyout, "tantque_%d_debut:\n", compteurWhile);
-        fprintf(yyout, "    ; Test: c > 0 ?\n");
-        fprintf(yyout, "    mov eax, [c]\n");
-        fprintf(yyout, "    cmp eax, 0\n");
-        fprintf(yyout, "    jle tantque_%d_fin    ; sortir si c <= 0\n", compteurWhile);
-        
-        fprintf(yyout, "    ; === CORPS TANTQUE : AFFICHER c ET DÉCRÉMENTER ===\n");
-        fprintf(yyout, "    push dword [c]        ; afficher c\n");
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        fprintf(yyout, "    dec dword [c]         ; c = c - 1\n");
-        
-        fprintf(yyout, "    jmp tantque_%d_debut  ; recommencer\n", compteurWhile);
-        fprintf(yyout, "tantque_%d_fin:\n\n", compteurWhile);
-    }
-#line 1377 "exo20-23.c"
-    break;
-
-  case 23: /* for_simple_stmt: FOR VARIABLE ASSIGN expression TO expression statements NEXT SEMICOLON  */
-#line 206 "exo20-23.y"
-                                                                           {
-        compteurFor++;
-        printf("AUTOMATE : POUR %d: %c HARDCODÉ FONCTIONNEL\n", compteurFor, yyvsp[-7]);
-        
-        fprintf(yyout, "    ; === POUR %d: %c HARDCODÉ FONCTIONNEL ===\n", compteurFor, yyvsp[-7]);
-        
-        fprintf(yyout, "    pop eax               ; valeur JUSQUA\n");
-        fprintf(yyout, "    mov [temp_for_end], eax\n");
-        fprintf(yyout, "    pop eax               ; valeur DE\n");
-        fprintf(yyout, "    mov [%c], eax         ; %c = DE\n", yyvsp[-7], yyvsp[-7]);
-        
-        fprintf(yyout, "pour_boucle_%d:\n", compteurFor);
-        fprintf(yyout, "    ; Test: %c <= fin ?\n", yyvsp[-7]);
-        fprintf(yyout, "    mov eax, [%c]\n", yyvsp[-7]);
-        fprintf(yyout, "    cmp eax, [temp_for_end]\n");
-        fprintf(yyout, "    jg pour_fin_%d        ; sortir si %c > fin\n", compteurFor, yyvsp[-7]);
-        
-        fprintf(yyout, "    ; === CORPS POUR : AFFICHER %c ===\n", yyvsp[-7]);
-        fprintf(yyout, "    push dword [%c]       ; valeur de %c\n", yyvsp[-7], yyvsp[-7]);
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        
-        fprintf(yyout, "    ; Incrémenter et continuer\n");
-        fprintf(yyout, "    inc dword [%c]\n", yyvsp[-7]);
-        fprintf(yyout, "    jmp pour_boucle_%d\n", compteurFor);
-        fprintf(yyout, "pour_fin_%d:\n\n", compteurFor);
-    }
-#line 1410 "exo20-23.c"
-    break;
-
-  case 24: /* for_step_stmt: FOR VARIABLE ASSIGN expression TO expression STEP expression statements NEXT SEMICOLON  */
-#line 238 "exo20-23.y"
-                                                                                           {
-        compteurFor++;
-        printf("AUTOMATE : POUR %d: %c avec PAS terminé\n", compteurFor, yyvsp[-9]);
-        
-        fprintf(yyout, "    ; === POUR %d: %c avec PAS ===\n", compteurFor, yyvsp[-9]);
-        
-        fprintf(yyout, "    pop eax               ; pas\n");
-        fprintf(yyout, "    mov [temp_for_step], eax\n");
-        fprintf(yyout, "    pop eax               ; valeur JUSQUA\n");
-        fprintf(yyout, "    mov [temp_for_end], eax\n");
-        fprintf(yyout, "    pop eax               ; valeur DE\n");
-        fprintf(yyout, "    mov [%c], eax\n", yyvsp[-9]);
-        
-        fprintf(yyout, "pour_pas_boucle_%d:\n", compteurFor);
-        fprintf(yyout, "    mov eax, [%c]\n", yyvsp[-9]);
-        fprintf(yyout, "    cmp eax, [temp_for_end]\n");
-        fprintf(yyout, "    jg pour_pas_fin_%d\n", compteurFor);
-        
-        fprintf(yyout, "    ; Corps exécuté ci-dessus\n");
-        fprintf(yyout, "    mov eax, [%c]\n", yyvsp[-9]);
-        fprintf(yyout, "    add eax, [temp_for_step]\n");
-        fprintf(yyout, "    mov [%c], eax\n", yyvsp[-9]);
-        fprintf(yyout, "    jmp pour_pas_boucle_%d\n", compteurFor);
-        fprintf(yyout, "pour_pas_fin_%d:\n\n", compteurFor);
-    }
-#line 1440 "exo20-23.c"
-    break;
-
-  case 25: /* do_while_stmt: DO statements WHILE LPAREN condition RPAREN SEMICOLON  */
-#line 267 "exo20-23.y"
-                                                          {
-        compteurDoWhile++;
-        printf("AUTOMATE : FAIRE-TANTQUE %d FONCTIONNEL\n", compteurDoWhile);
-        
-        fprintf(yyout, "    ; === FAIRE-TANTQUE %d VRAIMENT FONCTIONNEL ===\n", compteurDoWhile);
-        
-        fprintf(yyout, "    pop eax               ; condition initiale (ignorée)\n");
-        
-        fprintf(yyout, "faire_tantque_%d_debut:\n", compteurDoWhile);
-        
-        fprintf(yyout, "    ; === CORPS FAIRE-TANTQUE : AFFICHER d ET INCRÉMENTER ===\n");
-        fprintf(yyout, "    push dword [d]        ; afficher d\n");
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        fprintf(yyout, "    inc dword [d]         ; d = d + 1\n");
-        
-        fprintf(yyout, "    ; Test: d < 4 ?\n");
-        fprintf(yyout, "    mov eax, [d]\n");
-        fprintf(yyout, "    cmp eax, 4\n");
-        fprintf(yyout, "    jl faire_tantque_%d_debut  ; continuer si d < 4\n", compteurDoWhile);
-        fprintf(yyout, "faire_tantque_%d_fin:\n\n", compteurDoWhile);
-    }
-#line 1468 "exo20-23.c"
-    break;
-
-  case 26: /* switch_stmt: SWITCH LPAREN VARIABLE RPAREN LBRACE case_list default_case RBRACE  */
-#line 294 "exo20-23.y"
-                                                                       {
-        compteurSwitch++;
-        printf("AUTOMATE : SELON %d sur %c HARDCODÉ FONCTIONNEL\n", compteurSwitch, yyvsp[-5]);
-        
-        fprintf(yyout, "    ; === SELON %d sur %c HARDCODÉ FONCTIONNEL ===\n", compteurSwitch, yyvsp[-5]);
-        
-        fprintf(yyout, "    ; Test premier cas\n");
-        fprintf(yyout, "    mov eax, [%c]\n", yyvsp[-5]);
-        fprintf(yyout, "    cmp eax, 1\n");
-        fprintf(yyout, "    je cas_1_%d\n", compteurSwitch);
-        
-        fprintf(yyout, "    ; Test deuxième cas\n");
-        fprintf(yyout, "    cmp eax, 2\n");
-        fprintf(yyout, "    je cas_2_%d\n", compteurSwitch);
-        
-        fprintf(yyout, "    ; Test troisième cas\n");
-        fprintf(yyout, "    cmp eax, 3\n");
-        fprintf(yyout, "    je cas_3_%d\n", compteurSwitch);
-        
-        fprintf(yyout, "    ; Aucun cas correspondant, aller au défaut\n");
-        fprintf(yyout, "    jmp defaut_%d\n", compteurSwitch);
-        
-        fprintf(yyout, "cas_1_%d:\n", compteurSwitch);
-        fprintf(yyout, "    ; === PREMIER CAS ===\n");
-        fprintf(yyout, "    push 100\n");
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        fprintf(yyout, "    jmp selon_fin_%d\n", compteurSwitch);
-        
-        fprintf(yyout, "cas_2_%d:\n", compteurSwitch);
-        fprintf(yyout, "    ; === DEUXIÈME CAS ===\n");
-        fprintf(yyout, "    push 200\n");
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        fprintf(yyout, "    jmp selon_fin_%d\n", compteurSwitch);
-        
-        fprintf(yyout, "cas_3_%d:\n", compteurSwitch);
-        fprintf(yyout, "    ; === TROISIÈME CAS ===\n");
-        fprintf(yyout, "    push 300\n");
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        fprintf(yyout, "    jmp selon_fin_%d\n", compteurSwitch);
-        
-        fprintf(yyout, "defaut_%d:\n", compteurSwitch);
-        fprintf(yyout, "    ; === CAS PAR DÉFAUT ===\n");
-        fprintf(yyout, "    push 999\n");
-        fprintf(yyout, "    push fmt\n");
-        fprintf(yyout, "    call printf\n");
-        fprintf(yyout, "    add esp, 8\n");
-        
-        fprintf(yyout, "selon_fin_%d:\n\n", compteurSwitch);
-    }
-#line 1528 "exo20-23.c"
-    break;
-
-  case 29: /* case_item: CASE INTEGER COLON PRINT INTEGER SEMICOLON BREAK SEMICOLON  */
-#line 357 "exo20-23.y"
-                                                               {
-        printf("AUTOMATE : CAS %d parsé (ignoré - code hardcodé)\n", yyvsp[-6]);
-    }
-#line 1536 "exo20-23.c"
-    break;
-
-  case 30: /* default_case: DEFAULT COLON PRINT INTEGER SEMICOLON  */
-#line 363 "exo20-23.y"
-                                          {
-        printf("AUTOMATE : DÉFAUT parsé (ignoré - code hardcodé)\n");
-    }
-#line 1544 "exo20-23.c"
-    break;
-
-  case 32: /* condition: expression EQ expression  */
-#line 371 "exo20-23.y"
-                             {
-        compteurTest++;
-        printf("AUTOMATE : Test égalité %d\n", compteurTest);
-        fprintf(yyout, "    ; test égalité %d\n", compteurTest);
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cmp eax, ebx\n");
-        fprintf(yyout, "    sete al\n");
-        fprintf(yyout, "    movzx eax, al\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1560 "exo20-23.c"
-    break;
-
-  case 33: /* condition: expression NE expression  */
-#line 382 "exo20-23.y"
-                               {
-        compteurTest++;
-        printf("AUTOMATE : Test différence %d\n", compteurTest);
-        fprintf(yyout, "    ; test différence %d\n", compteurTest);
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cmp eax, ebx\n");
-        fprintf(yyout, "    setne al\n");
-        fprintf(yyout, "    movzx eax, al\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1576 "exo20-23.c"
-    break;
-
-  case 34: /* condition: expression LT expression  */
-#line 393 "exo20-23.y"
-                               {
-        compteurTest++;
-        printf("AUTOMATE : Test inférieur %d\n", compteurTest);
-        fprintf(yyout, "    ; test inférieur %d\n", compteurTest);
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cmp eax, ebx\n");
-        fprintf(yyout, "    setl al\n");
-        fprintf(yyout, "    movzx eax, al\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1592 "exo20-23.c"
-    break;
-
-  case 35: /* condition: expression GT expression  */
-#line 404 "exo20-23.y"
-                               {
-        compteurTest++;
-        printf("AUTOMATE : Test supérieur %d\n", compteurTest);
-        fprintf(yyout, "    ; test supérieur %d\n", compteurTest);
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cmp eax, ebx\n");
-        fprintf(yyout, "    setg al\n");
-        fprintf(yyout, "    movzx eax, al\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1608 "exo20-23.c"
-    break;
-
-  case 36: /* condition: expression LE expression  */
-#line 415 "exo20-23.y"
-                               {
-        compteurTest++;
-        printf("AUTOMATE : Test inférieur ou égal %d\n", compteurTest);
-        fprintf(yyout, "    ; test <= %d\n", compteurTest);
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cmp eax, ebx\n");
-        fprintf(yyout, "    setle al\n");
-        fprintf(yyout, "    movzx eax, al\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1624 "exo20-23.c"
-    break;
-
-  case 37: /* condition: expression GE expression  */
-#line 426 "exo20-23.y"
-                               {
-        compteurTest++;
-        printf("AUTOMATE : Test supérieur ou égal %d\n", compteurTest);
-        fprintf(yyout, "    ; test >= %d\n", compteurTest);
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cmp eax, ebx\n");
-        fprintf(yyout, "    setge al\n");
-        fprintf(yyout, "    movzx eax, al\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1640 "exo20-23.c"
-    break;
-
-  case 39: /* expression: expression PLUS term  */
-#line 442 "exo20-23.y"
-                           {
-        fprintf(yyout, "    ; addition\n");
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    add eax, ebx\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1652 "exo20-23.c"
-    break;
-
-  case 40: /* expression: expression MINUS term  */
-#line 449 "exo20-23.y"
-                            {
-        fprintf(yyout, "    ; soustraction\n");
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    sub eax, ebx\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1664 "exo20-23.c"
-    break;
-
-  case 42: /* term: term MULTIPLY factor  */
-#line 460 "exo20-23.y"
-                           {
-        fprintf(yyout, "    ; multiplication\n");
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    imul eax, ebx\n");
-        fprintf(yyout, "    push eax\n");
-    }
-#line 1676 "exo20-23.c"
-    break;
-
-  case 43: /* term: term DIVIDE factor  */
-#line 467 "exo20-23.y"
+  case 3: /* programme: liste_instructions  */
+#line 78 "francais.y"
                          {
-        fprintf(yyout, "    ; division\n");
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cdq\n");
-        fprintf(yyout, "    idiv ebx\n");
-        fprintf(yyout, "    push eax\n");
+        printf("Compilation terminée avec succès !\n");
     }
-#line 1689 "exo20-23.c"
+#line 1331 "francais.tab.c"
     break;
 
-  case 44: /* term: term MODULO factor  */
-#line 475 "exo20-23.y"
-                         {
-        fprintf(yyout, "    ; modulo\n");
-        fprintf(yyout, "    pop ebx\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    cdq\n");
-        fprintf(yyout, "    idiv ebx\n");
-        fprintf(yyout, "    push edx\n");
+  case 16: /* $@1: %empty  */
+#line 102 "francais.y"
+        {
+        fprintf(fichier_sortie, "{\n");
+        niveau_indentation++;
     }
-#line 1702 "exo20-23.c"
+#line 1340 "francais.tab.c"
     break;
 
-  case 45: /* factor: INTEGER  */
-#line 486 "exo20-23.y"
+  case 17: /* bloc_instructions: '{' $@1 liste_instructions '}'  */
+#line 107 "francais.y"
+        {
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "}\n");
+    }
+#line 1350 "francais.tab.c"
+    break;
+
+  case 18: /* declaration: type_variable VARIABLE  */
+#line 115 "francais.y"
+                           {
+        indenter();
+        fprintf(fichier_sortie, "%s %s;\n", (yyvsp[-1].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-1].chaine));
+        free((yyvsp[0].chaine));
+    }
+#line 1361 "francais.tab.c"
+    break;
+
+  case 19: /* declaration: type_variable VARIABLE AFFECTATION expression  */
+#line 121 "francais.y"
+                                                    {
+        indenter();
+        fprintf(fichier_sortie, "%s %s = %s;\n", (yyvsp[-3].chaine), (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-3].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+    }
+#line 1373 "francais.tab.c"
+    break;
+
+  case 20: /* type_variable: TYPE_ENTIER  */
+#line 131 "francais.y"
+                { (yyval.chaine) = strdup("int"); }
+#line 1379 "francais.tab.c"
+    break;
+
+  case 21: /* type_variable: TYPE_REEL  */
+#line 132 "francais.y"
+                { (yyval.chaine) = strdup("double"); }
+#line 1385 "francais.tab.c"
+    break;
+
+  case 22: /* type_variable: TYPE_CHAINE  */
+#line 133 "francais.y"
+                  { (yyval.chaine) = strdup("char*"); }
+#line 1391 "francais.tab.c"
+    break;
+
+  case 23: /* affectation: VARIABLE AFFECTATION expression  */
+#line 137 "francais.y"
+                                    {
+        indenter();
+        fprintf(fichier_sortie, "%s = %s;\n", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+    }
+#line 1402 "francais.tab.c"
+    break;
+
+  case 24: /* lecture: LIRE VARIABLE  */
+#line 146 "francais.y"
+                  {
+        indenter();
+        fprintf(fichier_sortie, "scanf(\"%%d\", &%s);\n", (yyvsp[0].chaine));
+        free((yyvsp[0].chaine));
+    }
+#line 1412 "francais.tab.c"
+    break;
+
+  case 25: /* affichage: AFFICHER expression  */
+#line 154 "francais.y"
+                        {
+        indenter();
+        fprintf(fichier_sortie, "printf(\"%%d\\n\", %s);\n", (yyvsp[0].chaine));
+        free((yyvsp[0].chaine));
+    }
+#line 1422 "francais.tab.c"
+    break;
+
+  case 26: /* affichage: AFFICHER CHAINE  */
+#line 159 "francais.y"
+                      {
+        indenter();
+        fprintf(fichier_sortie, "printf(%s);\n", (yyvsp[0].chaine));
+        free((yyvsp[0].chaine));
+    }
+#line 1432 "francais.tab.c"
+    break;
+
+  case 27: /* $@2: %empty  */
+#line 167 "francais.y"
+                       {
+        indenter();
+        fprintf(fichier_sortie, "if (%s) {\n", (yyvsp[-1].chaine));
+        niveau_indentation++;
+        free((yyvsp[-1].chaine));
+    }
+#line 1443 "francais.tab.c"
+    break;
+
+  case 28: /* condition_si: SI condition ALORS $@2 liste_instructions sinon_optionnel FINSI  */
+#line 175 "francais.y"
+          {
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "}\n");
+    }
+#line 1453 "francais.tab.c"
+    break;
+
+  case 29: /* sinon_optionnel: %empty  */
+#line 183 "francais.y"
+               { /* rien à faire */ }
+#line 1459 "francais.tab.c"
+    break;
+
+  case 30: /* $@3: %empty  */
+#line 184 "francais.y"
             {
-        fprintf(yyout, "    push %d\n", yyvsp[0]);
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "} else {\n");
+        niveau_indentation++;
     }
-#line 1710 "exo20-23.c"
+#line 1470 "francais.tab.c"
     break;
 
-  case 46: /* factor: VARIABLE  */
-#line 489 "exo20-23.y"
+  case 32: /* $@4: %empty  */
+#line 194 "francais.y"
+                             {
+        indenter();
+        fprintf(fichier_sortie, "while (%s) {\n", (yyvsp[-1].chaine));
+        niveau_indentation++;
+        free((yyvsp[-1].chaine));
+    }
+#line 1481 "francais.tab.c"
+    break;
+
+  case 33: /* boucle_tant_que: TANT_QUE condition FAIRE $@4 liste_instructions FINTANTQUE  */
+#line 201 "francais.y"
                {
-        fprintf(yyout, "    mov eax, [%c]\n", yyvsp[0]);
-        fprintf(yyout, "    push eax\n");
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "}\n");
     }
-#line 1719 "exo20-23.c"
+#line 1491 "francais.tab.c"
     break;
 
-  case 48: /* factor: MINUS factor  */
-#line 494 "exo20-23.y"
+  case 34: /* $@5: %empty  */
+#line 209 "francais.y"
+                                                  {
+        indenter();
+        fprintf(fichier_sortie, "for (%s = %s; %s <= %s; %s++) {\n", 
+                (yyvsp[-5].chaine), (yyvsp[-3].chaine), (yyvsp[-5].chaine), (yyvsp[-1].chaine), (yyvsp[-5].chaine));
+        niveau_indentation++;
+        free((yyvsp[-5].chaine));
+        free((yyvsp[-3].chaine));
+        free((yyvsp[-1].chaine));
+    }
+#line 1505 "francais.tab.c"
+    break;
+
+  case 35: /* boucle_pour: POUR VARIABLE A expression A expression FAIRE $@5 liste_instructions FINPOUR  */
+#line 219 "francais.y"
+            {
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "}\n");
+    }
+#line 1515 "francais.tab.c"
+    break;
+
+  case 36: /* $@6: %empty  */
+#line 227 "francais.y"
+                   {
+        indenter();
+        fprintf(fichier_sortie, "do {\n");
+        niveau_indentation++;
+    }
+#line 1525 "francais.tab.c"
+    break;
+
+  case 37: /* boucle_repeter_jusqua: REPETER_JUSQUA $@6 liste_instructions FIN_REPETER condition  */
+#line 233 "francais.y"
+                          {
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "} while (!(%s));\n", (yyvsp[0].chaine));
+        free((yyvsp[0].chaine));
+    }
+#line 1536 "francais.tab.c"
+    break;
+
+  case 38: /* $@7: %empty  */
+#line 242 "francais.y"
+                                  {
+        indenter();
+        fprintf(fichier_sortie, "switch (%s) {\n", (yyvsp[-2].chaine));
+        niveau_indentation++;
+        free((yyvsp[-2].chaine));
+    }
+#line 1547 "francais.tab.c"
+    break;
+
+  case 39: /* switch_case: SWITCH '(' expression ')' '{' $@7 liste_cases default_optionnel '}'  */
+#line 250 "francais.y"
+        {
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "}\n");
+    }
+#line 1557 "francais.tab.c"
+    break;
+
+  case 42: /* $@8: %empty  */
+#line 263 "francais.y"
+                    {
+        current_case_value = (yyvsp[-1].entier);
+        indenter();
+        fprintf(fichier_sortie, "case %d:\n", current_case_value);
+        niveau_indentation++;
+    }
+#line 1568 "francais.tab.c"
+    break;
+
+  case 43: /* $@9: %empty  */
+#line 269 "francais.y"
+                       {
+        niveau_indentation--;
+    }
+#line 1576 "francais.tab.c"
+    break;
+
+  case 46: /* break_optionnel: BREAK ';'  */
+#line 277 "francais.y"
+                {
+        indenter();
+        fprintf(fichier_sortie, "break;\n");
+    }
+#line 1585 "francais.tab.c"
+    break;
+
+  case 48: /* $@10: %empty  */
+#line 285 "francais.y"
+                  {
+        indenter();
+        fprintf(fichier_sortie, "default:\n");
+        niveau_indentation++;
+    }
+#line 1595 "francais.tab.c"
+    break;
+
+  case 49: /* $@11: %empty  */
+#line 290 "francais.y"
+                       {
+        niveau_indentation--;
+    }
+#line 1603 "francais.tab.c"
+    break;
+
+  case 51: /* condition: expression EGAL expression  */
+#line 297 "francais.y"
+                               {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s == %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1615 "francais.tab.c"
+    break;
+
+  case 52: /* condition: expression DIFFERENT expression  */
+#line 304 "francais.y"
+                                      {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s != %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1627 "francais.tab.c"
+    break;
+
+  case 53: /* condition: expression INFERIEUR expression  */
+#line 311 "francais.y"
+                                      {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s < %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1639 "francais.tab.c"
+    break;
+
+  case 54: /* condition: expression SUPERIEUR expression  */
+#line 318 "francais.y"
+                                      {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s > %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1651 "francais.tab.c"
+    break;
+
+  case 55: /* condition: expression INFERIEUR_EGAL expression  */
+#line 325 "francais.y"
+                                           {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s <= %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1663 "francais.tab.c"
+    break;
+
+  case 56: /* condition: expression SUPERIEUR_EGAL expression  */
+#line 332 "francais.y"
+                                           {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s >= %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1675 "francais.tab.c"
+    break;
+
+  case 57: /* condition: condition ET condition  */
+#line 339 "francais.y"
+                             {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s && %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1687 "francais.tab.c"
+    break;
+
+  case 58: /* condition: condition OU condition  */
+#line 346 "francais.y"
+                             {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s || %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1699 "francais.tab.c"
+    break;
+
+  case 59: /* condition: NON condition  */
+#line 353 "francais.y"
+                    {
+        char *result = malloc(strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "!(%s)", (yyvsp[0].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1710 "francais.tab.c"
+    break;
+
+  case 60: /* condition: '(' condition ')'  */
+#line 359 "francais.y"
+                        {
+        char *result = malloc(strlen((yyvsp[-1].chaine)) + 10);
+        sprintf(result, "(%s)", (yyvsp[-1].chaine));
+        free((yyvsp[-1].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1721 "francais.tab.c"
+    break;
+
+  case 61: /* expression: ENTIER  */
+#line 368 "francais.y"
+           {
+        char *result = malloc(20);
+        sprintf(result, "%d", (yyvsp[0].entier));
+        (yyval.chaine) = result;
+    }
+#line 1731 "francais.tab.c"
+    break;
+
+  case 62: /* expression: REEL  */
+#line 373 "francais.y"
+           {
+        char *result = malloc(30);
+        sprintf(result, "%.6f", (yyvsp[0].reel));
+        (yyval.chaine) = result;
+    }
+#line 1741 "francais.tab.c"
+    break;
+
+  case 63: /* expression: VARIABLE  */
+#line 378 "francais.y"
+               {
+        (yyval.chaine) = (yyvsp[0].chaine);
+    }
+#line 1749 "francais.tab.c"
+    break;
+
+  case 64: /* expression: expression PLUS expression  */
+#line 381 "francais.y"
+                                 {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s + %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1761 "francais.tab.c"
+    break;
+
+  case 65: /* expression: expression MOINS expression  */
+#line 388 "francais.y"
+                                  {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s - %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1773 "francais.tab.c"
+    break;
+
+  case 66: /* expression: expression MULT expression  */
+#line 395 "francais.y"
+                                 {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s * %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1785 "francais.tab.c"
+    break;
+
+  case 67: /* expression: expression DIV expression  */
+#line 402 "francais.y"
                                 {
-        fprintf(yyout, "    ; négation unaire\n");
-        fprintf(yyout, "    pop eax\n");
-        fprintf(yyout, "    neg eax\n");
-        fprintf(yyout, "    push eax\n");
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s / %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
     }
-#line 1730 "exo20-23.c"
+#line 1797 "francais.tab.c"
+    break;
+
+  case 68: /* expression: expression MODULO expression  */
+#line 409 "francais.y"
+                                   {
+        char *result = malloc(strlen((yyvsp[-2].chaine)) + strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "%s %% %s", (yyvsp[-2].chaine), (yyvsp[0].chaine));
+        free((yyvsp[-2].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1809 "francais.tab.c"
+    break;
+
+  case 69: /* expression: MOINS expression  */
+#line 416 "francais.y"
+                       {
+        char *result = malloc(strlen((yyvsp[0].chaine)) + 10);
+        sprintf(result, "-%s", (yyvsp[0].chaine));
+        free((yyvsp[0].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1820 "francais.tab.c"
+    break;
+
+  case 70: /* expression: '(' expression ')'  */
+#line 422 "francais.y"
+                         {
+        char *result = malloc(strlen((yyvsp[-1].chaine)) + 10);
+        sprintf(result, "(%s)", (yyvsp[-1].chaine));
+        free((yyvsp[-1].chaine));
+        (yyval.chaine) = result;
+    }
+#line 1831 "francais.tab.c"
     break;
 
 
-#line 1734 "exo20-23.c"
+#line 1835 "francais.tab.c"
 
       default: break;
     }
@@ -1923,43 +2024,47 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 502 "exo20-23.y"
+#line 430 "francais.y"
 
 
-int main(void) {
-    printf("🇫🇷 COMPILATEUR FRANÇAIS RÉVOLUTIONNAIRE !\n");
-    printf("==========================================\n");
-    printf("✨ Grammaire française :\n");
-    printf("   ✅ ZÉRO conflit garantie\n");
-    printf("   ✅ SI et SI-SINON complètement séparés\n");
-    printf("   ✅ POUR et POUR-PAS complètement séparés\n");
-    printf("   ✅ Code assembleur dans le bon ordre\n");
-    printf("   ✅ Toutes structures fonctionnelles\n");
-    printf("   🇫🇷 SYNTAXE 100%% FRANÇAISE\n");
-    printf("==========================================\n");
-    
-    yyout = fopen("programme.asm", "w");
-    if (!yyout) {
-        printf("❌ Erreur: impossible de créer programme.asm\n");
-        return 1;
-    }
-    
-    fprintf(yyout, "%s", header);
-    
-    printf("AUTOMATE : État initial S0\n");
-    if (yyparse() == 0) {
-        fprintf(yyout, "%s", trailer);
-        printf("✅ Code assembleur FRANÇAIS généré dans programme.asm\n");
-        printf("🤖 AUTOMATE : Retour à l'état final S0\n");
-    } else {
-        printf("❌ Erreur de compilation\n");
-    }
-    
-    fclose(yyout);
-    return 0;
+void yyerror(const char *s) {
+    fprintf(stderr, "Erreur de syntaxe à la ligne %d: %s\n", ligne, s);
 }
 
-int yyerror(char *s) {
-    printf("❌ AUTOMATE ERREUR: %s\n", s);
-    return 0;
+int main(int argc, char **argv) {
+    if (argc != 3) {
+        printf("Usage: %s <fichier_source.fr> <fichier_sortie.c>\n", argv[0]);
+        return 1;
+    }
+
+    FILE *fichier_source = fopen(argv[1], "r");
+    if (!fichier_source) {
+        printf("Erreur: impossible d'ouvrir le fichier source %s\n", argv[1]);
+        return 1;
+    }
+
+    fichier_sortie = fopen(argv[2], "w");
+    if (!fichier_sortie) {
+        printf("Erreur: impossible de créer le fichier de sortie %s\n", argv[2]);
+        fclose(fichier_source);
+        return 1;
+    }
+
+    yyin = fichier_source;
+    
+    generer_en_tete();
+    generer_main_debut();
+    
+    int result = yyparse();
+    
+    generer_main_fin();
+    
+    fclose(fichier_source);
+    fclose(fichier_sortie);
+    
+    if (result == 0) {
+        printf("Code C généré dans %s\n", argv[2]);
+    }
+    
+    return result;
 }

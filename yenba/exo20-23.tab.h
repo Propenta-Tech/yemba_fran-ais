@@ -54,51 +54,68 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    INTEGER = 258,                 /* INTEGER  */
-    VARIABLE = 259,                /* VARIABLE  */
-    PLUS = 260,                    /* PLUS  */
-    MINUS = 261,                   /* MINUS  */
-    MULTIPLY = 262,                /* MULTIPLY  */
-    DIVIDE = 263,                  /* DIVIDE  */
-    MODULO = 264,                  /* MODULO  */
-    ASSIGN = 265,                  /* ASSIGN  */
-    SEMICOLON = 266,               /* SEMICOLON  */
-    EQ = 267,                      /* EQ  */
-    NE = 268,                      /* NE  */
-    LT = 269,                      /* LT  */
-    GT = 270,                      /* GT  */
-    LE = 271,                      /* LE  */
-    GE = 272,                      /* GE  */
-    LPAREN = 273,                  /* LPAREN  */
-    RPAREN = 274,                  /* RPAREN  */
-    LBRACE = 275,                  /* LBRACE  */
-    RBRACE = 276,                  /* RBRACE  */
-    COLON = 277,                   /* COLON  */
-    PRINT = 278,                   /* PRINT  */
-    READ = 279,                    /* READ  */
-    IF = 280,                      /* IF  */
-    THEN = 281,                    /* THEN  */
-    ELSE = 282,                    /* ELSE  */
-    FI = 283,                      /* FI  */
-    WHILE = 284,                   /* WHILE  */
-    DO = 285,                      /* DO  */
-    DONE = 286,                    /* DONE  */
-    SWITCH = 287,                  /* SWITCH  */
-    CASE = 288,                    /* CASE  */
-    DEFAULT = 289,                 /* DEFAULT  */
-    BREAK = 290,                   /* BREAK  */
-    FOR = 291,                     /* FOR  */
-    TO = 292,                      /* TO  */
-    NEXT = 293,                    /* NEXT  */
-    STEP = 294,                    /* STEP  */
-    UMINUS = 295                   /* UMINUS  */
+    ENTIER = 258,                  /* ENTIER  */
+    REEL = 259,                    /* REEL  */
+    CHAINE = 260,                  /* CHAINE  */
+    VARIABLE = 261,                /* VARIABLE  */
+    SI = 262,                      /* SI  */
+    ALORS = 263,                   /* ALORS  */
+    SINON = 264,                   /* SINON  */
+    FINSI = 265,                   /* FINSI  */
+    TANT_QUE = 266,                /* TANT_QUE  */
+    FAIRE = 267,                   /* FAIRE  */
+    FINTANTQUE = 268,              /* FINTANTQUE  */
+    POUR = 269,                    /* POUR  */
+    A = 270,                       /* A  */
+    FINPOUR = 271,                 /* FINPOUR  */
+    LIRE = 272,                    /* LIRE  */
+    AFFICHER = 273,                /* AFFICHER  */
+    TYPE_ENTIER = 274,             /* TYPE_ENTIER  */
+    TYPE_REEL = 275,               /* TYPE_REEL  */
+    TYPE_CHAINE = 276,             /* TYPE_CHAINE  */
+    PROGRAMME = 277,               /* PROGRAMME  */
+    FINPROGRAMME = 278,            /* FINPROGRAMME  */
+    FONCTION = 279,                /* FONCTION  */
+    RETOURNER = 280,               /* RETOURNER  */
+    REPETER_JUSQUA = 281,          /* REPETER_JUSQUA  */
+    FIN_REPETER = 282,             /* FIN_REPETER  */
+    SWITCH = 283,                  /* SWITCH  */
+    CASE = 284,                    /* CASE  */
+    DEFAULT = 285,                 /* DEFAULT  */
+    BREAK = 286,                   /* BREAK  */
+    PLUS = 287,                    /* PLUS  */
+    MOINS = 288,                   /* MOINS  */
+    MULT = 289,                    /* MULT  */
+    DIV = 290,                     /* DIV  */
+    MODULO = 291,                  /* MODULO  */
+    AFFECTATION = 292,             /* AFFECTATION  */
+    EGAL = 293,                    /* EGAL  */
+    DIFFERENT = 294,               /* DIFFERENT  */
+    INFERIEUR = 295,               /* INFERIEUR  */
+    SUPERIEUR = 296,               /* SUPERIEUR  */
+    INFERIEUR_EGAL = 297,          /* INFERIEUR_EGAL  */
+    SUPERIEUR_EGAL = 298,          /* SUPERIEUR_EGAL  */
+    ET = 299,                      /* ET  */
+    OU = 300,                      /* OU  */
+    NON = 301                      /* NON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 41 "exo20-23.y"
+
+    int entier;
+    double reel;
+    char *chaine;
+
+#line 116 "exo20-23.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

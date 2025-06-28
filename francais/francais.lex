@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "exo20-23.tab.h"
+#include "francais.tab.h"
 int ligne = 1;
 %}
 
@@ -21,40 +21,47 @@ delimiteur \;|\,|\:
 {reel}       { yylval.reel = atof(yytext); return REEL; }
 {chaine}     { yylval.chaine = strdup(yytext); return CHAINE; }
 
-"yi"            { return SI; }
-"lo"            { return ALORS; }
-"lelu"          { return SINON; }
-"lemakyi"       { return FINSI; }
 
-"lijet"         { return TANT_QUE; }
-"leghu"         { return FAIRE; }
-"lemak"         { return FINTANTQUE; }
-"lighe"         { return POUR; }
-"leko"          { return A; }
-"sueh"          { return FINPOUR; }
+"si"            { return SI; }
+"alors"         { return ALORS; }
+"sinon"         { return SINON; }
+"fsi"           { return FINSI; }
 
-"letong"        { return LIRE; }
-"leti"          { return AFFICHER; }
 
-"nomba"         { return TYPE_ENTIER; }
-"nomba_ke"      { return TYPE_REEL; }
-"makon"         { return TYPE_CHAINE; }
+"tantque"       { return TANT_QUE; }
+"faire"         { return FAIRE; }
+"fait"          { return FINTANTQUE; }
+"pour"          { return POUR; }
+"jusqua"        { return A; }
+"suivant"       { return FINPOUR; }
+"pas"           { return PAS; }
 
-"yisue"         { return PROGRAMME; }
-"kemak"         { return FINPROGRAMME; }
-"wise"          { return FONCTION; }
-"kele"          { return RETOURNER; }
+"lire"          { return LIRE; }
+"afficher"      { return AFFICHER; }
 
-"kesue_keto"    { return REPETER_JUSQUA; }
-"kemak_sue"     { return FIN_REPETER; }
 
-"sontoh"        { return SWITCH; }
-"ndap"          { return CASE; }
-"kamto"         { return DEFAULT; }
-"kap"           { return BREAK; }
+"entier"        { return TYPE_ENTIER; }
+"reel"          { return TYPE_REEL; }
+"chaine"        { return TYPE_CHAINE; }
 
-"ee"            { yylval.entier = 1; return ENTIER; }
-"angang"        { yylval.entier = 0; return ENTIER; }
+
+"programme"     { return PROGRAMME; }
+"finprog"       { return FINPROGRAMME; }
+"fonction"      { return FONCTION; }
+"retourner"     { return RETOURNER; }
+
+"repeter"       { return REPETER_JUSQUA; }
+"jusquace"      { return FIN_REPETER; }
+
+"selon"         { return SWITCH; }
+"cas"           { return CASE; }
+"defaut"        { return DEFAULT; }
+"arreter"       { return BREAK; }
+
+
+"vrai"          { yylval.entier = 1; return ENTIER; }
+"faux"          { yylval.entier = 0; return ENTIER; }
+
 
 "=="         { return EGAL; }
 "!="         { return DIFFERENT; }

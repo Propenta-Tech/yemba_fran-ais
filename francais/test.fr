@@ -1,0 +1,199 @@
+programme
+entier choix;
+entier n;
+entier i;
+entier j;
+entier temp;
+entier resultat;
+entier compteur;
+entier continuer = 1;
+
+afficher "=======================================\n";
+afficher "    TESTS DU COMPILATEUR FRANÇAIS\n";
+afficher "=======================================\n";
+
+tantque (continuer == 1) faire
+    afficher "--\n";
+    afficher "Choisissez un test:\n";
+    afficher "1 - Test Fibonacci\n";
+    afficher "2 - Test Factorielle\n";
+    afficher "3 - Test Switch/Case\n";
+    afficher "4 - Test Boucles\n";
+    afficher "5 - Test Expressions\n";
+    afficher "6 - Test Do-While\n";
+    afficher "0 - Quitter\n";
+    afficher "--\n";
+    afficher "Votre choix (0-6):";
+    lire choix;
+
+    selon (choix) {
+        cas 1: 
+            afficher "=== TEST FIBONACCI ===";
+            afficher "Entrez le nombre de termes\n:";
+            lire n;
+            
+            si (n <= 0) alors
+                afficher "Erreur: n doit être positif!\n";
+            sinon
+                entier a = 0;
+                entier b = 1;
+                
+                si (n == 1) alors
+                    afficher "F(1) = 0";
+                sinon
+                    si (n == 2) alors
+                        afficher "F(1) = 0";
+                        afficher "F(2) = 1";
+                    sinon
+                        afficher "F(1) = 0";
+                        afficher "F(2) = 1";
+                        
+                        pour i jusqua 3 jusqua n faire
+                            temp = a + b;
+                            afficher "F(";
+                            afficher i;
+                            afficher ") = ";
+                            afficher temp;
+                            a = b;
+                            b = temp;
+                        suivant
+                    fsi
+                fsi
+            fsi
+            arreter;
+            
+        cas 2:
+            afficher "=== TEST FACTORIELLE ===";
+            afficher "Entrez un nombre:\n";
+            lire n;
+            
+            si (n < 0) alors
+                afficher "Erreur: n doit être >= 0!";
+            sinon
+                resultat = 1;
+                si (n == 0) alors
+                    afficher "0! = 1";
+                sinon
+                    pour i jusqua 1 jusqua n faire
+                        resultat = resultat * i;
+                        afficher i;
+                        afficher "! = ";
+                        afficher resultat;
+                    suivant
+                    
+                    afficher "=== Résultat final ===";
+                    afficher n;
+                    afficher "! = ";
+                    afficher resultat;
+                fsi
+            fsi
+            arreter;
+            
+        cas 3:
+            afficher "=== TEST SWITCH/CASE ===";
+            afficher "Entrez un nombre (0-3):";
+            lire n;
+            
+            afficher "Analyse du nombre:";
+            selon (n) {
+                cas 0: 
+                    afficher "C'est zéro!"; 
+                    arreter;
+                cas 1: 
+                    afficher "C'est un!"; 
+                    arreter;
+                cas 2: 
+                    afficher "C'est deux!"; 
+                    arreter;
+                cas 3: 
+                    afficher "C'est trois!"; 
+                    arreter;
+                defaut: 
+                    afficher "Nombre non reconnu!";
+            }
+            
+            afficher "Test parité:";
+            selon (n % 2) {
+                cas 0: 
+                    afficher "Nombre pair"; 
+                    arreter;
+                cas 1: 
+                    afficher "Nombre impair"; 
+                    arreter;
+            }
+            arreter;
+            
+        cas 4:
+            afficher "=== TEST BOUCLES ===";
+            afficher "Table de multiplication 3x3:";
+            
+            pour i jusqua 1 jusqua 3 faire
+                pour j jusqua 1 jusqua 3 faire
+                    resultat = i * j;
+                    afficher i;
+                    afficher " x ";
+                    afficher j;
+                    afficher " = ";
+                    afficher resultat;
+                suivant
+                afficher "---";
+            suivant
+            arreter;
+            
+        cas 5:
+            afficher "=== TEST EXPRESSIONS ===";
+            afficher "Entrez deux nombres:";
+            afficher "Premier nombre:";
+            lire i;
+            afficher "Deuxième nombre:";
+            lire j;
+            
+            resultat = (i + j) * 2 - 1;
+            afficher "Expression: (";
+            afficher i;
+            afficher " + ";
+            afficher j;
+            afficher ") * 2 - 1 = ";
+            afficher resultat;
+            
+            si (i > j) alors
+                afficher "Le premier est plus grand";
+            sinon
+                si (i < j) alors
+                    afficher "Le deuxième est plus grand";
+                sinon
+                    afficher "Les deux sont égaux";
+                fsi
+            fsi
+            arreter;
+            
+        cas 6:
+            afficher "=== TEST DO-WHILE ===";
+            afficher "Entrez un nombre de départ:";
+            lire n;
+            
+            afficher "Compte à rebours:";
+            compteur = n;
+            
+            repeter
+                afficher "Compteur: ";
+                afficher compteur;
+                compteur = compteur - 1;
+            jusquace (compteur <= 0)
+            
+            afficher "Fini!";
+            arreter;
+            
+        cas 0:
+            afficher "Au revoir!";
+            continuer = 0;
+            arreter;
+            
+        defaut:
+            afficher "Choix invalide!";
+            afficher "Veuillez choisir entre 0 et 6.";
+    }
+fait
+
+afficher "=== FIN DU PROGRAMME ===";
+finprog
