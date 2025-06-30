@@ -75,29 +75,33 @@ extern int yydebug;
     TYPE_CHAINE = 276,             /* TYPE_CHAINE  */
     PROGRAMME = 277,               /* PROGRAMME  */
     FINPROGRAMME = 278,            /* FINPROGRAMME  */
-    FONCTION = 279,                /* FONCTION  */
-    RETOURNER = 280,               /* RETOURNER  */
-    REPETER_JUSQUA = 281,          /* REPETER_JUSQUA  */
-    FIN_REPETER = 282,             /* FIN_REPETER  */
-    SWITCH = 283,                  /* SWITCH  */
-    CASE = 284,                    /* CASE  */
-    DEFAULT = 285,                 /* DEFAULT  */
-    BREAK = 286,                   /* BREAK  */
-    PLUS = 287,                    /* PLUS  */
-    MOINS = 288,                   /* MOINS  */
-    MULT = 289,                    /* MULT  */
-    DIV = 290,                     /* DIV  */
-    MODULO = 291,                  /* MODULO  */
-    AFFECTATION = 292,             /* AFFECTATION  */
-    EGAL = 293,                    /* EGAL  */
-    DIFFERENT = 294,               /* DIFFERENT  */
-    INFERIEUR = 295,               /* INFERIEUR  */
-    SUPERIEUR = 296,               /* SUPERIEUR  */
-    INFERIEUR_EGAL = 297,          /* INFERIEUR_EGAL  */
-    SUPERIEUR_EGAL = 298,          /* SUPERIEUR_EGAL  */
-    ET = 299,                      /* ET  */
-    OU = 300,                      /* OU  */
-    NON = 301                      /* NON  */
+    REPETER_JUSQUA = 279,          /* REPETER_JUSQUA  */
+    FIN_REPETER = 280,             /* FIN_REPETER  */
+    SWITCH = 281,                  /* SWITCH  */
+    CASE = 282,                    /* CASE  */
+    DEFAULT = 283,                 /* DEFAULT  */
+    BREAK = 284,                   /* BREAK  */
+    PLUS = 285,                    /* PLUS  */
+    MOINS = 286,                   /* MOINS  */
+    MULT = 287,                    /* MULT  */
+    DIV = 288,                     /* DIV  */
+    MODULO = 289,                  /* MODULO  */
+    AFFECTATION = 290,             /* AFFECTATION  */
+    EGAL = 291,                    /* EGAL  */
+    DIFFERENT = 292,               /* DIFFERENT  */
+    INFERIEUR = 293,               /* INFERIEUR  */
+    SUPERIEUR = 294,               /* SUPERIEUR  */
+    INFERIEUR_EGAL = 295,          /* INFERIEUR_EGAL  */
+    SUPERIEUR_EGAL = 296,          /* SUPERIEUR_EGAL  */
+    ET = 297,                      /* ET  */
+    OU = 298,                      /* OU  */
+    NON = 299,                     /* NON  */
+    QUESTION = 300,                /* QUESTION  */
+    DEUX_POINTS = 301,             /* DEUX_POINTS  */
+    INCREMENT = 302,               /* INCREMENT  */
+    DECREMENT = 303,               /* DECREMENT  */
+    PLUS_EGAL = 304,               /* PLUS_EGAL  */
+    MOINS_EGAL = 305               /* MOINS_EGAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -106,13 +110,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 41 "exo20-23.y"
+#line 42 "exo20-23.y"
 
     int entier;
     double reel;
     char *chaine;
 
-#line 116 "exo20-23.tab.h"
+#line 120 "exo20-23.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

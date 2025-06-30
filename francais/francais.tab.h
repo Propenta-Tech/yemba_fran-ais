@@ -68,37 +68,40 @@ extern int yydebug;
     POUR = 269,                    /* POUR  */
     A = 270,                       /* A  */
     FINPOUR = 271,                 /* FINPOUR  */
-    PAS = 272,                     /* PAS  */
-    LIRE = 273,                    /* LIRE  */
-    AFFICHER = 274,                /* AFFICHER  */
-    TYPE_ENTIER = 275,             /* TYPE_ENTIER  */
-    TYPE_REEL = 276,               /* TYPE_REEL  */
-    TYPE_CHAINE = 277,             /* TYPE_CHAINE  */
-    PROGRAMME = 278,               /* PROGRAMME  */
-    FINPROGRAMME = 279,            /* FINPROGRAMME  */
-    FONCTION = 280,                /* FONCTION  */
-    RETOURNER = 281,               /* RETOURNER  */
-    REPETER_JUSQUA = 282,          /* REPETER_JUSQUA  */
-    FIN_REPETER = 283,             /* FIN_REPETER  */
-    SWITCH = 284,                  /* SWITCH  */
-    CASE = 285,                    /* CASE  */
-    DEFAULT = 286,                 /* DEFAULT  */
-    BREAK = 287,                   /* BREAK  */
-    PLUS = 288,                    /* PLUS  */
-    MOINS = 289,                   /* MOINS  */
-    MULT = 290,                    /* MULT  */
-    DIV = 291,                     /* DIV  */
-    MODULO = 292,                  /* MODULO  */
-    AFFECTATION = 293,             /* AFFECTATION  */
-    EGAL = 294,                    /* EGAL  */
-    DIFFERENT = 295,               /* DIFFERENT  */
-    INFERIEUR = 296,               /* INFERIEUR  */
-    SUPERIEUR = 297,               /* SUPERIEUR  */
-    INFERIEUR_EGAL = 298,          /* INFERIEUR_EGAL  */
-    SUPERIEUR_EGAL = 299,          /* SUPERIEUR_EGAL  */
-    ET = 300,                      /* ET  */
-    OU = 301,                      /* OU  */
-    NON = 302                      /* NON  */
+    LIRE = 272,                    /* LIRE  */
+    AFFICHER = 273,                /* AFFICHER  */
+    TYPE_ENTIER = 274,             /* TYPE_ENTIER  */
+    TYPE_REEL = 275,               /* TYPE_REEL  */
+    TYPE_CHAINE = 276,             /* TYPE_CHAINE  */
+    PROGRAMME = 277,               /* PROGRAMME  */
+    FINPROGRAMME = 278,            /* FINPROGRAMME  */
+    REPETER_JUSQUA = 279,          /* REPETER_JUSQUA  */
+    FIN_REPETER = 280,             /* FIN_REPETER  */
+    SWITCH = 281,                  /* SWITCH  */
+    CASE = 282,                    /* CASE  */
+    DEFAULT = 283,                 /* DEFAULT  */
+    BREAK = 284,                   /* BREAK  */
+    PLUS = 285,                    /* PLUS  */
+    MOINS = 286,                   /* MOINS  */
+    MULT = 287,                    /* MULT  */
+    DIV = 288,                     /* DIV  */
+    MODULO = 289,                  /* MODULO  */
+    AFFECTATION = 290,             /* AFFECTATION  */
+    EGAL = 291,                    /* EGAL  */
+    DIFFERENT = 292,               /* DIFFERENT  */
+    INFERIEUR = 293,               /* INFERIEUR  */
+    SUPERIEUR = 294,               /* SUPERIEUR  */
+    INFERIEUR_EGAL = 295,          /* INFERIEUR_EGAL  */
+    SUPERIEUR_EGAL = 296,          /* SUPERIEUR_EGAL  */
+    ET = 297,                      /* ET  */
+    OU = 298,                      /* OU  */
+    NON = 299,                     /* NON  */
+    QUESTION = 300,                /* QUESTION  */
+    DEUX_POINTS = 301,             /* DEUX_POINTS  */
+    INCREMENT = 302,               /* INCREMENT  */
+    DECREMENT = 303,               /* DECREMENT  */
+    PLUS_EGAL = 304,               /* PLUS_EGAL  */
+    MOINS_EGAL = 305               /* MOINS_EGAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -113,7 +116,7 @@ union YYSTYPE
     double reel;
     char *chaine;
 
-#line 117 "francais.tab.h"
+#line 120 "francais.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

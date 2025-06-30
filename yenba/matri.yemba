@@ -1,0 +1,332 @@
+// Exemple d'utilisation du Yemba étendu avec tableaux et opérateur ternaire
+
+// Déclaration de tableaux
+nomba matrice_a[3];
+nomba matrice_b[3];
+nomba resultat[3];
+nomba nombres[10];
+
+// Variables simples
+nomba i;
+nomba j;
+nomba somme;
+nomba max_val;
+nomba choix;
+
+leti "\n=== DEMO YEMBA ETENDU ===\n";
+leti "Fonctionnalites: tableaux + operateur ternaire\n";
+leti "=========================================\n\n";
+
+// Initialisation des tableaux
+leti "📦 Initialisation des tableaux...\n";
+matrice_a[0] = 5;
+matrice_a[1] = 10;
+matrice_a[2] = 15;
+
+matrice_b[0] = 2;
+matrice_b[1] = 3;
+matrice_b[2] = 4;
+
+// Exemple d'opérateur ternaire simple
+leti "\n🔀 Test operateur ternaire:\n";
+nomba a = 8;
+nomba b = 12;
+
+// max = (a > b) ? a : b;
+max_val = (a > b) eeh a kamsi b;
+leti "\tMaximum entre ";
+leti a;
+leti " et ";
+leti b;
+leti " = ";
+leti max_val;
+leti "\n";
+
+// Boucle avec tableaux et ternaire
+leti "\n🧮 Calcul vectoriel avec ternaire:\n";
+lighe i leko 0 leko 2 leghu
+    // resultat[i] = (matrice_a[i] > matrice_b[i]) ? matrice_a[i] * 2 : matrice_b[i] * 3;
+    resultat[i] = (matrice_a[i] > matrice_b[i]) eeh (matrice_a[i] * 2) kamsi (matrice_b[i] * 3);
+    
+    leti "\tA[";
+    leti i;
+    leti "] = ";
+    leti matrice_a[i];
+    leti ", B[";
+    leti i;
+    leti "] = ";
+    leti matrice_b[i];
+    leti " -> Resultat[";
+    leti i;
+    leti "] = ";
+    leti resultat[i];
+    leti "\n";
+sueh
+
+// Calcul de somme avec opérateurs d'incrémentation
+leti "\n➕ Calcul de somme avec increment:\n";
+somme = 0;
+i = 0;
+lijet (i < 3) leghu
+    somme += resultat[i];  // Opérateur +=
+    i++;                   // Opérateur ++
+lemak
+
+leti "\tSomme totale = ";
+leti somme;
+leti "\n";
+
+// Test avec tableau plus grand
+leti "\n📊 Test tableau 10 elements:\n";
+lighe j leko 0 leko 9 leghu
+    nombres[j] = j * j;  // Carrés
+sueh
+
+// Affichage avec ternaire pour formater
+leti "Affichage des carres:\n";
+lighe j leko 0 leko 9 leghu
+    leti "\t";
+    leti (j < 9) eeh j kamsi -1;  // Affiche j sauf pour le dernier
+    leti " -> ";
+    leti nombres[j];
+    
+    // Nouvelle ligne tous les 5 éléments
+    nomba nouvelle_ligne = ((j + 1) % 5 == 0) eeh 1 kamsi 0;
+    yi (nouvelle_ligne == 1) lo
+        leti "\n";
+    lelu
+        leti "\t";
+    lemakyi
+sueh
+
+// Menu interactif avec ternaire
+leti "\n\n📋 Menu interactif:\n";
+leti "\t1 - Afficher tableau A\n";
+leti "\t2 - Afficher tableau B\n";
+leti "\t3 - Afficher resultats\n";
+leti "Votre choix: ";
+letong choix;
+leti "\n";
+
+// Utilisation du ternaire pour la validation
+nomba choix_valide = (choix >= 1) eeh ((choix <= 3) eeh 1 kamsi 0) kamsi 0;
+
+yi (choix_valide == 1) lo
+    sontoh (choix) {
+        ndap 1:
+            leti "\n📈 Tableau A:\n";
+            lighe i leko 0 leko 2 leghu
+                leti "\tA[";
+                leti i;
+                leti "] = ";
+                leti matrice_a[i];
+                leti "\n";
+            sueh
+            kap;
+            
+        ndap 2:
+            leti "\n📉 Tableau B:\n";
+            lighe i leko 0 leko 2 leghu
+                leti "\tB[";
+                leti i;
+                leti "] = ";
+                leti matrice_b[i];
+                leti "\n";
+            sueh
+            kap;
+            
+        ndap 3:
+            leti "\n🎯 Tableau Resultat:\n";
+            lighe i leko 0 leko 2 leghu
+                leti "\tResultat[";
+                leti i;
+                leti "] = ";
+                leti resultat[i];
+                leti "\n";
+            sueh
+            kap;
+    }
+lelu
+    leti "\n❌ Choix invalide!\n";
+lemakyi
+
+// Démonstration algorithme de tri avec tableaux
+leti "\n=== ALGORITHME DE TRI ===\n";
+
+// Initialisation d'un tableau à trier
+nomba tab_tri[5] = {8, 3, 15, 1, 9};
+
+leti "🔄 Tableau avant tri:\n\t[ ";
+lighe i leko 0 leko 4 leghu
+    leti tab_tri[i];
+    leti " ";
+sueh
+leti "]\n";
+
+// Tri à bulles simplifié
+lighe i leko 0 leko 3 leghu
+    lighe j leko 0 leko (3 - i) leghu
+        yi (tab_tri[j] > tab_tri[j + 1]) lo
+            // Échange avec variables temporaires
+            nomba temp = tab_tri[j];
+            tab_tri[j] = tab_tri[j + 1];
+            tab_tri[j + 1] = temp;
+        lemakyi
+    sueh
+sueh
+
+leti "✅ Tableau apres tri:\n\t[ ";
+lighe i leko 0 leko 4 leghu
+    leti tab_tri[i];
+    leti " ";
+sueh
+leti "]\n";
+
+// Test des opérateurs avancés
+leti "\n=== TESTS OPERATEURS AVANCES ===\n";
+
+nomba x = 10;
+nomba y = 5;
+
+leti "🔢 Valeurs initiales:\n";
+leti "\tx = ";
+leti x;
+leti ", y = ";
+leti y;
+leti "\n";
+
+// Test ++, --, +=, -=
+x++;
+y--;
+leti "⬆️ Apres x++ et y--:\n";
+leti "\tx = ";
+leti x;
+leti ", y = ";
+leti y;
+leti "\n";
+
+x += 5;
+y -= 2;
+leti "🔧 Apres x+=5 et y-=2:\n";
+leti "\tx = ";
+leti x;
+leti ", y = ";
+leti y;
+leti "\n";
+
+// Ternaire complexe
+nomba result = (x > y) eeh ((x % 2 == 0) eeh x * 2 kamsi x + 1) kamsi ((y % 2 == 0) eeh y * 3 kamsi y - 1);
+leti "🎯 Ternaire complexe result = ";
+leti result;
+leti "\n";
+
+// Fonction de recherche dans tableau
+leti "\n=== RECHERCHE DANS TABLEAU ===\n";
+nomba valeur_cherchee = 15;
+nomba index_trouve = -1;
+
+lighe i leko 0 leko 4 leghu
+    yi (tab_tri[i] == valeur_cherchee) lo
+        index_trouve = i;
+        i = 5; // Sortie de boucle
+    lemakyi
+sueh
+
+leti "🔍 Recherche de ";
+leti valeur_cherchee;
+leti " dans le tableau:\n";
+leti "\tIndex trouve: ";
+leti (index_trouve >= 0) eeh index_trouve kamsi -1;
+leti "\n";
+
+// Calcul de statistiques sur tableau
+leti "\n=== STATISTIQUES ===\n";
+
+// Somme
+nomba somme_total = 0;
+lighe i leko 0 leko 4 leghu
+    somme_total += tab_tri[i];
+sueh
+
+// Moyenne (approximative avec entiers)
+nomba moyenne = somme_total / 5;
+
+// Min et Max
+nomba min_val = tab_tri[0];
+nomba max_stat = tab_tri[0];  // Renommé pour éviter la redéclaration
+
+lighe i leko 1 leko 4 leghu
+    min_val = (tab_tri[i] < min_val) eeh tab_tri[i] kamsi min_val;
+    max_stat = (tab_tri[i] > max_stat) eeh tab_tri[i] kamsi max_stat;
+sueh
+
+leti "📊 Statistiques du tableau trie:\n";
+leti "\tSomme     = ";
+leti somme_total;
+leti "\n\tMoyenne   = ";
+leti moyenne;
+leti "\n\tMinimum   = ";
+leti min_val;
+leti "\n\tMaximum   = ";
+leti max_stat;
+leti "\n";
+
+// Test de matrice 3x3 avec tableaux
+leti "\n=== MATRICE 3x3 AVEC TABLEAUX ===\n";
+
+nomba matrice[9]; // Matrice 3x3 linéarisée
+nomba ligne;
+nomba colonne;
+
+// Initialisation
+lighe i leko 0 leko 8 leghu
+    ligne = i / 3;
+    colonne = i % 3;
+    matrice[i] = ligne * 3 + colonne + 1;
+sueh
+
+// Affichage matrice
+leti "🔢 Matrice 3x3 originale:\n";
+lighe i leko 0 leko 2 leghu
+    leti "\t[ ";
+    lighe j leko 0 leko 2 leghu
+        nomba index = i * 3 + j;
+        leti matrice[index];
+        leti " ";
+    sueh
+    leti "]\n";
+sueh
+
+// Calcul de la transposée
+nomba transposee[9];
+lighe i leko 0 leko 2 leghu
+    lighe j leko 0 leko 2 leghu
+        transposee[j * 3 + i] = matrice[i * 3 + j];
+    sueh
+sueh
+
+leti "\n🔄 Matrice transposee:\n";
+lighe i leko 0 leko 2 leghu
+    leti "\t[ ";
+    lighe j leko 0 leko 2 leghu
+        nomba index = i * 3 + j;
+        leti transposee[index];
+        leti " ";
+    sueh
+    leti "]\n";
+sueh
+
+// Résumé final
+leti "\n=========================================\n";
+leti "=== RESUME DES EXTENSIONS ===\n";
+leti "=========================================\n";
+leti "✅ Tableaux avec declaration nomba tab[taille]\n";
+leti "✅ Acces aux elements avec tab[index]\n";
+leti "✅ Operateur ternaire (condition) eeh val1 kamsi val2\n";
+leti "✅ Operateurs ++, --, +=, -=\n";
+leti "✅ Initialisation de tableaux avec {}\n";
+leti "✅ Algorithmes complexes (tri, recherche, matrices)\n";
+leti "=========================================\n";
+leti "\n🎉 === FIN DEMO YEMBA ETENDU === 🎉\n";
+leti "✨ Toutes les extensions fonctionnent correctement! ✨\n";
+leti "=========================================\n";

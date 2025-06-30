@@ -1,199 +1,334 @@
-programme
-entier choix;
-entier n;
+// Exemple d'utilisation du Français étendu avec tableaux et opérateur ternaire
+
+// Déclaration de tableaux
+entier matrice_a[3];
+entier matrice_b[3];
+entier resultat[3];
+entier nombres[10];
+
+// Variables simples
 entier i;
 entier j;
-entier temp;
-entier resultat;
-entier compteur;
-entier continuer = 1;
+entier somme;
+entier max_val;
+entier choix;
 
-afficher "=======================================\n";
-afficher "    TESTS DU COMPILATEUR FRANÇAIS\n";
-afficher "=======================================\n";
+afficher "\n=== DEMO FRANCAIS ETENDU ===\n";
+afficher "Fonctionnalites: tableaux + operateur ternaire\n";
+afficher "=========================================\n\n";
 
-tantque (continuer == 1) faire
-    afficher "--\n";
-    afficher "Choisissez un test:\n";
-    afficher "1 - Test Fibonacci\n";
-    afficher "2 - Test Factorielle\n";
-    afficher "3 - Test Switch/Case\n";
-    afficher "4 - Test Boucles\n";
-    afficher "5 - Test Expressions\n";
-    afficher "6 - Test Do-While\n";
-    afficher "0 - Quitter\n";
-    afficher "--\n";
-    afficher "Votre choix (0-6):";
-    lire choix;
+// Initialisation des tableaux
+afficher "📦 Initialisation des tableaux...\n";
+matrice_a[0] = 5;
+matrice_a[1] = 10;
+matrice_a[2] = 15;
 
+matrice_b[0] = 2;
+matrice_b[1] = 3;
+matrice_b[2] = 4;
+
+// Exemple d'opérateur ternaire simple
+afficher "\n🔀 Test operateur ternaire:\n";
+entier a = 8;
+entier b = 12;
+
+// max = (a > b) ? a : b;
+max_val = (a > b) ? a : b;
+afficher "\tMaximum entre ";
+afficher a;
+afficher " et ";
+afficher b;
+afficher " = ";
+afficher max_val;
+afficher "\n";
+
+// Boucle avec tableaux et ternaire
+afficher "\n🧮 Calcul vectoriel avec ternaire:\n";
+pour i jusqua 0 jusqua 2 faire
+    // resultat[i] = (matrice_a[i] > matrice_b[i]) ? matrice_a[i] * 2 : matrice_b[i] * 3;
+    resultat[i] = (matrice_a[i] > matrice_b[i]) ? (matrice_a[i] * 2) : (matrice_b[i] * 3);
+    
+    afficher "\tA[";
+    afficher i;
+    afficher "] = ";
+    afficher matrice_a[i];
+    afficher ", B[";
+    afficher i;
+    afficher "] = ";
+    afficher matrice_b[i];
+    afficher " -> Resultat[";
+    afficher i;
+    afficher "] = ";
+    afficher resultat[i];
+    afficher "\n";
+suivant
+
+// Calcul de somme avec opérateurs d'incrémentation
+afficher "\n➕ Calcul de somme avec increment:\n";
+somme = 0;
+i = 0;
+tantque (i < 3) faire
+    somme += resultat[i];  // Opérateur +=
+    i++;                   // Opérateur ++
+fait
+
+afficher "\tSomme totale = ";
+afficher somme;
+afficher "\n";
+
+// Test avec tableau plus grand
+afficher "\n📊 Test tableau 10 elements:\n";
+pour j jusqua 0 jusqua 9 faire
+    nombres[j] = j * j;  // Carrés
+suivant
+
+// Affichage avec ternaire pour formater
+afficher "Affichage des carres:\n";
+pour j jusqua 0 jusqua 9 faire
+    afficher "\t";
+    afficher (j < 9) ? j : -1;  // Affiche j sauf pour le dernier
+    afficher " -> ";
+    afficher nombres[j];
+    
+    // Nouvelle ligne tous les 5 éléments
+    entier nouvelle_ligne = ((j + 1) % 5 == 0) ? 1 : 0;
+    si (nouvelle_ligne == 1) alors
+        afficher "\n";
+    sinon
+        afficher "\t";
+    fsi
+suivant
+
+// Menu interactif avec ternaire
+afficher "\n\n📋 Menu interactif:\n";
+afficher "\t1 - Afficher tableau A\n";
+afficher "\t2 - Afficher tableau B\n";
+afficher "\t3 - Afficher resultats\n";
+afficher "Votre choix: ";
+lire choix;
+afficher "\n";
+
+// Utilisation du ternaire pour la validation
+entier choix_valide = (choix >= 1) ? ((choix <= 3) ? 1 : 0) : 0;
+
+si (choix_valide == 1) alors
     selon (choix) {
-        cas 1: 
-            afficher "=== TEST FIBONACCI ===";
-            afficher "Entrez le nombre de termes\n:";
-            lire n;
-            
-            si (n <= 0) alors
-                afficher "Erreur: n doit être positif!\n";
-            sinon
-                entier a = 0;
-                entier b = 1;
-                
-                si (n == 1) alors
-                    afficher "F(1) = 0";
-                sinon
-                    si (n == 2) alors
-                        afficher "F(1) = 0";
-                        afficher "F(2) = 1";
-                    sinon
-                        afficher "F(1) = 0";
-                        afficher "F(2) = 1";
-                        
-                        pour i jusqua 3 jusqua n faire
-                            temp = a + b;
-                            afficher "F(";
-                            afficher i;
-                            afficher ") = ";
-                            afficher temp;
-                            a = b;
-                            b = temp;
-                        suivant
-                    fsi
-                fsi
-            fsi
-            arreter;
-            
-        cas 2:
-            afficher "=== TEST FACTORIELLE ===";
-            afficher "Entrez un nombre:\n";
-            lire n;
-            
-            si (n < 0) alors
-                afficher "Erreur: n doit être >= 0!";
-            sinon
-                resultat = 1;
-                si (n == 0) alors
-                    afficher "0! = 1";
-                sinon
-                    pour i jusqua 1 jusqua n faire
-                        resultat = resultat * i;
-                        afficher i;
-                        afficher "! = ";
-                        afficher resultat;
-                    suivant
-                    
-                    afficher "=== Résultat final ===";
-                    afficher n;
-                    afficher "! = ";
-                    afficher resultat;
-                fsi
-            fsi
-            arreter;
-            
-        cas 3:
-            afficher "=== TEST SWITCH/CASE ===";
-            afficher "Entrez un nombre (0-3):";
-            lire n;
-            
-            afficher "Analyse du nombre:";
-            selon (n) {
-                cas 0: 
-                    afficher "C'est zéro!"; 
-                    arreter;
-                cas 1: 
-                    afficher "C'est un!"; 
-                    arreter;
-                cas 2: 
-                    afficher "C'est deux!"; 
-                    arreter;
-                cas 3: 
-                    afficher "C'est trois!"; 
-                    arreter;
-                defaut: 
-                    afficher "Nombre non reconnu!";
-            }
-            
-            afficher "Test parité:";
-            selon (n % 2) {
-                cas 0: 
-                    afficher "Nombre pair"; 
-                    arreter;
-                cas 1: 
-                    afficher "Nombre impair"; 
-                    arreter;
-            }
-            arreter;
-            
-        cas 4:
-            afficher "=== TEST BOUCLES ===";
-            afficher "Table de multiplication 3x3:";
-            
-            pour i jusqua 1 jusqua 3 faire
-                pour j jusqua 1 jusqua 3 faire
-                    resultat = i * j;
-                    afficher i;
-                    afficher " x ";
-                    afficher j;
-                    afficher " = ";
-                    afficher resultat;
-                suivant
-                afficher "---";
+        cas 1:
+            afficher "\n📈 Tableau A:\n";
+            pour i jusqua 0 jusqua 2 faire
+                afficher "\tA[";
+                afficher i;
+                afficher "] = ";
+                afficher matrice_a[i];
+                afficher "\n";
             suivant
             arreter;
             
-        cas 5:
-            afficher "=== TEST EXPRESSIONS ===";
-            afficher "Entrez deux nombres:";
-            afficher "Premier nombre:";
-            lire i;
-            afficher "Deuxième nombre:";
-            lire j;
-            
-            resultat = (i + j) * 2 - 1;
-            afficher "Expression: (";
-            afficher i;
-            afficher " + ";
-            afficher j;
-            afficher ") * 2 - 1 = ";
-            afficher resultat;
-            
-            si (i > j) alors
-                afficher "Le premier est plus grand";
-            sinon
-                si (i < j) alors
-                    afficher "Le deuxième est plus grand";
-                sinon
-                    afficher "Les deux sont égaux";
-                fsi
-            fsi
+        cas 2:
+            afficher "\n📉 Tableau B:\n";
+            pour i jusqua 0 jusqua 2 faire
+                afficher "\tB[";
+                afficher i;
+                afficher "] = ";
+                afficher matrice_b[i];
+                afficher "\n";
+            suivant
             arreter;
             
-        cas 6:
-            afficher "=== TEST DO-WHILE ===";
-            afficher "Entrez un nombre de départ:";
-            lire n;
-            
-            afficher "Compte à rebours:";
-            compteur = n;
-            
-            repeter
-                afficher "Compteur: ";
-                afficher compteur;
-                compteur = compteur - 1;
-            jusquace (compteur <= 0)
-            
-            afficher "Fini!";
+        cas 3:
+            afficher "\n🎯 Tableau Resultat:\n";
+            pour i jusqua 0 jusqua 2 faire
+                afficher "\tResultat[";
+                afficher i;
+                afficher "] = ";
+                afficher resultat[i];
+                afficher "\n";
+            suivant
             arreter;
-            
-        cas 0:
-            afficher "Au revoir!";
-            continuer = 0;
-            arreter;
-            
-        defaut:
-            afficher "Choix invalide!";
-            afficher "Veuillez choisir entre 0 et 6.";
     }
-fait
+sinon
+    afficher "\n❌ Choix invalide!\n";
+fsi
 
-afficher "=== FIN DU PROGRAMME ===";
-finprog
+// Démonstration algorithme de tri avec tableaux
+afficher "\n=== ALGORITHME DE TRI ===\n";
+
+// Initialisation d'un tableau à trier
+entier tab_tri[5] = {8, 3, 15, 1, 9};
+
+afficher "🔄 Tableau avant tri:\n\t[ ";
+pour i jusqua 0 jusqua 4 faire
+    afficher tab_tri[i];
+    afficher " ";
+suivant
+afficher "]\n";
+
+// Tri à bulles simplifié
+pour i jusqua 0 jusqua 3 faire
+    pour j jusqua 0 jusqua (3 - i) faire
+        si (tab_tri[j] > tab_tri[j + 1]) alors
+            // Échange avec variables temporaires
+            entier temp = tab_tri[j];
+            tab_tri[j] = tab_tri[j + 1];
+            tab_tri[j + 1] = temp;
+        fsi
+    suivant
+suivant
+
+afficher "✅ Tableau apres tri:\n\t[ ";
+pour i jusqua 0 jusqua 4 faire
+    afficher tab_tri[i];
+    afficher " ";
+suivant
+afficher "]\n";
+
+// Test des opérateurs avancés
+afficher "\n=== TESTS OPERATEURS AVANCES ===\n";
+
+entier x = 10;
+entier y = 5;
+
+afficher "🔢 Valeurs initiales:\n";
+afficher "\tx = ";
+afficher x;
+afficher ", y = ";
+afficher y;
+afficher "\n";
+
+// Test ++, --, +=, -=
+x++;
+y--;
+afficher "⬆️ Apres x++ et y--:\n";
+afficher "\tx = ";
+afficher x;
+afficher ", y = ";
+afficher y;
+afficher "\n";
+
+x += 5;
+y -= 2;
+afficher "🔧 Apres x+=5 et y-=2:\n";
+afficher "\tx = ";
+afficher x;
+afficher ", y = ";
+afficher y;
+afficher "\n";
+
+// Ternaire complexe
+entier result = (x > y) ? ((x % 2 == 0) ? x * 2 : x + 1) : ((y % 2 == 0) ? y * 3 : y - 1);
+afficher "🎯 Ternaire complexe result = ";
+afficher result;
+afficher "\n";
+
+// Fonction de recherche dans tableau
+afficher "\n=== RECHERCHE DANS TABLEAU ===\n";
+entier valeur_cherchee = 15;
+entier index_trouve = -1;
+
+pour i jusqua 0 jusqua 4 faire
+    si (tab_tri[i] == valeur_cherchee) alors
+        index_trouve = i;
+        i = 5; // Sortie de boucle
+    fsi
+suivant
+
+afficher "🔍 Recherche de ";
+afficher valeur_cherchee;
+afficher " dans le tableau:\n";
+afficher "\tIndex trouve: ";
+afficher (index_trouve >= 0) ? index_trouve : -1;
+afficher "\n";
+
+// Calcul de statistiques sur tableau
+afficher "\n=== STATISTIQUES ===\n";
+
+// Somme
+entier somme_total = 0;
+pour i jusqua 0 jusqua 4 faire
+    somme_total += tab_tri[i];
+suivant
+
+// Moyenne (approximative avec entiers)
+entier moyenne = somme_total / 5;
+
+// Min et Max
+entier min_val = tab_tri[0];
+entier max_stat = tab_tri[0];  // Renommé pour éviter la redéclaration
+
+pour i jusqua 1 jusqua 4 faire
+    min_val = (tab_tri[i] < min_val) ? tab_tri[i] : min_val;
+    max_stat = (tab_tri[i] > max_stat) ? tab_tri[i] : max_stat;
+suivant
+
+afficher "📊 Statistiques du tableau trie:\n";
+afficher "\tSomme     = ";
+afficher somme_total;
+afficher "\n\tMoyenne   = ";
+afficher moyenne;
+afficher "\n\tMinimum   = ";
+afficher min_val;
+afficher "\n\tMaximum   = ";
+afficher max_stat;
+afficher "\n";
+
+// Test de matrice 3x3 avec tableaux
+afficher "\n=== MATRICE 3x3 AVEC TABLEAUX ===\n";
+
+entier matrice[9]; // Matrice 3x3 linéarisée
+entier ligne;
+entier colonne;
+
+// Initialisation
+pour i jusqua 0 jusqua 8 faire
+    ligne = i / 3;
+    colonne = i % 3;
+    matrice[i] = ligne * 3 + colonne + 1;
+suivant
+
+// Affichage matrice
+afficher "🔢 Matrice 3x3 originale:\n";
+pour i jusqua 0 jusqua 2 faire
+    afficher "\t[ ";
+    pour j jusqua 0 jusqua 2 faire
+        entier index = i * 3 + j;
+        afficher matrice[index];
+        afficher " ";
+    suivant
+    afficher "]\n";
+suivant
+
+// Calcul de la transposée
+entier transposee[9];
+pour i jusqua 0 jusqua 2 faire
+    pour j jusqua 0 jusqua 2 faire
+        transposee[j * 3 + i] = matrice[i * 3 + j];
+    suivant
+suivant
+
+afficher "\n🔄 Matrice transposee:\n";
+pour i jusqua 0 jusqua 2 faire
+    afficher "\t[ ";
+    pour j jusqua 0 jusqua 2 faire
+        entier index = i * 3 + j;
+        afficher transposee[index];
+        afficher " ";
+    suivant
+    afficher "]\n";
+suivant
+
+// Résumé final
+afficher "\n=========================================\n";
+afficher "=== RESUME DES EXTENSIONS ===\n";
+afficher "=========================================\n";
+afficher "✅ Tableaux avec declaration entier tab[taille]\n";
+afficher "✅ Acces aux elements avec tab[index]\n";
+afficher "✅ Operateur ternaire (condition) ? val1 : val2\n";
+afficher "✅ Operateurs ++, --, +=, -=\n";
+afficher "✅ Initialisation de tableaux avec {}\n";
+afficher "✅ Algorithmes complexes (tri, recherche, matrices)\n";
+afficher "=========================================\n";
+afficher "\n🎉 === FIN DEMO FRANCAIS ETENDU === 🎉\n";
+afficher "✨ Toutes les extensions fonctionnent correctement! ✨\n";
+afficher "=========================================\n;";
+afficher "✨ Toutes les extensions fonctionnent correctement! ✨\n";
+afficher "=========================================\n";

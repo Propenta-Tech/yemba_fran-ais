@@ -12,7 +12,7 @@ int main() {
     int somme;
     int max_val;
     int choix;
-    printf("\n=== DEMO FRANCAIS ETENDU ===\n");
+    printf("\n=== DEMO YEMBA ETENDU ===\n");
     printf("Fonctionnalites: tableaux + operateur ternaire\n");
     printf("=========================================\n\n");
     printf("📦 Initialisation des tableaux...\n");
@@ -248,16 +248,14 @@ int main() {
     printf("\n=========================================\n");
     printf("=== RESUME DES EXTENSIONS ===\n");
     printf("=========================================\n");
-    printf("✅ Tableaux avec declaration entier tab[taille]\n");
+    printf("✅ Tableaux avec declaration nomba tab[taille]\n");
     printf("✅ Acces aux elements avec tab[index]\n");
-    printf("✅ Operateur ternaire (condition) ? val1 : val2\n");
+    printf("✅ Operateur ternaire (condition) eeh val1 kamsi val2\n");
     printf("✅ Operateurs ++, --, +=, -=\n");
     printf("✅ Initialisation de tableaux avec {}\n");
     printf("✅ Algorithmes complexes (tri, recherche, matrices)\n");
     printf("=========================================\n");
-    printf("\n🎉 === FIN DEMO FRANCAIS ETENDU === 🎉\n");
-    printf("✨ Toutes les extensions fonctionnent correctement! ✨\n");
-    printf("=========================================\n;");
+    printf("\n🎉 === FIN DEMO YEMBA ETENDU === 🎉\n");
     printf("✨ Toutes les extensions fonctionnent correctement! ✨\n");
     printf("=========================================\n");
 return 0;

@@ -13,6 +13,7 @@ void yyerror(const char *s);
 FILE *fichier_sortie;
 int niveau_indentation = 0;
 int current_case_value;
+
 void indenter() {
     for(int i = 0; i < niveau_indentation; i++) {
         fprintf(fichier_sortie, "    ");
@@ -52,21 +53,30 @@ void generer_main_fin() {
 %token POUR A FINPOUR
 %token LIRE AFFICHER
 %token TYPE_ENTIER TYPE_REEL TYPE_CHAINE
-%token PROGRAMME FINPROGRAMME FONCTION RETOURNER
+%token PROGRAMME FINPROGRAMME
 %token REPETER_JUSQUA FIN_REPETER SWITCH CASE DEFAULT BREAK
 %token PLUS MOINS MULT DIV MODULO
 %token AFFECTATION EGAL DIFFERENT INFERIEUR SUPERIEUR INFERIEUR_EGAL SUPERIEUR_EGAL
 %token ET OU NON
 
+/* NOUVEAUX TOKENS */
+%token QUESTION DEUX_POINTS              /* Pour l'opérateur ternaire */
+%token INCREMENT DECREMENT               /* ++ et -- */
+%token PLUS_EGAL MOINS_EGAL             /* += et -= */
+
+/* Priorités des opérateurs - CORRIGÉES */
+%right QUESTION DEUX_POINTS              /* Opérateur ternaire - priorité élevée */
 %left OU
 %left ET
 %left EGAL DIFFERENT INFERIEUR SUPERIEUR INFERIEUR_EGAL SUPERIEUR_EGAL
 %left PLUS MOINS
 %left MULT DIV MODULO
 %right NON
-%right AFFECTATION
+%right AFFECTATION PLUS_EGAL MOINS_EGAL
+%left '[' ']'                           /* Accès aux tableaux */
+%left INCREMENT DECREMENT               /* Incrémentation - priorité la plus élevée */
 
-%type <chaine> expression condition type_variable
+%type <chaine> expression condition type_variable acces_tableau liste_valeurs liste_valeurs_2d
 
 %%
 
@@ -95,21 +105,10 @@ instruction:
     | boucle_repeter_jusqua
     | switch_case
     | bloc_instructions
+    | increment_decrement ';'
     ;
 
-bloc_instructions:
-    '{' {
-        fprintf(fichier_sortie, "{\n");
-        niveau_indentation++;
-    }
-    liste_instructions
-    '}' {
-        niveau_indentation--;
-        indenter();
-        fprintf(fichier_sortie, "}\n");
-    }
-    ;
-
+/* DÉCLARATIONS AVEC SUPPORT TABLEAUX 2D - CORRIGÉ */
 declaration:
     type_variable VARIABLE {
         indenter();
@@ -124,6 +123,66 @@ declaration:
         free($2);
         free($4);
     }
+    /* Tableau 1D */
+    | type_variable VARIABLE '[' ENTIER ']' {
+        indenter();
+        fprintf(fichier_sortie, "%s %s[%d];\n", $1, $2, $4);
+        free($1);
+        free($2);
+    }
+    /* Tableau 2D */
+    | type_variable VARIABLE '[' ENTIER ']' '[' ENTIER ']' {
+        indenter();
+        fprintf(fichier_sortie, "%s %s[%d][%d];\n", $1, $2, $4, $7);
+        free($1);
+        free($2);
+    }
+    /* Tableau 1D avec initialisation */
+    | type_variable VARIABLE '[' ENTIER ']' AFFECTATION '{' liste_valeurs '}' {
+        indenter();
+        fprintf(fichier_sortie, "%s %s[%d] = {%s};\n", $1, $2, $4, $8);
+        free($1);
+        free($2);
+        free($8);
+    }
+    /* Tableau 2D avec initialisation */
+    | type_variable VARIABLE '[' ENTIER ']' '[' ENTIER ']' AFFECTATION '{' liste_valeurs_2d '}' {
+        indenter();
+        fprintf(fichier_sortie, "%s %s[%d][%d] = {%s};\n", $1, $2, $4, $7, $11);
+        free($1);
+        free($2);
+        free($11);
+    }
+    ;
+
+/* LISTES DE VALEURS - CORRIGÉES */
+liste_valeurs:
+    expression {
+        $$ = $1;
+    }
+    | liste_valeurs ',' expression {
+        char *result = malloc(strlen($1) + strlen($3) + 5);
+        sprintf(result, "%s, %s", $1, $3);
+        free($1);
+        free($3);
+        $$ = result;
+    }
+    ;
+
+liste_valeurs_2d:
+    '{' liste_valeurs '}' {
+        char *result = malloc(strlen($2) + 5);
+        sprintf(result, "{%s}", $2);
+        free($2);
+        $$ = result;
+    }
+    | liste_valeurs_2d ',' '{' liste_valeurs '}' {
+        char *result = malloc(strlen($1) + strlen($4) + 10);
+        sprintf(result, "%s, {%s}", $1, $4);
+        free($1);
+        free($4);
+        $$ = result;
+    }
     ;
 
 type_variable:
@@ -132,6 +191,26 @@ type_variable:
     | TYPE_CHAINE { $$ = strdup("char*"); }
     ;
 
+/* ACCÈS AUX TABLEAUX 1D ET 2D - CORRIGÉ */
+acces_tableau:
+    VARIABLE '[' expression ']' {
+        char *result = malloc(strlen($1) + strlen($3) + 5);
+        sprintf(result, "%s[%s]", $1, $3);
+        free($1);
+        free($3);
+        $$ = result;
+    }
+    | VARIABLE '[' expression ']' '[' expression ']' {
+        char *result = malloc(strlen($1) + strlen($3) + strlen($6) + 8);
+        sprintf(result, "%s[%s][%s]", $1, $3, $6);
+        free($1);
+        free($3);
+        free($6);
+        $$ = result;
+    }
+    ;
+
+/* AFFECTATIONS ÉTENDUES */
 affectation:
     VARIABLE AFFECTATION expression {
         indenter();
@@ -139,10 +218,57 @@ affectation:
         free($1);
         free($3);
     }
+    | acces_tableau AFFECTATION expression {
+        indenter();
+        fprintf(fichier_sortie, "%s = %s;\n", $1, $3);
+        free($1);
+        free($3);
+    }
+    | VARIABLE PLUS_EGAL expression {
+        indenter();
+        fprintf(fichier_sortie, "%s += %s;\n", $1, $3);
+        free($1);
+        free($3);
+    }
+    | VARIABLE MOINS_EGAL expression {
+        indenter();
+        fprintf(fichier_sortie, "%s -= %s;\n", $1, $3);
+        free($1);
+        free($3);
+    }
+    ;
+
+/* OPÉRATEURS D'INCRÉMENTATION/DÉCRÉMENTATION */
+increment_decrement:
+    VARIABLE INCREMENT {
+        indenter();
+        fprintf(fichier_sortie, "%s++;\n", $1);
+        free($1);
+    }
+    | VARIABLE DECREMENT {
+        indenter();
+        fprintf(fichier_sortie, "%s--;\n", $1);
+        free($1);
+    }
+    | INCREMENT VARIABLE {
+        indenter();
+        fprintf(fichier_sortie, "++%s;\n", $2);
+        free($2);
+    }
+    | DECREMENT VARIABLE {
+        indenter();
+        fprintf(fichier_sortie, "--%s;\n", $2);
+        free($2);
+    }
     ;
 
 lecture:
     LIRE VARIABLE {
+        indenter();
+        fprintf(fichier_sortie, "scanf(\"%%d\", &%s);\n", $2);
+        free($2);
+    }
+    | LIRE acces_tableau {
         indenter();
         fprintf(fichier_sortie, "scanf(\"%%d\", &%s);\n", $2);
         free($2);
@@ -291,7 +417,20 @@ default_optionnel:
     }
     break_optionnel
     ;
-/* SOLUTION: Suppression de la règle problématique condition: expression */
+
+bloc_instructions:
+    '{' {
+        fprintf(fichier_sortie, "{\n");
+        niveau_indentation++;
+    }
+    liste_instructions
+    '}' {
+        niveau_indentation--;
+        indenter();
+        fprintf(fichier_sortie, "}\n");
+    }
+    ;
+
 condition:
     expression EGAL expression {
         char *result = malloc(strlen($1) + strlen($3) + 10);
@@ -363,6 +502,7 @@ condition:
     }
     ;
 
+/* EXPRESSIONS AVEC OPÉRATEUR TERNAIRE - CORRIGÉ */
 expression:
     ENTIER {
         char *result = malloc(20);
@@ -376,6 +516,44 @@ expression:
     }
     | VARIABLE {
         $$ = $1;
+    }
+    | acces_tableau {
+        $$ = $1;
+    }
+    /* OPÉRATEUR TERNAIRE avec priorité explicite */
+    | condition QUESTION expression DEUX_POINTS expression %prec QUESTION {
+        char *result = malloc(strlen($1) + strlen($3) + strlen($5) + 20);
+        sprintf(result, "(%s) ? (%s) : (%s)", $1, $3, $5);
+        free($1);
+        free($3);
+        free($5);
+        $$ = result;
+    }
+    /* PRÉ-INCRÉMENTATION avec priorité explicite */
+    | INCREMENT VARIABLE %prec INCREMENT {
+        char *result = malloc(strlen($2) + 5);
+        sprintf(result, "++%s", $2);
+        free($2);
+        $$ = result;
+    }
+    | DECREMENT VARIABLE %prec DECREMENT {
+        char *result = malloc(strlen($2) + 5);
+        sprintf(result, "--%s", $2);
+        free($2);
+        $$ = result;
+    }
+    /* POST-INCRÉMENTATION avec priorité explicite */
+    | VARIABLE INCREMENT %prec INCREMENT {
+        char *result = malloc(strlen($1) + 5);
+        sprintf(result, "%s++", $1);
+        free($1);
+        $$ = result;
+    }
+    | VARIABLE DECREMENT %prec DECREMENT {
+        char *result = malloc(strlen($1) + 5);
+        sprintf(result, "%s--", $1);
+        free($1);
+        $$ = result;
     }
     | expression PLUS expression {
         char *result = malloc(strlen($1) + strlen($3) + 10);
@@ -465,7 +643,7 @@ int main(int argc, char **argv) {
     fclose(fichier_sortie);
     
     if (result == 0) {
-        printf("Kemak C yi  (Code  compile dans )\n");
+        printf("Kemak C yi (Code C compilé avec succès)\n");
     }
     
     return result;

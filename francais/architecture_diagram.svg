@@ -1,0 +1,193 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Définition des gradients en noir -->
+  <defs>
+    <linearGradient id="yembaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="frenchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="syntaxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="codeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="compileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="execGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Titre -->
+  <text x="400" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#000000">
+    Architecture de Compilation Multi-Langues
+  </text>
+
+  <!-- Code Source Yemba -->
+  <rect x="50" y="60" width="120" height="80" rx="10" fill="url(#yembaGrad)" stroke="#000000" stroke-width="2"/>
+  <text x="110" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    CODE SOURCE
+  </text>
+  <text x="110" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">
+    YEMBA
+  </text>
+  <text x="110" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">
+    (.yemba)
+  </text>
+  <text x="110" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    yi, lo, lelu...
+  </text>
+
+  <!-- Code Source Français -->
+  <rect x="50" y="160" width="120" height="80" rx="10" fill="url(#frenchGrad)" stroke="#000000" stroke-width="2"/>
+  <text x="110" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    CODE SOURCE
+  </text>
+  <text x="110" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">
+    FRANÇAIS
+  </text>
+  <text x="110" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">
+    (.fr)
+  </text>
+  <text x="110" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    si, alors, sinon...
+  </text>
+
+  <!-- Analyseur Lexical -->
+  <rect x="230" y="110" width="120" height="80" rx="10" fill="url(#lexGrad)" stroke="#000000" stroke-width="2"/>
+  <text x="290" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    ANALYSEUR
+  </text>
+  <text x="290" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    LEXICAL
+  </text>
+  <text x="290" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">
+    Lex/Flex
+  </text>
+  <text x="290" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    Tokenisation
+  </text>
+
+  <!-- Analyseur Syntaxique -->
+  <rect x="410" y="110" width="120" height="80" rx="10" fill="url(#syntaxGrad)" stroke="#000000" stroke-width="2"/>
+  <text x="470" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    ANALYSEUR
+  </text>
+  <text x="470" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    SYNTAXIQUE
+  </text>
+  <text x="470" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">
+    Yacc/Bison
+  </text>
+  <text x="470" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    Parsing
+  </text>
+
+  <!-- Générateur de Code -->
+  <rect x="590" y="110" width="120" height="80" rx="10" fill="url(#codeGrad)" stroke="#000000" stroke-width="2"/>
+  <text x="650" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    GÉNÉRATEUR
+  </text>
+  <text x="650" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    DE CODE
+  </text>
+  <text x="650" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">
+    Code C
+  </text>
+  <text x="650" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    Translation
+  </text>
+
+  <!-- Compilation GCC -->
+  <rect x="410" y="270" width="120" height="80" rx="10" fill="url(#compileGrad)" stroke="#000000" stroke-width="2"/>
+  <text x="470" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    COMPILATION
+  </text>
+  <text x="470" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    GCC
+  </text>
+  <text x="470" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">
+    Machine Code
+  </text>
+  <text x="470" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    Optimisation
+  </text>
+
+  <!-- Exécutable -->
+  <rect x="230" y="270" width="120" height="80" rx="10" fill="url(#execGrad)" stroke="#000000" stroke-width="2"/>
+  <text x="290" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">
+    EXÉCUTABLE
+  </text>
+  <text x="290" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">
+    (.out)
+  </text>
+  <text x="290" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">
+    Programme Final
+  </text>
+  <text x="290" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    Prêt à exécuter
+  </text>
+
+  <!-- Flèches de connexion -->
+  <!-- Yemba vers Lexical -->
+  <path d="M 170 100 Q 200 100 230 130" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Français vers Lexical -->
+  <path d="M 170 200 Q 200 200 230 170" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Lexical vers Syntaxique -->
+  <path d="M 350 150 L 410 150" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Syntaxique vers Générateur -->
+  <path d="M 530 150 L 590 150" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Générateur vers Compilation -->
+  <path d="M 650 190 Q 650 230 530 310" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Compilation vers Exécutable -->
+  <path d="M 410 310 L 350 310" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+  <!-- Définition de la pointe de flèche -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <!-- Étiquettes des processus -->
+  <text x="200" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#000000">
+    Tokenisation
+  </text>
+  <text x="380" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#000000">
+    Analyse
+  </text>
+  <text x="560" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#000000">
+    Génération
+  </text>
+  <text x="580" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#000000">
+    Compilation
+  </text>
+  <text x="380" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#000000">
+    Assemblage
+  </text>
+
+  <!-- Légende -->
+  <rect x="50" y="370" width="700" height="25" rx="5" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+  <text x="400" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#000000">
+    <tspan font-weight="bold">Processus de Compilation :</tspan> 
+    Code Source → Analyse Lexicale → Analyse Syntaxique → Génération C → Compilation GCC → Exécutable
+  </text>
+</svg>

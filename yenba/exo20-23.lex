@@ -6,88 +6,88 @@
 int ligne = 1;
 %}
 
-entier [0-9]+
-reel [0-9]+\.[0-9]+
-variable [a-zA-Z_][a-zA-Z0-9_]*
-chaine \"[^\"]*\"
-operateur \+|\-|\*|\/|\%|\=|\=\=|\!\=|\<|\>|\<\=|\>\=|\&\&|\|\||\!
-parenthese \(|\)
-accolade \{|\}
-delimiteur \;|\,|\:
-
 %%
 
-{entier}     { yylval.entier = atoi(yytext); return ENTIER; }
-{reel}       { yylval.reel = atof(yytext); return REEL; }
-{chaine}     { yylval.chaine = strdup(yytext); return CHAINE; }
+[0-9]+                  { yylval.entier = atoi(yytext); return ENTIER; }
+[0-9]+\.[0-9]+          { yylval.reel = atof(yytext); return REEL; }
+\"[^\"]*\"              { yylval.chaine = strdup(yytext); return CHAINE; }
 
-"yi"            { return SI; }
-"lo"            { return ALORS; }
-"lelu"          { return SINON; }
-"lemakyi"       { return FINSI; }
+"yi"                    { return SI; }
+"lo"                    { return ALORS; }
+"lelu"                  { return SINON; }
+"lemakyi"               { return FINSI; }
 
-"lijet"         { return TANT_QUE; }
-"leghu"         { return FAIRE; }
-"lemak"         { return FINTANTQUE; }
-"lighe"         { return POUR; }
-"leko"          { return A; }
-"sueh"          { return FINPOUR; }
+"lijet"                 { return TANT_QUE; }
+"leghu"                 { return FAIRE; }
+"lemak"                 { return FINTANTQUE; }
+"lighe"                 { return POUR; }
+"leko"                  { return A; }
+"sueh"                  { return FINPOUR; }
 
-"letong"        { return LIRE; }
-"leti"          { return AFFICHER; }
+"letong"                { return LIRE; }
+"leti"                  { return AFFICHER; }
 
-"nomba"         { return TYPE_ENTIER; }
-"nomba_ke"      { return TYPE_REEL; }
-"makon"         { return TYPE_CHAINE; }
+"nomba"                 { return TYPE_ENTIER; }
+"nomba_ke"              { return TYPE_REEL; }
+"makon"                 { return TYPE_CHAINE; }
 
-"yisue"         { return PROGRAMME; }
-"kemak"         { return FINPROGRAMME; }
-"wise"          { return FONCTION; }
-"kele"          { return RETOURNER; }
+"yisue"                 { return PROGRAMME; }
+"kemak"                 { return FINPROGRAMME; }
 
-"kesue_keto"    { return REPETER_JUSQUA; }
-"kemak_sue"     { return FIN_REPETER; }
+"kesue_keto"            { return REPETER_JUSQUA; }
+"kemak_sue"             { return FIN_REPETER; }
 
-"sontoh"        { return SWITCH; }
-"ndap"          { return CASE; }
-"kamto"         { return DEFAULT; }
-"kap"           { return BREAK; }
+"sontoh"                { return SWITCH; }
+"ndap"                  { return CASE; }
+"kamto"                 { return DEFAULT; }
+"kap"                   { return BREAK; }
 
-"ee"            { yylval.entier = 1; return ENTIER; }
-"angang"        { yylval.entier = 0; return ENTIER; }
+"eeh"                   { return QUESTION; }
+"kamsi"                 { return DEUX_POINTS; }
 
-"=="         { return EGAL; }
-"!="         { return DIFFERENT; }
-"<="         { return INFERIEUR_EGAL; }
-">="         { return SUPERIEUR_EGAL; }
-"&&"         { return ET; }
-"||"         { return OU; }
+"++"                    { return INCREMENT; }
+"--"                    { return DECREMENT; }
+"+="                    { return PLUS_EGAL; }
+"-="                    { return MOINS_EGAL; }
 
-{operateur}  {
-    switch(yytext[0]) {
-        case '+': return PLUS;
-        case '-': return MOINS;
-        case '*': return MULT;
-        case '/': return DIV;
-        case '%': return MODULO;
-        case '=': return AFFECTATION;
-        case '<': return INFERIEUR;
-        case '>': return SUPERIEUR;
-        case '!': return NON;
-        default: return yytext[0];
-    }
-}
+"ee"                    { yylval.entier = 1; return ENTIER; }
+"angang"                { yylval.entier = 0; return ENTIER; }
 
-{parenthese} { return yytext[0]; }
-{accolade}   { return yytext[0]; }
-{delimiteur} { return yytext[0]; }
-{variable}   { yylval.chaine = strdup(yytext); return VARIABLE; }
+"=="                    { return EGAL; }
+"!="                    { return DIFFERENT; }
+"<="                    { return INFERIEUR_EGAL; }
+">="                    { return SUPERIEUR_EGAL; }
+"&&"                    { return ET; }
+"||"                    { return OU; }
 
-\n           { ligne++; }
-[ \t\r]      ; 
-"//".*       ; 
-"/*"([^*]|\*+[^*/])*\*+"/" ; 
-.            { printf("Caractère non reconnu: %s à la ligne %d\n", yytext, ligne); }
+"+"                     { return PLUS; }
+"-"                     { return MOINS; }
+"*"                     { return MULT; }
+"/"                     { return DIV; }
+"%"                     { return MODULO; }
+"="                     { return AFFECTATION; }
+"<"                     { return INFERIEUR; }
+">"                     { return SUPERIEUR; }
+"!"                     { return NON; }
+
+"("                     { return '('; }
+")"                     { return ')'; }
+"{"                     { return '{'; }
+"}"                     { return '}'; }
+"["                     { return '['; }
+"]"                     { return ']'; }
+";"                     { return ';'; }
+","                     { return ','; }
+":"                     { return ':'; }
+
+[a-zA-Z_][a-zA-Z0-9_]*  { yylval.chaine = strdup(yytext); return VARIABLE; }
+
+\n                      { ligne++; }
+[ \t\r]                 ;
+"//".*                  ;
+"/*"([^*]|\*+[^*/])*\*+"/" ;
+
+.                       { printf("Caractère non reconnu: %s à la ligne %d\n", yytext, ligne); }
 
 %%
 

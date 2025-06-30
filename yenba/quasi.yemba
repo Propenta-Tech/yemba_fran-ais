@@ -1,0 +1,233 @@
+// Implémentation simplifiée de Quasi-Newton en Yemba
+// Méthode de gradient descendant avec approximation BFGS
+
+leti "\n=== ALGORITHME QUASI-NEWTON SIMPLIFIE ===\n";
+leti "Recherche du minimum de f(x) = x^2 - 4x + 3\n";
+leti "Solution théorique: x = 2, f(2) = -1\n";
+leti "================================================\n\n";
+
+// Variables pour l'algorithme
+nomba x;           // Variable d'optimisation
+nomba gradient;    // Gradient de la fonction
+nomba hessian;     // Approximation de la Hessienne
+nomba step;        // Pas d'optimisation
+nomba tolerance;   // Critère d'arrêt
+nomba max_iter;    // Nombre max d'itérations
+nomba iter;        // Compteur d'itérations
+
+// Fonction objectif: f(x) = x^2 - 4x + 3
+// Gradient: f'(x) = 2x - 4
+// Hessienne: f''(x) = 2
+
+// Initialisation
+x = 10;           // Point de départ
+hessian = 1;      // Approximation initiale de l'inverse de la Hessienne
+tolerance = 1;    // Tolérance (simplifié: 0.01 -> 1 pour entiers)
+max_iter = 20;    // Maximum 20 itérations
+iter = 0;
+
+leti "🔢 Paramètres initiaux:\n";
+leti "\tPoint de départ: x = ";
+leti x;
+leti "\n\tTolérance: ";
+leti tolerance;
+leti "\n\tMax itérations: ";
+leti max_iter;
+leti "\n\n";
+
+leti "📊 Itérations de l'algorithme:\n";
+leti "Iter\tX\tF(x)\tGradient\tPas\n";
+leti "----\t---\t----\t--------\t---\n";
+
+// Boucle principale de Quasi-Newton
+lijet ((iter < max_iter)) leghu
+    // Calcul de la fonction objectif: f(x) = x^2 - 4x + 3
+    nomba f_x = x * x - 4 * x + 3;
+    
+    // Calcul du gradient: f'(x) = 2x - 4
+    gradient = 2 * x - 4;
+    
+    // Affichage de l'itération courante
+    leti iter;
+    leti "\t";
+    leti x;
+    leti "\t";
+    leti f_x;
+    leti "\t";
+    leti gradient;
+    leti "\t\t";
+    
+    // Test de convergence (gradient proche de 0)
+    nomba abs_gradient = (gradient >= 0) eeh gradient kamsi (-gradient);
+    yi (abs_gradient <= tolerance) lo
+        leti "0 (convergé)\n";
+        leti "\n✅ Convergence atteinte!\n";
+        iter = max_iter; // Sortir de la boucle
+    lelu
+        // Calcul du pas de Newton: step = -hessian * gradient
+        step = -hessian * gradient;
+        leti step;
+        leti "\n";
+        
+        // Mise à jour de x
+        nomba x_old = x;
+        x = x + step;
+        
+        // Mise à jour de l'approximation de la Hessienne (simplifiée)
+        // Dans un vrai BFGS, on ferait une mise à jour plus complexe
+        nomba delta_x = x - x_old;
+        nomba delta_g = (2 * x - 4) - gradient; // Nouveau gradient - ancien gradient
+        
+        // Mise à jour BFGS simplifiée (éviter division par 0)
+        yi (delta_g != 0) lo
+            hessian = (delta_x * delta_x) / (delta_x * delta_g);
+            // Borner la Hessienne pour éviter les pas trop grands
+            yi (hessian > 10) lo
+                hessian = 10;
+            lemakyi
+            yi (hessian < 0) lo
+                hessian = 1;
+            lemakyi
+        lemakyi
+        
+        iter++;
+    lemakyi
+lemak
+
+// Vérification finale
+nomba f_final = x * x - 4 * x + 3;
+leti "\n📈 Résultats finaux:\n";
+leti "\tSolution trouvée: x = ";
+leti x;
+leti "\n\tValeur de la fonction: f(x) = ";
+leti f_final;
+leti "\n\tNombre d'itérations: ";
+leti iter;
+
+// Comparaison avec la solution théorique
+nomba erreur = (x >= 2) eeh (x - 2) kamsi (2 - x);
+leti "\n\tErreur par rapport à x=2: ";
+leti erreur;
+
+// Test avec une fonction différente: optimisation d'un polynôme
+leti "\n\n=== TEST AVEC FONCTION QUADRATIQUE MULTI-VARIABLE ===\n";
+leti "Minimisation de f(x,y) = x^2 + y^2 - 2x - 4y + 5\n";
+leti "Solution théorique: x=1, y=2, f(1,2)=0\n\n";
+
+// Variables pour optimisation 2D (simulée avec coordonnées séparées)
+nomba x1 = 5;    // Variable x
+nomba x2 = 8;    // Variable y
+nomba grad1;     // Gradient par rapport à x
+nomba grad2;     // Gradient par rapport à y
+nomba h1 = 1;    // Hessienne approx pour x
+nomba h2 = 1;    // Hessienne approx pour y
+
+iter = 0;
+leti "Iter\tX\tY\tF(x,y)\tGrad_x\tGrad_y\n";
+leti "----\t---\t---\t------\t------\t------\n";
+
+lijet (iter < 15) leghu
+    // f(x,y) = x^2 + y^2 - 2x - 4y + 5
+    nomba f_xy = x1*x1 + x2*x2 - 2*x1 - 4*x2 + 5;
+    
+    // Gradients: df/dx = 2x - 2, df/dy = 2y - 4
+    grad1 = 2 * x1 - 2;
+    grad2 = 2 * x2 - 4;
+    
+    leti iter;
+    leti "\t";
+    leti x1;
+    leti "\t";
+    leti x2;
+    leti "\t";
+    leti f_xy;
+    leti "\t";
+    leti grad1;
+    leti "\t";
+    leti grad2;
+    leti "\n";
+    
+    // Test de convergence
+    nomba abs_g1 = (grad1 >= 0) eeh grad1 kamsi (-grad1);
+    nomba abs_g2 = (grad2 >= 0) eeh grad2 kamsi (-grad2);
+    
+    yi ((abs_g1 <= tolerance) && (abs_g2 <= tolerance)) lo
+        leti "\n✅ Convergence 2D atteinte!\n";
+        iter = 15; // Sortir
+    lelu
+        // Mise à jour des variables
+        x1 = x1 - h1 * grad1;
+        x2 = x2 - h2 * grad2;
+        
+        // Mise à jour simple de la Hessienne approximée
+        h1 = (h1 + 1) / 2;  // Ajustement adaptatif
+        h2 = (h2 + 1) / 2;
+        
+        iter++;
+    lemakyi
+lemak
+
+// Résultats finaux 2D
+nomba f_final_2d = x1*x1 + x2*x2 - 2*x1 - 4*x2 + 5;
+leti "\n📊 Résultats optimisation 2D:\n";
+leti "\tSolution: x = ";
+leti x1;
+leti ", y = ";
+leti x2;
+leti "\n\tValeur finale: f(x,y) = ";
+leti f_final_2d;
+leti "\n\tErreur x: ";
+leti (x1 >= 1) eeh (x1 - 1) kamsi (1 - x1);
+leti ", Erreur y: ";
+leti (x2 >= 2) eeh (x2 - 2) kamsi (2 - x2);
+
+// Algorithme de recherche linéaire (composant important de Quasi-Newton)
+leti "\n\n=== RECHERCHE LINEAIRE ===\n";
+leti "Optimisation du pas dans une direction donnée\n\n";
+
+nomba alpha = 0;     // Pas initial
+nomba direction = -1; // Direction de descente
+nomba x_base = 3;    // Point de base
+nomba best_alpha = 0;
+nomba best_value = 100; // Grande valeur initiale
+
+leti "Test de différents pas alpha:\n";
+leti "Alpha\tX_new\tF(x_new)\n";
+leti "-----\t-----\t--------\n";
+
+// Test de différents pas alpha de 0 à 10
+lighe alpha leko 0 leko 10 leghu
+    nomba x_new = x_base + alpha * direction;
+    nomba f_new = x_new * x_new - 4 * x_new + 3;
+    
+    leti alpha;
+    leti "\t";
+    leti x_new;
+    leti "\t";
+    leti f_new;
+    leti "\n";
+    
+    // Chercher le meilleur pas
+    yi (f_new < best_value) lo
+        best_value = f_new;
+        best_alpha = alpha;
+    lemakyi
+sueh
+
+leti "\n🎯 Meilleur pas trouvé:\n";
+leti "\tAlpha optimal: ";
+leti best_alpha;
+leti "\n\tMeilleure valeur: ";
+leti best_value;
+
+leti "\n\n=========================================\n";
+leti "=== RESUME QUASI-NEWTON YEMBA ===\n";
+leti "=========================================\n";
+leti "✅ Optimisation 1D avec gradient\n";
+leti "✅ Approximation de la Hessienne\n";
+leti "✅ Optimisation 2D coordonnée par coordonnée\n";
+leti "✅ Recherche linéaire pour le pas optimal\n";
+leti "✅ Critères de convergence\n";
+leti "✅ Gestion des cas limites\n";
+leti "=========================================\n";
+leti "\n🧮 Quasi-Newton implémenté avec succès en Yemba! 🧮\n";

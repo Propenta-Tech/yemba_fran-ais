@@ -64,7 +64,7 @@ void generer_main_fin() {
 %token INCREMENT DECREMENT               /* ++ et -- */
 %token PLUS_EGAL MOINS_EGAL             /* += et -= */
 
-/* Priorités des opérateurs - CORRIGÉES pour éviter les conflits */
+/* Priorités des opérateurs - IDENTIQUES À YEMBA QUI FONCTIONNE */
 %right QUESTION DEUX_POINTS              /* Opérateur ternaire - priorité élevée */
 %left OU
 %left ET
@@ -74,7 +74,7 @@ void generer_main_fin() {
 %right NON
 %right AFFECTATION PLUS_EGAL MOINS_EGAL
 %left '[' ']'                           /* Accès aux tableaux */
-%right INCREMENT DECREMENT              /* Incrémentation - priorité la plus élevée, associativité droite */
+%left INCREMENT DECREMENT               /* Incrémentation - priorité la plus élevée */
 
 %type <chaine> expression condition type_variable acces_tableau liste_valeurs liste_valeurs_2d
 
@@ -534,26 +534,26 @@ expression:
         char *result = malloc(strlen($2) + 5);
         sprintf(result, "++%s", $2);
         free($2);
-        $$ = result;
+        $ = result;
     }
     | DECREMENT VARIABLE %prec DECREMENT {
         char *result = malloc(strlen($2) + 5);
         sprintf(result, "--%s", $2);
         free($2);
-        $$ = result;
+        $ = result;
     }
     /* POST-INCRÉMENTATION avec priorité explicite */
     | VARIABLE INCREMENT %prec INCREMENT {
         char *result = malloc(strlen($1) + 5);
         sprintf(result, "%s++", $1);
         free($1);
-        $$ = result;
+        $ = result;
     }
     | VARIABLE DECREMENT %prec DECREMENT {
         char *result = malloc(strlen($1) + 5);
         sprintf(result, "%s--", $1);
         free($1);
-        $$ = result;
+        $ = result;
     }
     | expression PLUS expression {
         char *result = malloc(strlen($1) + strlen($3) + 10);
